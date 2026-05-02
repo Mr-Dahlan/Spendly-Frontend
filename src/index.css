@@ -1,27 +1,43 @@
+/* src/index.css */
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  scroll-behavior: none;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Light mode variables */
+  --bg: #E8EAF0;
+  --blue-primary: #4F46E5;
+  --blue-button: #6366F1;
+  --red-primary: #DC2626;
+  --purple-primary: #7C3AED;
+  --green-primary: #047857;
+  --green-secondary: #D1FAE5;
+  --text: #2E3040;
+  --text-secondary: #585A68;
+  --card: #f5f5f5;
+  --border: #e0e0e0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+.dark {
+  --bg: #242424;
+  --blue-primary: #4F46E5;
+  --blue-button: #6366F1;
+  --red-primary: #DC2626;
+  --purple-primary: #7C3AED;
+  --green-primary: #047857;
+  --green-secondary: #D1FAE5;
+  --text: #f5f5f5;
+  --text-secondary: #585A68;
+  --card: #2E3040;
+  --border: #585A68;
 }
 
 body {
@@ -30,41 +46,11 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg);   /* ikuti variable */
+  color: var(--text);            /* ikuti variable */
+  transition: background-color 0.3s, color 0.3s;
 }
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+body::-webkit-scrollbar {
+  display: none;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+/* hapus @media prefers-color-scheme — biar Zustand yang kontrol */
