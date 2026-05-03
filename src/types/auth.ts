@@ -7,11 +7,11 @@ export type User = {
   mode: "light" | "dark";
 };
 
-export type LoginResponseRaw = {
-  access_token: string;
-  token_type: string;
-  data: User;
-};
+// export type LoginResponseRaw = {
+//   access_token: string;
+//   token_type: string;
+//   data: User;
+// };
 
 export type AuthResponse = {
   token: string;

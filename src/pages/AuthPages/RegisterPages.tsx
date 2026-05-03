@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate, Link } from "react-router-dom";
-import ThemeToggle from "../../components/ui/ThemeToggle";
 import Icon from "../../assets/icons/icon.png";
 
 export default function Register() {
@@ -70,10 +69,6 @@ export default function Register() {
       className="min-h-screen min-w-screen flex scrollbar-hide transition-colors duration-300"
       style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}
     >
-      {/* Theme Toggle */}
-      <div className="absolute top-4 right-4 z-10">
-        <ThemeToggle />
-      </div>
 
       {/* ── LEFT PANEL ── */}
       <div

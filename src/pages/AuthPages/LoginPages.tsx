@@ -21,7 +21,9 @@ export default function Login() {
   setLoading(true);
   try {
     const loggedInUser = await login(email, password); // login() harus return user
-    navigate(loggedInUser?.role === "admin" ? "/admin-panel" : "/dashboard");
+    // console.log("loggedInUser:", loggedInUser);
+    // console.log("role:", loggedInUser?.role);
+    await navigate(loggedInUser?.role === "admin" ? "/admin-panel" : "/dashboard");
   } catch (err: any) {
     const message =
       err.response?.data?.error?.data?.[0] ||
@@ -39,7 +41,7 @@ export default function Login() {
       style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}
     >
       {/* Theme Toggle */}
-      <div className="absolute top-4 right-4 z-10">
+      <div className="absolute top-4 right-4 z-10 hidden">
         <ThemeToggle />
       </div>
 

@@ -10,11 +10,11 @@ export default function ThemeToggle() {
       onClick={toggleMode}
       aria-label="Toggle theme"
       className="relative inline-flex items-center gap-2 px-3 py-1.5 rounded-full border 
-                 border-gray-200 dark:border-gray-700 
-                 bg-white dark:bg-gray-800 
-                 text-gray-600 dark:text-gray-300
-                 hover:bg-gray-100 dark:hover:bg-gray-700
-                 transition-all duration-200 text-sm"
+                border-gray-200 dark:border-gray-700 
+                bg-white dark:bg-gray-800 
+                text-gray-600 dark:text-gray-300
+                hover:bg-gray-100 dark:hover:bg-gray-700
+                transition-all duration-200 text-sm "
     >
       {/* Sun icon */}
       <svg

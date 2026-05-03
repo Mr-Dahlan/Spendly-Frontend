@@ -3,13 +3,14 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   BarChart3,
-  Send,
+  // Send,
   LayoutDashboard,
   Wallet,
   Settings,
   LogOut,
   Menu,
   X,
+  PenLine,
   ShieldCheck,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -26,7 +27,7 @@ interface NavItem {
 
 const userNavigation: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-  { id: 'transactions', label: 'Transactions', icon: Send, path: '/transactions' },
+  { id: 'transactions', label: 'Transactions', icon: PenLine, path: '/transactions' },
   { id: 'reports', label: 'Reports', icon: BarChart3, path: '/reports' },
   { id: 'budgets', label: 'Budgets', icon: Wallet, path: '/budgets' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },

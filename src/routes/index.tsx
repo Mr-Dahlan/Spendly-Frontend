@@ -6,9 +6,9 @@ import Register from "../pages/AuthPages/RegisterPages";
 
 // Protected Pages
 import Dashboard from "../pages/Dashboard";
-// import Transactions from "../pages/Transactions";
-// import Raport from "../pages/Raport";
-// import Budgets from "../pages/Budgets";
+import Transactions from "../pages/TransactionsPages";
+import Raport from "../pages/RaportsPages";
+import Budgets from "../pages/BudgetsPages";
 // import Settings from "../pages/Settings";
 
 // Admin Pages
@@ -67,7 +67,7 @@ export default function AppRoutes() {
           }
         />
 
-        {/* <Route
+        <Route
           path="/transactions"
           element={
             <ProtectedRoute>
@@ -76,10 +76,10 @@ export default function AppRoutes() {
               </LayoutProvider>
             </ProtectedRoute>
           }
-        /> */}
+        />
 
-        {/* <Route
-          path="/raport"
+        <Route
+          path="/reports"
           element={
             <ProtectedRoute>
               <LayoutProvider>
@@ -87,9 +87,9 @@ export default function AppRoutes() {
               </LayoutProvider>
             </ProtectedRoute>
           }
-        /> */}
+        />
 
-        {/* <Route
+        <Route
           path="/budgets"
           element={
             <ProtectedRoute>
@@ -98,7 +98,7 @@ export default function AppRoutes() {
               </LayoutProvider>
             </ProtectedRoute>
           }
-        /> */}
+        />
 
         {/* <Route
           path="/settings"
