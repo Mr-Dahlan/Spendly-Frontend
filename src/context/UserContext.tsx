@@ -31,7 +31,7 @@ interface UserContextType {
 }
 
 // ─── Context ──────────────────────────────────────────────────────────────────
-const UserContext = createContext<UserContextType | null>(null);
+export const UserContext = createContext<UserContextType | null>(null);
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 export function UserProvider({ children }: { children: ReactNode }) {

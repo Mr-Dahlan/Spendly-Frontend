@@ -38,11 +38,11 @@ const UserService = {
     return res.data.data;
   },
 
-//   getMe: async (): Promise<User> => {
-//     const res = await axios.get<UserResponse>("/me");
-//     if (!res.data.data) throw new Error("User not found");
-//     return res.data.data;
-//   },
+  getMe: async (): Promise<User> => {
+    const res = await axios.get<UserResponse>("/me");
+    if (!res.data.data) throw new Error("User not found");
+    return res.data.data;
+  },
 
 };
 

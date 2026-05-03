@@ -9,7 +9,7 @@ import Dashboard from "../pages/Dashboard";
 import Transactions from "../pages/TransactionsPages";
 import Raport from "../pages/RaportsPages";
 import Budgets from "../pages/BudgetsPages";
-// import Settings from "../pages/Settings";
+import Settings from "../pages/SettingsPages";
 
 // Admin Pages
 import AdminPanel from "../pages/AdminPanelPages";
@@ -100,7 +100,7 @@ export default function AppRoutes() {
           }
         />
 
-        {/* <Route
+        <Route
           path="/settings"
           element={
             <ProtectedRoute>
@@ -109,7 +109,7 @@ export default function AppRoutes() {
               </LayoutProvider>
             </ProtectedRoute>
           }
-        /> */}
+        />
 
       </Routes>
     </BrowserRouter>

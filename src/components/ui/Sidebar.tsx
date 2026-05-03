@@ -80,14 +80,14 @@ export default function Sidebar() {
         style={{ boxShadow: '4px 0 24px 0 rgba(0,0,0,0.08)' }}
       >
         {/* Logo */}
-        <div className="p-1">
-          <div className="flex items-center">
+        <div className="pt-6">
+          <div className="flex items-center pt-2">
             <img src={Logo} alt="Logo" className="w-full/2 h-full" />
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
+        <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
           {navigation.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.path);
@@ -146,7 +146,7 @@ export default function Sidebar() {
         )}
 
         {/* Logout Button */}
-        <div className="px-4 py-4">
+        <div className="px-4 py-2">
           <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 text-danger hover:bg-danger-light rounded-lg transition font-medium text-sm"

@@ -1,13 +1,20 @@
 // src/components/ThemeToggle.tsx
 import useThemeStore from "../../store/themeStore";
+import { useUser } from "../../hooks/useUser";
 
 export default function ThemeToggle() {
+  const { updateMe } = useUser();
   const { mode, toggleMode } = useThemeStore();
   const isDark = mode === "dark";
 
+  const handleToggle = async () => {
+  await toggleMode((mode) => updateMe({ mode }));
+  };
+
+
   return (
     <div
-      onClick={toggleMode}
+      onClick={handleToggle}
       aria-label="Toggle theme"
       className="relative inline-flex items-center gap-2 px-3 py-1.5 rounded-full border 
                 border-gray-200 dark:border-gray-700 

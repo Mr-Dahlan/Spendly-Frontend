@@ -1,7 +1,7 @@
 import { useAuth } from "../hooks/useAuth";
 import ThemeToggle from "../components/ui/ThemeToggle";
 
-export default function Transactions() {
+export default function Settings() {
   const { user, logout } = useAuth();
 
   return (
@@ -11,7 +11,7 @@ export default function Transactions() {
       </div>
 
       <h1>Welcome {user?.name}</h1><br />
-      <p>Halaman Transactions</p>
+      <p>Halaman Settings</p>
       <button onClick={logout}>Logout</button>
     </div>
   );

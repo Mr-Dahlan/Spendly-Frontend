@@ -6,7 +6,7 @@ type Mode = "light" | "dark";
 type ThemeStore = {
   mode: Mode;
   setMode: (mode: Mode) => void;
-  toggleMode: () => void;
+  toggleMode: (updateFn?: (mode: Mode) => Promise<void>) => Promise<void>;
   syncFromUser: (mode: Mode) => void;
 };
 
@@ -19,7 +19,6 @@ const applyTheme = (mode: Mode) => {
     root.classList.remove("dark");
   }
 
-  // Untuk CSS native variable
   root.setAttribute("data-theme", mode);
 };
 
@@ -28,7 +27,7 @@ const getSavedMode = (): Mode => {
   return saved === "dark" ? "dark" : "light";
 };
 
-const useThemeStore = create<ThemeStore>((set) => {
+const useThemeStore = create<ThemeStore>((set, get) => {
   const initialMode = getSavedMode();
   applyTheme(initialMode);
 
@@ -41,16 +40,21 @@ const useThemeStore = create<ThemeStore>((set) => {
       set({ mode });
     },
 
-    toggleMode: () => {
-      set((state) => {
-        const newMode: Mode = state.mode === "dark" ? "light" : "dark";
-        localStorage.setItem("mode", newMode);
-        applyTheme(newMode);
-        return { mode: newMode };
-      });
-    },
+    toggleMode: async (updateFn) => {
+  const current = get().mode;
+  const newMode: Mode = current === "dark" ? "light" : "dark";
 
-    // Dipanggil dari AuthContext setelah dapat data user dari DB
+  // update UI dulu (biar cepat)
+  localStorage.setItem("mode", newMode);
+  applyTheme(newMode);
+  set({ mode: newMode });
+
+  // sync ke backend kalau ada function-nya
+  if (updateFn) {
+    await updateFn(newMode);
+  }
+},
+
     syncFromUser: (mode) => {
       localStorage.setItem("mode", mode);
       applyTheme(mode);
