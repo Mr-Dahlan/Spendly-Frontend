@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }: any) => {
   const register = async (name: string, email: string, password: string, passwordConfirmation: string) => {
     await authService.register(name, email, password, passwordConfirmation);
     await login(email, password);
+    console.log("User registered and logged in");
   };
 
   const logout = async () => {
