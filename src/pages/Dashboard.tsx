@@ -35,7 +35,7 @@ export default function Dashboard() {
   // ── Map category_id → { nama, icon } ──
   const categoryMap = useMemo(() => {
     const map: Record<number, { nama: string; icon: string }> = {};
-    categories.forEach((cat) => {
+    categories.forEach((cat:any) => {
       map[cat.category_id] = { nama: cat.nama, icon: cat.icon };
     });
     return map;
