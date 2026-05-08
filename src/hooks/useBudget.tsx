@@ -1,181 +1,99 @@
-import { useState, useEffect, useCallback } from "react";
+// src/hooks/useBudgets.ts
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { budgetService } from "../services/budgets";
 import type {
-  Budget,
   BudgetFilters,
   BudgetStatus,
   CreateBudgetPayload,
   UpdateBudgetPayload,
 } from "../types/budget";
 
-// ─────────────────────────────────────────────
-// Hook: fetch all budgets (with filters)
-// ─────────────────────────────────────────────
+// ─── Query Keys ──────────────────────────────
+export const budgetKeys = {
+  all: ["budgets"] as const,
+  list: (filters: BudgetFilters) => ["budgets", "list", filters] as const,
+  byStatus: (status: BudgetStatus) => ["budgets", "list", { status }] as const,
+  detail: (id: number) => ["budgets", "detail", id] as const,
+};
+
+// ─── Fetch all budgets ────────────────────────
 export function useBudgets(filters: BudgetFilters = {}) {
-  const [budgets, setBudgets] = useState<Budget[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const query = useQuery({
+    queryKey: budgetKeys.list(filters),
+    queryFn: () => budgetService.getAll(filters),
+    staleTime: 5 * 60 * 1000,
+  });
 
-  const fetchBudgets = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await budgetService.getAll(filters);
-      setBudgets(result.data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch budgets");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [JSON.stringify(filters)]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    fetchBudgets();
-  }, [fetchBudgets]);
-
-  // Derived: budgets yang sudah exceeded
+  // Derived data — tetap ada seperti hook lama kamu
+  const budgets = query.data?.data ?? [];
   const exceededBudgets = budgets.filter((b) => b.usage.is_exceeded);
-
-  // Derived: budgets yang dalam status warning
   const warningBudgets = budgets.filter(
     (b) => !b.usage.is_exceeded && b.usage.is_warning !== "false" && b.usage.is_warning !== ""
   );
 
-  return { budgets, exceededBudgets, warningBudgets, isLoading, error, refetch: fetchBudgets };
+  return {
+    ...query,         // isLoading, error, refetch, dll
+    budgets,
+    exceededBudgets,
+    warningBudgets,
+  };
 }
 
-// ─────────────────────────────────────────────
-// Hook: fetch budgets by status (shorthand)
-// ─────────────────────────────────────────────
+// ─── Fetch by status (shorthand) ──────────────
 export function useBudgetsByStatus(status: BudgetStatus | undefined) {
-  return useBudgets(status ? { status } : {});
+  return useQuery({
+    queryKey: status ? budgetKeys.byStatus(status) : budgetKeys.list({}),
+    queryFn: () => budgetService.getAll(status ? { status } : {}),
+    staleTime: 5 * 60 * 1000,
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: fetch single budget by ID
-// ─────────────────────────────────────────────
+// ─── Fetch single budget ──────────────────────
 export function useBudgetById(id: number | null) {
-  const [data, setData] = useState<Budget | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchBudget = useCallback(async () => {
-    if (id === null) return;
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await budgetService.getById(id);
-      setData(result.data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch budget");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    fetchBudget();
-  }, [fetchBudget]);
-
-  return { data, isLoading, error, refetch: fetchBudget };
+  return useQuery({
+    queryKey: budgetKeys.detail(id!),
+    queryFn: async () => {
+      const result = await budgetService.getById(id!);
+      return result.data; // unwrap langsung seperti hook lama
+    },
+    enabled: id !== null,
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: create budget
-// ─────────────────────────────────────────────
+// ─── Create budget ────────────────────────────
 export function useCreateBudget() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const createBudget = useCallback(
-    async (
-      payload: CreateBudgetPayload,
-      onSuccess?: (data: Budget) => void
-    ) => {
-      setIsLoading(true);
-      setError(null);
-      setMessage(null);
-      try {
-        const result = await budgetService.create(payload);
-        setMessage(result.message);
-        onSuccess?.(result.data);
-        return result.data;
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : "Failed to create budget";
-        setError(msg);
-        return null;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: (payload: CreateBudgetPayload) => budgetService.create(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: budgetKeys.all });
     },
-    []
-  );
-
-  return { createBudget, isLoading, error, message };
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: update budget
-// ─────────────────────────────────────────────
+// ─── Update budget ────────────────────────────
 export function useUpdateBudget() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const updateBudget = useCallback(
-    async (
-      id: number,
-      payload: UpdateBudgetPayload,
-      onSuccess?: (data: Budget) => void
-    ) => {
-      setIsLoading(true);
-      setError(null);
-      setMessage(null);
-      try {
-        const result = await budgetService.update(id, payload);
-        setMessage(result.message);
-        onSuccess?.(result.data);
-        return result.data;
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : "Failed to update budget";
-        setError(msg);
-        return null;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: number; payload: UpdateBudgetPayload }) =>
+      budgetService.update(id, payload),
+    onSuccess: (data, { id }) => {
+      queryClient.invalidateQueries({ queryKey: budgetKeys.all });
+      queryClient.invalidateQueries({ queryKey: budgetKeys.detail(id) });
     },
-    []
-  );
-
-  return { updateBudget, isLoading, error, message };
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: delete budget
-// ─────────────────────────────────────────────
+// ─── Delete budget ────────────────────────────
 export function useDeleteBudget() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const deleteBudget = useCallback(
-    async (id: number, onSuccess?: () => void) => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        await budgetService.remove(id);
-        onSuccess?.();
-        return true;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to delete budget";
-        setError(message);
-        return false;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: (id: number) => budgetService.remove(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: budgetKeys.all });
     },
-    []
-  );
-
-  return { deleteBudget, isLoading, error };
+  });
 }

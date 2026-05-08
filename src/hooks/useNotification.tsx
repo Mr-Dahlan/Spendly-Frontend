@@ -1,124 +1,65 @@
-import { useState, useEffect, useCallback } from "react";
+// src/hooks/useNotifications.ts
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { notificationService } from "../services/notifications";
-import type { Notification, NotificationFilters } from "../types/notification";
+import type { NotificationFilters } from "../types/notification";
 
-// ─────────────────────────────────────────────
-// Hook: fetch all notifications (with is_read filter)
-// ─────────────────────────────────────────────
+// ─── Query Keys ──────────────────────────────
+export const notificationKeys = {
+  all: ["notifications"] as const,
+  list: (filters: NotificationFilters) => ["notifications", "list", filters] as const,
+  unread: ["notifications", "list", { is_read: false }] as const,
+};
+
+// ─── Fetch all notifications ─────────────────
 export function useNotifications(filters: NotificationFilters = {}) {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [unreadCount, setUnreadCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchNotifications = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await notificationService.getAll(filters);
-      setNotifications(result.data);
-      setUnreadCount(result.unread_count);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch notifications");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [JSON.stringify(filters)]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    fetchNotifications();
-  }, [fetchNotifications]);
-
-  return { notifications, unreadCount, isLoading, error, refetch: fetchNotifications };
+  return useQuery({
+    queryKey: notificationKeys.list(filters),
+    queryFn: () => notificationService.getAll(filters),
+    staleTime: 2 * 60 * 1000, // notifikasi lebih sering berubah, fresh 2 menit
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: fetch only unread notifications (shorthand)
-// ─────────────────────────────────────────────
+// ─── Fetch unread only (shorthand) ───────────
 export function useUnreadNotifications() {
-  return useNotifications({ is_read: false });
+  return useQuery({
+    queryKey: notificationKeys.unread,
+    queryFn: () => notificationService.getAll({ is_read: false }),
+    staleTime: 60 * 1000, // unread lebih sensitif, fresh 1 menit
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: mark single notification as read
-// ─────────────────────────────────────────────
+// ─── Mark single as read ─────────────────────
 export function useMarkAsRead() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const markAsRead = useCallback(
-    async (id: number, onSuccess?: (data: Notification) => void) => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const result = await notificationService.markAsRead(id);
-        onSuccess?.(result);
-        return result;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to mark as read";
-        setError(message);
-        return null;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: (id: number) => notificationService.markAsRead(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationKeys.all });
     },
-    []
-  );
-
-  return { markAsRead, isLoading, error };
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: mark all notifications as read
-// ─────────────────────────────────────────────
+// ─── Mark all as read ────────────────────────
 export function useMarkAllAsRead() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const markAllAsRead = useCallback(async (onSuccess?: () => void) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      await notificationService.markAllAsRead();
-      onSuccess?.();
-      return true;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to mark all as read";
-      setError(message);
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  return { markAllAsRead, isLoading, error };
+  return useMutation({
+    mutationFn: () => notificationService.markAllAsRead(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationKeys.all });
+    },
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: delete notification
-// ─────────────────────────────────────────────
+// ─── Delete notification ─────────────────────
 export function useDeleteNotification() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const deleteNotification = useCallback(
-    async (id: number, onSuccess?: () => void) => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        await notificationService.remove(id);
-        onSuccess?.();
-        return true;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to delete notification";
-        setError(message);
-        return false;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: (id: number) => notificationService.remove(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationKeys.all });
     },
-    []
-  );
-
-  return { deleteNotification, isLoading, error };
+  });
 }

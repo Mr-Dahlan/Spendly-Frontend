@@ -1,167 +1,83 @@
-import { useState, useEffect, useCallback } from "react";
+// src/hooks/useCategories.ts
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { categoryService } from "../services/categories";
 import type {
-  Category,
   CategoryFilters,
   CategoryType,
   CreateCategoryPayload,
   UpdateCategoryPayload,
 } from "../types/category";
 
-// ─────────────────────────────────────────────
-// Hook: fetch all categories (with type filter)
-// ─────────────────────────────────────────────
+// ─── Query Keys ──────────────────────────────
+export const categoryKeys = {
+  all: ["categories"] as const,
+  list: (filters: CategoryFilters) => ["categories", "list", filters] as const,
+  byType: (type: CategoryType) => ["categories", "list", { type }] as const,
+  detail: (id: number) => ["categories", "detail", id] as const,
+};
+
+// ─── Fetch all categories ─────────────────────
 export function useCategories(filters: CategoryFilters = {}) {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchCategories = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await categoryService.getAll(filters);
-      setCategories(result.data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch categories");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [JSON.stringify(filters)]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
-
-  return { categories, isLoading, error, refetch: fetchCategories };
+  return useQuery({
+    queryKey: categoryKeys.list(filters),
+    queryFn: () => categoryService.getAll(filters),
+    staleTime: 10 * 60 * 1000, // kategori jarang berubah, fresh 10 menit
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: fetch categories by type (shorthand)
-// ─────────────────────────────────────────────
+// ─── Fetch by type (shorthand) ────────────────
 export function useCategoriesByType(type: CategoryType | undefined) {
-  return useCategories(type ? { type } : {});
+  return useQuery({
+    queryKey: type ? categoryKeys.byType(type) : categoryKeys.list({}),
+    queryFn: () => categoryService.getAll(type ? { type } : {}),
+    staleTime: 10 * 60 * 1000,
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: fetch single category by ID
-// ─────────────────────────────────────────────
+// ─── Fetch single category ────────────────────
 export function useCategoryById(id: number | null) {
-  const [data, setData] = useState<Category | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchCategory = useCallback(async () => {
-    if (id === null) return;
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await categoryService.getById(id);
-      setData(result);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch category");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    fetchCategory();
-  }, [fetchCategory]);
-
-  return { data, isLoading, error, refetch: fetchCategory };
+  return useQuery({
+    queryKey: categoryKeys.detail(id!),
+    queryFn: () => categoryService.getById(id!),
+    enabled: id !== null,
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: create category
-// ─────────────────────────────────────────────
+// ─── Create category ──────────────────────────
 export function useCreateCategory() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const createCategory = useCallback(
-    async (
-      payload: CreateCategoryPayload,
-      onSuccess?: (data: Category) => void
-    ) => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const result = await categoryService.create(payload);
-        onSuccess?.(result);
-        return result;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to create category";
-        setError(message);
-        return null;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: (payload: CreateCategoryPayload) =>
+      categoryService.create(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: categoryKeys.all });
     },
-    []
-  );
-
-  return { createCategory, isLoading, error };
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: update category
-// ─────────────────────────────────────────────
+// ─── Update category ──────────────────────────
 export function useUpdateCategory() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const updateCategory = useCallback(
-    async (
-      id: number,
-      payload: UpdateCategoryPayload,
-      onSuccess?: (data: Category) => void
-    ) => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const result = await categoryService.update(id, payload);
-        onSuccess?.(result);
-        return result;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to update category";
-        setError(message);
-        return null;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: number; payload: UpdateCategoryPayload }) =>
+      categoryService.update(id, payload),
+    onSuccess: (data, { id }) => {
+      queryClient.invalidateQueries({ queryKey: categoryKeys.all });
+      queryClient.invalidateQueries({ queryKey: categoryKeys.detail(id) });
     },
-    []
-  );
-
-  return { updateCategory, isLoading, error };
+  });
 }
 
-// ─────────────────────────────────────────────
-// Hook: delete category
-// ─────────────────────────────────────────────
+// ─── Delete category ──────────────────────────
 export function useDeleteCategory() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const deleteCategory = useCallback(
-    async (id: number, onSuccess?: () => void) => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        await categoryService.remove(id);
-        onSuccess?.();
-        return true;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Failed to delete category";
-        setError(message);
-        return false;
-      } finally {
-        setIsLoading(false);
-      }
+  return useMutation({
+    mutationFn: (id: number) => categoryService.remove(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: categoryKeys.all });
     },
-    []
-  );
-
-  return { deleteCategory, isLoading, error };
+  });
 }
