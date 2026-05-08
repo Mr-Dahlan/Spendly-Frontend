@@ -76,7 +76,7 @@ export default function Sidebar() {
       <aside
         className={`${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed left-0 top-0 h-screen w-64 bg-bg-primary transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col`}
+        } fixed left-0 top-0 h-screen w-64 bg-bg-primary sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col`}
         style={{ boxShadow: '4px 0 24px 0 rgba(0,0,0,0.08)' }}
       >
         {/* Logo */}
