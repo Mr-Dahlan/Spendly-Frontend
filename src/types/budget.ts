@@ -6,7 +6,7 @@ export interface BudgetUsage {
   remaining: number;
   percentage: number;
   is_exceeded: boolean;
-  is_warning: string;
+  is_warning: boolean;
   status: BudgetStatus;
 }
 

@@ -32,7 +32,7 @@ export const budgetService = {
 
   /** PUT /budgets/:id */
   update: async (id: number, payload: UpdateBudgetPayload): Promise<BudgetMutationResponse> => {
-    const { data } = await axiosInstance.put<BudgetMutationResponse>(`/budgets/${id}`, payload);
+    const { data } = await axiosInstance.patch<BudgetMutationResponse>(`/budgets/${id}`, payload);
     return data;
   },
 

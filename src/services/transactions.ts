@@ -30,7 +30,7 @@ export const transactionService = {
 
   /** PUT /transactions/:id */
   update: async (id: number, payload: UpdateTransactionPayload): Promise<Transaction> => {
-    const { data } = await axiosInstance.put<Transaction>(`/transactions/${id}`, payload);
+    const { data } = await axiosInstance.patch<Transaction>(`/transactions/${id}`, payload);
     return data;
   },
 
