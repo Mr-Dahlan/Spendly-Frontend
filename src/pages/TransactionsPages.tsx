@@ -5,11 +5,9 @@ import { useTransactions } from "../hooks/useTransaction";
 
 export default function Transactions() {
   const { user, logout } = useAuth();
-  const { data, isLoading, error } = useTransactions();
+  const { transactions,summary, isLoading, error } = useTransactions();
 
   // data bentuknya: { data: Transaction[], summary: TransactionSummary }
-  const transactions = data?.data ?? [];
-  const summary = data?.summary ?? null;
 
   return (
     <div className="min-h-screen min-w-screen flex flex-col transition-colors duration-300">

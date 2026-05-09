@@ -22,18 +22,12 @@ export default function LayoutProvider({ children }: LayoutProviderProps) {
     // contoh: clearToken(), lalu redirect ke login
     // navigate("/login");
   // };
-
-  return (
-    <div className="flex min-h-screen ">
-
-      {/* ── SIDEBAR ── */}
-      <Sidebar/>
-
-      {/* ── KONTEN UTAMA ── */}
-      <main className="flex-1 overflow-y-auto">
-        {children}
-      </main>
-
-    </div>
-  );
+return (
+  <div className="flex h-screen overflow-hidden">
+    <Sidebar />
+    <main className="flex-1 overflow-y-auto">
+      {children}
+    </main>
+  </div>
+);
 }

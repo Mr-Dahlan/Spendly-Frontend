@@ -53,4 +53,8 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
+
+main::-webkit-scrollbar {
+  display: none;
+}
 /* hapus @media prefers-color-scheme — biar Zustand yang kontrol */

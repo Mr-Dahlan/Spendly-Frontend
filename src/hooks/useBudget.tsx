@@ -1,7 +1,8 @@
-// src/hooks/useBudgets.ts
+// src/hooks/useBudget.ts
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { budgetService } from "../services/budgets";
 import type {
+  Budget,
   BudgetFilters,
   BudgetStatus,
   CreateBudgetPayload,
@@ -18,65 +19,93 @@ export const budgetKeys = {
 
 // ─── Fetch all budgets ────────────────────────
 export function useBudgets(filters: BudgetFilters = {}) {
-  const query = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: budgetKeys.list(filters),
     queryFn: () => budgetService.getAll(filters),
     staleTime: 5 * 60 * 1000,
   });
 
-  // Derived data — tetap ada seperti hook lama kamu
-  const budgets = query.data?.data ?? [];
+  const budgets = data?.data ?? [];
   const exceededBudgets = budgets.filter((b) => b.usage.is_exceeded);
   const warningBudgets = budgets.filter(
     (b) => !b.usage.is_exceeded && b.usage.is_warning !== "false" && b.usage.is_warning !== ""
   );
 
   return {
-    ...query,         // isLoading, error, refetch, dll
     budgets,
     exceededBudgets,
     warningBudgets,
+    isLoading,
+    isError,
+    error,
+    refetch,
   };
 }
 
 // ─── Fetch by status (shorthand) ──────────────
 export function useBudgetsByStatus(status: BudgetStatus | undefined) {
-  return useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: status ? budgetKeys.byStatus(status) : budgetKeys.list({}),
     queryFn: () => budgetService.getAll(status ? { status } : {}),
     staleTime: 5 * 60 * 1000,
   });
+
+  const budgets = data?.data ?? [];
+  const exceededBudgets = budgets.filter((b) => b.usage.is_exceeded);
+  const warningBudgets = budgets.filter(
+    (b) => !b.usage.is_exceeded && b.usage.is_warning !== "false" && b.usage.is_warning !== ""
+  );
+
+  return {
+    budgets,
+    exceededBudgets,
+    warningBudgets,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  };
 }
 
 // ─── Fetch single budget ──────────────────────
 export function useBudgetById(id: number | null) {
-  return useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: budgetKeys.detail(id!),
-    queryFn: async () => {
-      const result = await budgetService.getById(id!);
-      return result.data; // unwrap langsung seperti hook lama
-    },
+    queryFn: () => budgetService.getById(id!),
     enabled: id !== null,
   });
+
+  return {
+    data: data?.data ?? null,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  };
 }
 
 // ─── Create budget ────────────────────────────
 export function useCreateBudget() {
   const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (payload: CreateBudgetPayload) => budgetService.create(payload),
+  const { mutateAsync, isPending, error } = useMutation({
+    mutationFn: (payload: CreateBudgetPayload) =>
+      budgetService.create(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: budgetKeys.all });
     },
   });
+
+  return {
+    createBudget: mutateAsync,
+    isLoading: isPending,
+    error,
+  };
 }
 
 // ─── Update budget ────────────────────────────
 export function useUpdateBudget() {
   const queryClient = useQueryClient();
-
-  return useMutation({
+  const { mutateAsync, isPending, error } = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: UpdateBudgetPayload }) =>
       budgetService.update(id, payload),
     onSuccess: (data, { id }) => {
@@ -84,16 +113,27 @@ export function useUpdateBudget() {
       queryClient.invalidateQueries({ queryKey: budgetKeys.detail(id) });
     },
   });
+
+  return {
+    updateBudget: mutateAsync,
+    isLoading: isPending,
+    error,
+  };
 }
 
 // ─── Delete budget ────────────────────────────
 export function useDeleteBudget() {
   const queryClient = useQueryClient();
-
-  return useMutation({
+  const { mutateAsync, isPending, error } = useMutation({
     mutationFn: (id: number) => budgetService.remove(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: budgetKeys.all });
     },
   });
+
+  return {
+    deleteBudget: mutateAsync,
+    isLoading: isPending,
+    error,
+  };
 }

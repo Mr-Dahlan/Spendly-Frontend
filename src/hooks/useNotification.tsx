@@ -1,4 +1,4 @@
-// src/hooks/useNotifications.ts
+// src/hooks/useNotification.ts
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { notificationService } from "../services/notifications";
 import type { NotificationFilters } from "../types/notification";
@@ -12,54 +12,87 @@ export const notificationKeys = {
 
 // ─── Fetch all notifications ─────────────────
 export function useNotifications(filters: NotificationFilters = {}) {
-  return useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: notificationKeys.list(filters),
     queryFn: () => notificationService.getAll(filters),
-    staleTime: 2 * 60 * 1000, // notifikasi lebih sering berubah, fresh 2 menit
+    staleTime: 2 * 60 * 1000,
   });
+
+  return {
+    notifications: data?.data ?? [],
+    unreadCount: data?.unread_count ?? 0,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  };
 }
 
 // ─── Fetch unread only (shorthand) ───────────
 export function useUnreadNotifications() {
-  return useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: notificationKeys.unread,
     queryFn: () => notificationService.getAll({ is_read: false }),
-    staleTime: 60 * 1000, // unread lebih sensitif, fresh 1 menit
+    staleTime: 60 * 1000,
   });
+
+  return {
+    notifications: data?.data ?? [],
+    unreadCount: data?.unread_count ?? 0,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  };
 }
 
 // ─── Mark single as read ─────────────────────
 export function useMarkAsRead() {
   const queryClient = useQueryClient();
-
-  return useMutation({
+  const { mutateAsync, isPending, error } = useMutation({
     mutationFn: (id: number) => notificationService.markAsRead(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
     },
   });
+
+  return {
+    markAsRead: mutateAsync,
+    isLoading: isPending,
+    error,
+  };
 }
 
 // ─── Mark all as read ────────────────────────
 export function useMarkAllAsRead() {
   const queryClient = useQueryClient();
-
-  return useMutation({
+  const { mutateAsync, isPending, error } = useMutation({
     mutationFn: () => notificationService.markAllAsRead(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
     },
   });
+
+  return {
+    markAllAsRead: mutateAsync,
+    isLoading: isPending,
+    error,
+  };
 }
 
 // ─── Delete notification ─────────────────────
 export function useDeleteNotification() {
   const queryClient = useQueryClient();
-
-  return useMutation({
+  const { mutateAsync, isPending, error } = useMutation({
     mutationFn: (id: number) => notificationService.remove(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationKeys.all });
     },
   });
+
+  return {
+    deleteNotification: mutateAsync,
+    isLoading: isPending,
+    error,
+  };
 }

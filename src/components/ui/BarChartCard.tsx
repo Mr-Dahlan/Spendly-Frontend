@@ -34,8 +34,8 @@ export default function BarChartCard({ data, formatIDR }: BarChartCardProps) {
       </div>
 
       {data.length > 0 ? (
-        <div className="h-[250px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="h-[250px] w-full min-w-0">
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={data} barGap={4} barCategoryGap="20%">
               <XAxis
                 dataKey="name"

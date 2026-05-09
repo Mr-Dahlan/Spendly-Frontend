@@ -25,8 +25,8 @@ export default function PieChartCard({ data, totalExpense, formatIDR }: PieChart
       {data.length > 0 ? (
         <div className="flex flex-col h-full">
           {/* Pie Chart */}
-          <div className="relative flex justify-center items-center h-[200px]">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="relative flex justify-center items-center h-[200px] min-w-0">
+            <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie
                   data={data}
@@ -47,7 +47,7 @@ export default function PieChartCard({ data, totalExpense, formatIDR }: PieChart
             {/* Center Label */}
             <div className="absolute text-center pointer-events-none flex flex-col items-center justify-center">
               <span className="text-xs text-[var(--text-secondary)] block">Total</span>
-              <strong className="text-base font-bold text-[var(--text)] block px-4 leading-tight">
+              <strong className="font-bold text-sm text-[var(--text)] block px-4 leading-tight">
                 IDR {formatIDR(totalExpense)}
               </strong>
             </div>
