@@ -16,7 +16,6 @@ import {
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import Logo from '../../assets/icons/icon.png';
-import Avatar from './AvatarGenerator';
 
 interface NavItem {
   id: string;
@@ -76,7 +75,7 @@ export default function Sidebar() {
       <aside
         className={`${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed left-0 top-0 h-screen w-64 bg-bg-primary sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col`}
+        } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col rounded-r-xl`}
         style={{ boxShadow: '4px 0 24px 0 rgba(0,0,0,0.08)' }}
       >
         {/* Logo */}
@@ -116,34 +115,6 @@ export default function Sidebar() {
             );
           })}
         </nav>
-
-        {/* User Info */}
-        {user && (
-          <div className="mx-4 mb-3 rounded-xl bg-bg-secondary px-4 py-3"
-            style={{ boxShadow: '0 2px 8px 0 rgba(0,0,0,0.06)' }}
-          >
-            <div className="flex items-center gap-3">
-              <Avatar name={user.name} size={40} />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-text-primary truncate leading-tight">
-                  {user.name}
-                </p>
-                <p className="text-xs text-text-tertiary truncate leading-tight mt-0.5">
-                  {user.email}
-                </p>
-                <span
-                  className={`inline-block text-xs font-semibold px-2 py-0.5 rounded-full mt-1.5 ${
-                    isAdmin
-                      ? 'bg-red-100 text-red-600'
-                      : 'bg-green-100 text-green-600'
-                  }`}
-                >
-                  {isAdmin ? '⚡ Admin' : '✓ User'}
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Logout Button */}
         <div className="px-4 py-2">

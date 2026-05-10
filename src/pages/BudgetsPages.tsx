@@ -21,7 +21,7 @@ export default function BudgetsPage() {
   const totalSpent = budgets.reduce((sum, b) => sum + (b.usage?.spent || 0), 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-[var(--bg)] p-6">
       <div className="max-w-5xl mx-auto">
 
         {/* Overview header */}
@@ -53,7 +53,7 @@ export default function BudgetsPage() {
 
         {!isLoading && error && (
           <div className="bg-red-50 text-red-500 rounded-xl px-4 py-3 text-sm">
-            {error}
+            {error.message}
           </div>
         )}
 

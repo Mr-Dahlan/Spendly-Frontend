@@ -83,43 +83,43 @@ export default function TransactionsPages() {
   }, []);
 
   // ── CRUD handlers ──
-  const handleCreate = async (payload: CreateTransactionPayload | UpdateTransactionPayload) => {
-    await createTransaction(payload as CreateTransactionPayload, () => {
-      setShowAddModal(false);
-      refetch();
-    });
-  };
+const handleCreate = async (payload: CreateTransactionPayload | UpdateTransactionPayload) => {
+  await createTransaction(payload as CreateTransactionPayload);
+  setShowAddModal(false);
+  refetch();
+};
 
-  const handleUpdate = async (payload: CreateTransactionPayload | UpdateTransactionPayload) => {
-    if (!editTarget) return;
-    await updateTransaction(editTarget.transaction_id, payload as UpdateTransactionPayload, () => {
-      setEditTarget(null);
-      refetch();
-    });
-  };
+const handleUpdate = async (payload: CreateTransactionPayload | UpdateTransactionPayload) => {
+  if (!editTarget) return;
+  await updateTransaction({ 
+    id: editTarget.transaction_id, 
+    payload: payload as UpdateTransactionPayload 
+  });
+  setEditTarget(null);
+  refetch();
+};
 
-  const handleDelete = async () => {
-    if (!deleteTarget) return;
-    await deleteTransaction(deleteTarget.transaction_id, () => {
-      setDeleteTarget(null);
-      refetch();
-    });
-  };
+ const handleDelete = async () => {
+  if (!deleteTarget) return;
+  await deleteTransaction(deleteTarget.transaction_id);
+  setDeleteTarget(null);
+  refetch();
+};
 
   // ──────────────────────────────────────────────────────────
 
-  return (
-    <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-gray-50">
+return (
+    <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
 
       {/* ── Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Transactions</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage and track your financial flow</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text)]">Transactions</h1>
+          <p className="text-sm text-[var(--text-secondary)] mt-1">Manage and track your financial flow</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md shadow-indigo-200 hover:shadow-indigo-300 hover:-translate-y-0.5 transform"
+          className="inline-flex mt-4 items-center gap-2 bg-[var(--blue-primary)] hover:opacity-90 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md hover:-translate-y-0.5 transform"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -128,10 +128,10 @@ export default function TransactionsPages() {
         </button>
       </div>
 
-      {/* ── Search + Filter ── */}
-      <div className="mb-4">
-        <div className="relative">
-          <svg className="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      {/* ── Search ── */}
+      <div className="mb-4 ">
+        <div className="relative ">
+          <svg className="w-4 h-4 text-[var(--text-secondary)]  absolute left-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -139,7 +139,7 @@ export default function TransactionsPages() {
             placeholder="Search transactions..."
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-700 placeholder-gray-400 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all shadow-sm"
+            className="w-full pl-11 pr-4 py-3 bg-[var(--card)] border border-[var(--border)] rounded-2xl text-sm text-[var(--text)] placeholder:text-[var(--text-secondary)] outline-none focus:border-[var(--blue-primary)] focus:ring-2 focus:ring-[var(--blue-primary)]/20 transition-all"
           />
         </div>
       </div>

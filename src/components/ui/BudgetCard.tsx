@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Budget } from "../../types/budget";
-import { useDeleteBudget } from "../../hooks/useBudget";
+import { useDeleteBudget} from "../../hooks/useBudget";
 
 interface BudgetCardProps {
   budget: Budget;
@@ -10,13 +10,13 @@ interface BudgetCardProps {
 
 function getStatusConfig(budget: Budget) {
   // Debug logging
-  console.log("Budget status debug:", {
-    is_exceeded: budget.usage.is_exceeded,
-    is_warning: budget.usage.is_warning,
-    percentage: budget.usage.percentage,
-    spent: budget.usage.spent,
-    limit: budget.usage.amount_limit,
-  });
+  // console.log("Budget status debug:", {
+  //   is_exceeded: budget.usage.is_exceeded,
+  //   is_warning: budget.usage.is_warning,
+  //   percentage: budget.usage.percentage,
+  //   spent: budget.usage.spent,
+  //   limit: budget.usage.amount_limit,
+  // });
 
   // Check exceeded first
   if (budget.usage.is_exceeded) {
@@ -92,24 +92,27 @@ export default function BudgetCard({ budget, onEdit, onDeleted }: BudgetCardProp
       })
     : "N/A";
 
-  const handleDelete = async () => {
-    const success = await deleteBudget(budget.budget_id, () => {
+  
+const handleDelete = async () => {
+  await deleteBudget(budget.budget_id, {
+    onSuccess: () => {
       setShowDeleteConfirm(false);
       onDeleted();
-    });
-    if (!success) {
+    },
+    onError: () => {
       setShowDeleteConfirm(false);
-    }
-  };
+    },
+  });
+};
 
   return (
     <>
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col gap-3">
+      <div className="bg-[var(--card)] rounded-2xl p-4 shadow-sm border text-[var(--text)] border-gray-100 flex flex-col gap-3">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
             <span className="text-2xl">{categoryIcon}</span>
-            <span className="font-semibold text-gray-800 text-sm">
+            <span className="font-semibold text-[var(--text)] text-sm">
               {categoryName}
             </span>
           </div>
@@ -126,7 +129,7 @@ export default function BudgetCard({ budget, onEdit, onDeleted }: BudgetCardProp
             </button>
             <button
               onClick={() => setShowDeleteConfirm(true)}
-              className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-500 transition"
+              className="p-1.5 rounded-lg hover:bg-gray-100 hover:text-red-500 transition"
               title="Delete budget"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,12 +141,12 @@ export default function BudgetCard({ budget, onEdit, onDeleted }: BudgetCardProp
         </div>
 
         {/* Spent vs Budget */}
-        <div className="flex justify-between text-xs text-gray-500">
+        <div className="flex justify-between text-xs ">
           <span>
-            Spent: <span className="font-medium text-gray-700">{formatIDR(budget.usage.spent)}</span>
+            Spent: <span className="font-medium text-[var(--text-secondary)]">{formatIDR(budget.usage.spent)}</span>
           </span>
           <span>
-            Budget: <span className="font-medium text-gray-700">{formatIDR(budgetAmount)}</span>
+            Budget: <span className="font-medium text-[var(--text-secondary)]">{formatIDR(budgetAmount)}</span>
           </span>
         </div>
 
@@ -168,7 +171,7 @@ export default function BudgetCard({ budget, onEdit, onDeleted }: BudgetCardProp
         </div>
 
         {/* Period */}
-        <div className="text-xs text-gray-400">
+        <div className="text-xs text-[var(--text-secondary)]">
           Due: {dueDate}
         </div>
       </div>

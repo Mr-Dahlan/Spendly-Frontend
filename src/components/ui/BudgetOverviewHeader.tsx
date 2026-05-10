@@ -26,19 +26,19 @@ export default function BudgetOverviewHeader({
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
       {/* Summary card */}
-      <div className="flex-1 bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+      <div className="flex-1 bg-[var(--card)] rounded-2xl p-5 shadow-sm border border-gray-100 text-[var(--text)]">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Monthly Overview</p>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Budget Summary</h2>
+            <p className="text-xs uppercase tracking-wide mb-1">Monthly Overview</p>
+            <h2 className="text-2xl font-bold mb-4">Budget Summary</h2>
             <div className="flex gap-6">
               <div>
-                <p className="text-xs text-gray-400 mb-0.5">Total Budgeted</p>
-                <p className="text-lg font-bold text-indigo-600">{formatIDR(totalBudgeted)}</p>
+                <p className="text-xs  mb-0.5">Total Budgeted</p>
+                <p className="text-lg font-bold ">{formatIDR(totalBudgeted)}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-400 mb-0.5">Total Spent</p>
-                <p className="text-lg font-bold text-gray-700">{formatIDR(totalSpent)}</p>
+                <p className="text-xs  mb-0.5">Total Spent</p>
+                <p className="text-lg font-bold">{formatIDR(totalSpent)}</p>
               </div>
             </div>
           </div>
@@ -55,9 +55,9 @@ export default function BudgetOverviewHeader({
       </div>
 
       {/* Donut card */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col items-center justify-center min-w-[160px]">
+      <div className="bg-[var(--card)] rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col items-center justify-center min-w-[160px]">
         <svg width="100" height="100" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" strokeWidth="10" />
+          <circle cx="50" cy="50" r="40" fill="none" stroke="var(--blue-primary)" strokeWidth="10" />
           <circle
             cx="50"
             cy="50"

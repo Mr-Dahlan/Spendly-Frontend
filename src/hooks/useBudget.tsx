@@ -28,7 +28,7 @@ export function useBudgets(filters: BudgetFilters = {}) {
   const budgets = data?.data ?? [];
   const exceededBudgets = budgets.filter((b) => b.usage.is_exceeded);
   const warningBudgets = budgets.filter(
-    (b) => !b.usage.is_exceeded && b.usage.is_warning !== "false" && b.usage.is_warning !== ""
+    (b) => !b.usage.is_exceeded && Boolean(b.usage.is_warning) && b.usage.is_warning !== false
   );
 
   return {
@@ -53,7 +53,7 @@ export function useBudgetsByStatus(status: BudgetStatus | undefined) {
   const budgets = data?.data ?? [];
   const exceededBudgets = budgets.filter((b) => b.usage.is_exceeded);
   const warningBudgets = budgets.filter(
-    (b) => !b.usage.is_exceeded && b.usage.is_warning !== "false" && b.usage.is_warning !== ""
+    (b) => !b.usage.is_exceeded && Boolean(b.usage.is_warning) && b.usage.is_warning !== false
   );
 
   return {

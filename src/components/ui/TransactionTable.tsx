@@ -64,7 +64,7 @@ export default function TransactionTable({
   // Loading skeleton
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-[var(--card)] rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         {[...Array(5)].map((_, i) => (
           <div key={i} className="flex items-center gap-4 px-6 py-4 border-b border-gray-100 last:border-0">
             <div className="w-20 h-4 bg-gray-100 rounded-lg animate-pulse" />
@@ -79,17 +79,17 @@ export default function TransactionTable({
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-300 shadow-sm overflow-hidden">
       {/* Table Header */}
-      <div className="grid grid-cols-[120px_1fr_1fr_100px_120px_80px] px-6 py-3 border-b border-gray-100 bg-gray-50">
+      <div className="grid grid-cols-[120px_1fr_1fr_190px_180px_80px] px-6 py-3 border-b border-gray-100 bg-[var(--card)]">
         {["DATE", "CATEGORY", "DESCRIPTION", "TYPE", "AMOUNT", "ACTIONS"].map((h) => (
-          <span key={h} className="text-[11px] font-semibold text-gray-400 tracking-wider">{h}</span>
+          <span key={h} className="text-[11px] font-semibold text-[var(--text)] tracking-wider">{h}</span>
         ))}
       </div>
 
       {/* Rows */}
       {transactions.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
+        <div className="text-center py-16 text-[var(--text)]">
           <svg className="w-12 h-12 mx-auto mb-3 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
           </svg>
@@ -102,22 +102,22 @@ export default function TransactionTable({
           return (
             <div
               key={t.transaction_id}
-              className="grid grid-cols-[120px_1fr_1fr_100px_120px_80px] items-center px-6 py-4 border-b border-gray-100 last:border-0 hover:bg-gray-50/60 transition-colors group"
+              className="grid grid-cols-[120px_1fr_1fr_190px_180px_80px] items-center px-6 py-4 border-b border-gray-100 last:border-0 hover:bg-gray-50/60 transition-colors group"
               style={{ animationDelay: `${idx * 40}ms` }}
             >
               {/* Date */}
-              <span className="text-sm text-gray-600">{formatDate(t.transaction_date)}</span>
+              <span className="text-sm text-[var(--text)]">{formatDate(t.transaction_date)}</span>
 
               {/* Category */}
               <div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--card-secondery)] text-[var(--text)]">
                   {cat?.icon && <span>{cat.icon}</span>}
                   {cat?.nama ?? "Unknown"}
                 </span>
               </div>
 
               {/* Description */}
-              <span className="text-sm text-gray-700 truncate pr-4">{t.description}</span>
+              <span className="text-sm text-[var(--text)] truncate pr-4">{t.description}</span>
 
               {/* Type */}
               <div>
@@ -128,7 +128,7 @@ export default function TransactionTable({
               </div>
 
               {/* Amount */}
-              <span className={`text-sm font-bold ${isIncome ? "text-emerald-600" : "text-gray-800"}`}>
+              <span className={`text-sm font-bold ${isIncome ? "text-emerald-600" : "text-[var(--text)]"}`}>
                 {isIncome ? "+" : "-"}IDR {formatIDR(t.amount)}
               </span>
 
@@ -160,15 +160,15 @@ export default function TransactionTable({
 
       {/* Pagination */}
       {totalEntries > 0 && (
-        <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50/50">
-          <span className="text-sm text-gray-500">
+        <div className="flex items-center justify-between px-6 py-4 border-t border-[var(--border)] bg-[var(--card)] text-[var(--text)]">
+          <span className="text-sm text-gray-300">
             Showing {startEntry} to {endEntry} of {totalEntries} entries
           </span>
           <div className="flex items-center gap-1">
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-white disabled:opacity-30 transition-colors"
+              className="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-[var(--text)] hover:bg-white hover:text-[var(--text-opposite)] disabled:opacity-30 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -181,7 +181,7 @@ export default function TransactionTable({
                 className={`w-8 h-8 rounded-xl text-sm font-semibold transition-all
                   ${p === currentPage
                     ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
-                    : "border border-gray-200 text-gray-600 hover:bg-white"
+                    : "border border-gray-200 hover:bg-white hover:text-[var(--text-opposite)]"}
                   }`}
               >
                 {p}

@@ -22,10 +22,10 @@ export default function TransactionFilterBar({ filters, onChange }: TransactionF
   const { categories } = useCategories();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text[var(--text)] mb-6">
       {/* Date Range */}
-      <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
-        <label className="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Date Range</label>
+      <div className="bg-[var(--card)] border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
+        <label className="block text-[10px] font-semibold uppercase tracking-wider mb-1">Date Range</label>
         <div className="relative">
           <svg className="w-3.5 h-3.5 text-indigo-500 absolute left-0 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -33,7 +33,7 @@ export default function TransactionFilterBar({ filters, onChange }: TransactionF
           <select
             value={filters.dateRange}
             onChange={(e) => onChange({ ...filters, dateRange: e.target.value as Filters["dateRange"] })}
-            className="w-full pl-5 text-sm font-medium text-gray-700 bg-transparent outline-none appearance-none cursor-pointer"
+            className="w-full pl-5 text-sm font-medium bg-transparent outline-none appearance-none cursor-pointer"
           >
             {Object.entries(DATE_RANGE_LABELS).map(([val, label]) => (
               <option key={val} value={val}>{label}</option>
@@ -46,7 +46,7 @@ export default function TransactionFilterBar({ filters, onChange }: TransactionF
       </div>
 
       {/* Type */}
-      <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
+      <div className="bg-[var(--card)] border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
         <label className="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Type</label>
         <div className="relative">
           <svg className="w-3.5 h-3.5 text-indigo-500 absolute left-0 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,7 +55,7 @@ export default function TransactionFilterBar({ filters, onChange }: TransactionF
           <select
             value={filters.type}
             onChange={(e) => onChange({ ...filters, type: e.target.value as Filters["type"] })}
-            className="w-full pl-5 text-sm font-medium text-gray-700 bg-transparent outline-none appearance-none cursor-pointer"
+            className="w-full pl-5 text-sm font-medium bg-transparent outline-none appearance-none cursor-pointer"
           >
             <option value="">All Types</option>
             <option value="income">Income</option>
@@ -68,7 +68,7 @@ export default function TransactionFilterBar({ filters, onChange }: TransactionF
       </div>
 
       {/* Category */}
-      <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
+      <div className="bg-[var(--card)] border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
         <label className="block text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Category</label>
         <div className="relative">
           <svg className="w-3.5 h-3.5 text-indigo-500 absolute left-0 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,7 +77,7 @@ export default function TransactionFilterBar({ filters, onChange }: TransactionF
           <select
             value={filters.categoryId}
             onChange={(e) => onChange({ ...filters, categoryId: e.target.value ? Number(e.target.value) : "" })}
-            className="w-full pl-5 text-sm font-medium text-gray-700 bg-transparent outline-none appearance-none cursor-pointer"
+            className="w-full pl-5 text-sm font-medium bg-transparent outline-none appearance-none cursor-pointer"
           >
             <option value="">All Categories</option>
             {categories.map((cat) => (

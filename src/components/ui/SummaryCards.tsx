@@ -22,7 +22,7 @@ function SummaryCard({ label, value, colorClass = "text-[var(--text)]", delay = 
       <span className="block text-[11px] font-semibold text-[var(--text-secondary)] tracking-wider uppercase mb-2">
         {label}
       </span>
-      <span className={`block text-2xl font-bold truncate ${colorClass}`}>{value}</span>
+      <span className={`block text-lg font-bold truncate ${colorClass}`}>{value}</span>
     </div>
   );
 }

@@ -55,3 +55,4 @@ export interface BudgetFilters {
   category_id?: number;
   status?: BudgetStatus;
 }
+

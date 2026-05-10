@@ -23,20 +23,26 @@ export default function EditBudgetModal({ budget, onClose, onSuccess }: EditBudg
     setDueDate(budget.due_date || "");
   }, [budget.budget_id]);
 
-  const handleSubmit = async () => {
-    await updateBudget(
-      budget.budget_id,
-      {
+const handleSubmit = async () => {
+  if (!categoryId || !amountLimit || !dueDate) return;
+
+  try {
+    const response = await updateBudget({
+      id: budget.budget_id,
+      payload: {
         category_id: categoryId,
         amount_limit: amountLimit,
         due_date: dueDate,
-      } as any,
-      (data) => {
-        onSuccess(data);
-        onClose();
-      }
-    );
-  };
+      },
+    });
+
+    onSuccess(response.data);
+    onClose();
+
+  } catch (err) {
+    console.error("Update budget failed:", err);
+  }
+};
 
   const amountLimitNum = parseFloat(amountLimit) || 1;
   const percent = budget.usage.amount_limit > 0
@@ -129,7 +135,7 @@ export default function EditBudgetModal({ budget, onClose, onSuccess }: EditBudg
 
         {/* Error */}
         {error && (
-          <p className="text-sm text-red-500 bg-red-50 rounded-xl px-3 py-2">{error}</p>
+          <p className="text-sm text-red-500 bg-red-50 rounded-xl px-3 py-2">{error.message}</p>
         )}
 
         {/* Actions */}
