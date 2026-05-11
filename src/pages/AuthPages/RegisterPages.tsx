@@ -22,12 +22,12 @@ export default function Register() {
     setError(null);
 
     if (password !== passwordConfirmation) {
-      setError("Password dan konfirmasi password tidak cocok.");
+      setError("Password and password confirmation must match.");
       return;
     }
 
     if (password.length < 8) {
-      setError("Password minimal 8 karakter.");
+      setError("Password must be at least 8 characters long.");
       return;
     }
 
@@ -83,7 +83,7 @@ export default function Register() {
         </div>
         <div className="flex-1 flex items-center justify-center" />
         <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
-          © 2026 Aplikasi Kamu
+          © 2026 Copyright
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default function Register() {
             className="text-2xl font-semibold mb-1"
             style={{ color: "var(--text)", fontSize: "2rem" }}
           >
-            Buat Akun Baru
+            Create New Account
           </h1>
 
           <p className="text-xs pb-8">Fill in the ditails to get started</p>
@@ -142,7 +142,7 @@ export default function Register() {
                 className="block text-xs font-medium mb-1.5"
                 style={{ color: "var(--text)" }}
               >
-                NAMA LENGKAP
+                Full Name
               </label>
               <input
                 type="text"
@@ -170,7 +170,7 @@ export default function Register() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="nama@email.com"
+                placeholder="name@email.com"
                 required
                 autoComplete="email"
                 className="w-full px-3.5 py-2.5 text-sm rounded-lg outline-none transition-shadow"
@@ -195,7 +195,7 @@ export default function Register() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Min. 8 karakter"
+                    placeholder="Min. 8 characters"
                     required
                     autoComplete="new-password"
                     className="w-full px-2.5 py-2 text-xs rounded-lg outline-none transition-shadow pr-8"
@@ -235,7 +235,7 @@ export default function Register() {
                     type={showConfirm ? "text" : "password"}
                     value={passwordConfirmation}
                     onChange={(e) => setPasswordConfirmation(e.target.value)}
-                    placeholder="Ulangi password"
+                    placeholder="Min. 8 characters"
                     required
                     autoComplete="new-password"
                     className="w-full px-2.5 py-2 text-xs rounded-lg outline-none transition-shadow pr-8"
@@ -282,7 +282,7 @@ export default function Register() {
                     <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
-                    Cocok
+                    metching
                   </p>
                 )}
                 {passwordMismatch && (
@@ -290,7 +290,7 @@ export default function Register() {
                     <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                    Tidak cocok
+                    Not match
                   </p>
                 )}
               </div>
@@ -313,20 +313,22 @@ export default function Register() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
-                  Mendaftarkan...
+                  Loading...
                 </>
               ) : (
-                "Buat Akun"
+                "Register"
               )}
             </button>
 
+            <p className="flex items-center justify-center text-[10px] opacity-70 text-[var(--text)]">OR CONTINUE WITH</p>
+
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              Sudah punya akun?{" "}
+              Alredy have an account?{" "}
               <Link
                 to="/login"
                 className="font-medium underline underline-offset-2 text-blue-600 hover:text-blue-800"
               >
-                Masuk di sini
+                Login
               </Link>
             </p>
           </form>

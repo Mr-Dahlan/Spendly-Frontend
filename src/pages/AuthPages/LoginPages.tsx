@@ -116,7 +116,7 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="nama@email.com"
+                placeholder="name@email.com"
                 required
                 autoComplete="email"
                 className="w-full px-3.5 py-2.5 text-sm rounded-lg outline-none transition-shadow"
@@ -208,10 +208,10 @@ export default function Login() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
-                  Sedang masuk...
+                  Loading...
                 </>
               ) : (
-                "Masuk"
+                "Login"
               )}
             </button>
 
@@ -220,12 +220,12 @@ export default function Login() {
             <div></div> {/*  button sign in with google */}
 
             <p className="text-sm mb-8" style={{ color: "var(--text-secondary)" }}>
-              Belum punya akun?{" "}
+              Don't have an acoount?{" "}
               <Link
                 to="/register"
                 className="font-medium underline underline-offset-2 text-blue-600 hover:text-blue-800 "
               >
-                Daftar di sini
+                Register 
               </Link>
             </p>
           </form>

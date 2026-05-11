@@ -14,6 +14,7 @@
 
   /* Light mode variables */
   --bg: #E8EAF0;
+  --bg-secondary: #ffffff;
   --blue-primary: #4F46E5;
   --blue-button: #6366F1;
   --red-primary: #DC2626;
@@ -22,12 +23,16 @@
   --green-secondary: #D1FAE5;
   --text: #2E3040;
   --text-secondary: #585A68;
+  --text-opposite: #f5f5f5;
   --card: #f5f5f5;
+  --card-secondery: #ffffff;
+  --userinfo: #ffffff;
   --border: #e0e0e0;
 }
 
 .dark {
   --bg: #242424;
+  --bg-secondary: #666770;
   --blue-primary: #4F46E5;
   --blue-button: #6366F1;
   --red-primary: #DC2626;
@@ -35,15 +40,18 @@
   --green-primary: #047857;
   --green-secondary: #D1FAE5;
   --text: #f5f5f5;
-  --text-secondary: #585A68;
+  --text-secondary: #d1cece;
+  --text-opposite: #2E3040;
   --card: #2E3040;
-  --border: #585A68;
+  --card-secondery: #252b2b;
+  --userinfo: #201d1d;
+  --border: #e5e7eb;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0;
+  width: 100%;
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--bg);   /* ikuti variable */
@@ -51,6 +59,10 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 body::-webkit-scrollbar {
+  display: none;
+}
+
+main::-webkit-scrollbar {
   display: none;
 }
 /* hapus @media prefers-color-scheme — biar Zustand yang kontrol */

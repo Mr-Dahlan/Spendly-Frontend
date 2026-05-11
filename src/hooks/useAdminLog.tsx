@@ -1,98 +1,68 @@
-import { useState, useEffect, useCallback } from "react";
+// src/hooks/useAdminLog.ts
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { adminLogService } from "../services/adminlogs";
-import type { AdminLog, AdminLogFilters, CreateAdminLogPayload } from "../types/adminlog";
+import type {
+  AdminLogFilters,
+  CreateAdminLogPayload,
+} from "../types/adminlog";
 
-// ─────────────────────────────────────────────
-// Hook: fetch semua log (seluruh admin)
-// ─────────────────────────────────────────────
+// ─── Query Keys ──────────────────────────────
+export const adminLogKeys = {
+  all: ["adminLogs"] as const,
+  list: (filters: AdminLogFilters) => ["adminLogs", "list", filters] as const,
+  mine: (filters: AdminLogFilters) => ["adminLogs", "mine", filters] as const,
+};
+
+// ─── Fetch semua log (seluruh admin) ──────────
 export function useAdminLogs(filters: AdminLogFilters = {}) {
-  const [logs, setLogs] = useState<AdminLog[]>([]);
-  const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, isError, error, refetch } = useQuery({
+    queryKey: adminLogKeys.list(filters),
+    queryFn: () => adminLogService.getAll(filters),
+    staleTime: 3 * 60 * 1000,
+  });
 
-  const fetchLogs = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await adminLogService.getAll(filters);
-      setLogs(result.data);
-      setTotal(result.total);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch admin logs");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [JSON.stringify(filters)]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    fetchLogs();
-  }, [fetchLogs]);
-
-  return { logs, total, isLoading, error, refetch: fetchLogs };
+  return {
+    logs: data?.data ?? [],       // AdminLog[]
+    total: data?.total ?? 0,      // number
+    isLoading,
+    isError,
+    error,
+    refetch,
+  };
 }
 
-// ─────────────────────────────────────────────
-// Hook: fetch log milik admin yang sedang login
-// ─────────────────────────────────────────────
+// ─── Fetch log milik admin yang login ─────────
 export function useMyAdminLogs(filters: AdminLogFilters = {}) {
-  const [logs, setLogs] = useState<AdminLog[]>([]);
-  const [total, setTotal] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, isError, error, refetch } = useQuery({
+    queryKey: adminLogKeys.mine(filters),
+    queryFn: () => adminLogService.getMine(filters),
+    staleTime: 3 * 60 * 1000,
+  });
 
-  const fetchLogs = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await adminLogService.getMine(filters);
-      setLogs(result.data);
-      setTotal(result.total);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch my admin logs");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [JSON.stringify(filters)]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    fetchLogs();
-  }, [fetchLogs]);
-
-  return { logs, total, isLoading, error, refetch: fetchLogs };
+  return {
+    logs: data?.data ?? [],       // AdminLog[]
+    total: data?.total ?? 0,      // number
+    isLoading,
+    isError,
+    error,
+    refetch,
+  };
 }
 
-// ─────────────────────────────────────────────
-// Hook: create log secara manual
-// ─────────────────────────────────────────────
+// ─── Create log manual ────────────────────────
 export function useCreateAdminLog() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
-
-  const createAdminLog = useCallback(
-    async (
-      payload: CreateAdminLogPayload,
-      onSuccess?: (data: AdminLog) => void
-    ) => {
-      setIsLoading(true);
-      setError(null);
-      setMessage(null);
-      try {
-        const result = await adminLogService.create(payload);
-        setMessage(result.message);
-        onSuccess?.(result.data);
-        return result.data;
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : "Failed to create admin log";
-        setError(msg);
-        return null;
-      } finally {
-        setIsLoading(false);
-      }
+  const queryClient = useQueryClient();
+  const { mutateAsync, isPending, error } = useMutation({
+    mutationFn: (payload: CreateAdminLogPayload) =>
+      adminLogService.create(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: adminLogKeys.all });
     },
-    []
-  );
+  });
 
-  return { createAdminLog, isLoading, error, message };
+  return {
+    createAdminLog: mutateAsync,  // return AdminLogMutationResponse { success, message, data }
+    isLoading: isPending,
+    error,
+  };
 }
