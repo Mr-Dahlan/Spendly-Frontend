@@ -144,11 +144,11 @@ export default function TransactionModal({
               IDR
             </span>
             <input
-              // type="number"
+              type="text"
               inputMode="numeric"
               min={0}
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => setAmount(formatInputNumber(e.target.value))}
               placeholder="0.00"
               className="flex-1 bg-transparent text-2xl font-bold outline-none placeholder-gray-100"
             />
@@ -269,8 +269,8 @@ export default function TransactionModal({
             className={`flex-1 py-3 rounded-2xl text-sm font-semibold text-white flex items-center justify-center gap-2 transition-all
               ${
                 type === "income"
-                  ? "bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-200 disabled:opacity-40"
-                  : "bg-gray-800 hover:bg-gray-900 disabled:opacity-40"
+                  ? "bg-indigo-600 hover:bg-indigo-700  disabled:opacity-40"
+                  : "bg-[var(--red-primary)] hover:bg-red-700 disabled:opacity-40"
               }`}
           >
             {isSaving ? (

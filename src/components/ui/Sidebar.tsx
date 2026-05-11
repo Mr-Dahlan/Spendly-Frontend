@@ -106,9 +106,9 @@ export default function Sidebar() {
               >
                 <Icon
                   size={20}
-                  className={active ? 'text-blue-600' : 'text-current'}
+                  className={active ? 'text-blue-600 dark:text-blue-700' : 'text-current'}
                 />
-                <span className={`text-sm font-medium ${active ? 'text-blue-600' : ''}`}>
+                <span className={`text-sm font-medium ${active ? 'text-blue-600 dark:text-blue-700' : ''} ` }>
                   {item.label}
                 </span>
               </button>

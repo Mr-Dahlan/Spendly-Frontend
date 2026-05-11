@@ -102,7 +102,7 @@ export default function TransactionTable({
           return (
             <div
               key={t.transaction_id}
-              className="grid grid-cols-[120px_1fr_1fr_190px_180px_80px] items-center px-6 py-4 border-b border-gray-100 last:border-0 hover:bg-gray-50/60 transition-colors group"
+              className="grid grid-cols-[120px_1fr_1fr_190px_180px_80px] items-center px-6 py-4 border-b border-gray-100 last:border-0 hover:bg-blue-500/60 transition-colors group"
               style={{ animationDelay: `${idx * 40}ms` }}
             >
               {/* Date */}
@@ -128,7 +128,7 @@ export default function TransactionTable({
               </div>
 
               {/* Amount */}
-              <span className={`text-sm font-bold ${isIncome ? "text-emerald-600" : "text-[var(--text)]"}`}>
+              <span className={`text-sm font-bold ${isIncome ? "text-[var(--green-primary)]" : "text-[var(--text)]"}`}>
                 {isIncome ? "+" : "-"}IDR {formatIDR(t.amount)}
               </span>
 

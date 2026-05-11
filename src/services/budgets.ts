@@ -1,6 +1,6 @@
 import axiosInstance from "../lib/axios";
 import type {
-  Budget,
+  // Budget,
   CreateBudgetPayload,
   UpdateBudgetPayload,
   BudgetFilters,
