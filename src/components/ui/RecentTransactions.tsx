@@ -70,7 +70,7 @@ export default function RecentTransactions({
               <div className="text-right flex-shrink-0">
                 <span
                   className={`text-sm font-bold ${
-                    t.type === "income" ? "text-[var(--green-primary)]" : "text-[var(--text)]"
+                    t.type === "income" ? "text-[var(--green-primary)]" : "text-[var(--text-secondary)]"
                   }`}
                 >
                   {t.type === "income" ? "+" : "-"}IDR {formatIDR(t.parsedAmount)}

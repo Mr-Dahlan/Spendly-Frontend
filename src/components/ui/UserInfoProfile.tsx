@@ -20,7 +20,7 @@ export default function UserInfoProfile() {
   return (
     <div className="group relative flex justify-center cursor-pointer">
       {/* Avatar */}
-      <div className="rounded-full ring-2 ring-transparent group-hover:ring-blue-300 ring-offset-2 ring-offset-[var(--card)] transition-all duration-200">
+      <div className="rounded-full ring-2 ring-transparent  ring-offset-2 ring-offset-[var(--card)] transition-all duration-200">
         <Avatar name={user.name} size={44} />
       </div>
 

@@ -1,9 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { useTransactions } from "../hooks/useTransaction";
+import { useTransactions, useCreateTransaction } from "../hooks/useTransaction";
 import { useCategories } from "../hooks/useCategory";
 
 import DashboardHeader from "../components/ui/DashboardHeader";
+import TransactionModal from "../components/ui/TransactionModal";
+
+import type { CreateTransactionPayload, UpdateTransactionPayload } from "../types/transaction";
 import SummaryCards from "../components/ui/SummaryCards";
 import BarChartCard from "../components/ui/BarChartCard";
 import PieChartCard from "../components/ui/PieChartCard";
@@ -31,6 +34,8 @@ export default function Dashboard() {
   const { user } = useAuth();
   const { transactions, summary, isLoading } = useTransactions();
   const { categories } = useCategories();
+  const [showAddModal, setShowAddModal] = useState(false);
+  const { createTransaction, isLoading: isCreating } = useCreateTransaction();
 
   // ── Map category_id → { nama, icon } ──
   const categoryMap = useMemo(() => {
@@ -118,14 +123,26 @@ export default function Dashboard() {
   }
 
   // ─────────────────────────────────────────────────────────
+   const handleCreate = async (payload: CreateTransactionPayload | UpdateTransactionPayload) => {
+    await createTransaction(payload as CreateTransactionPayload);
+    setShowAddModal(false);
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300 relative">
 
       <DashboardHeader
         userName={user?.name}
-        onAddTransaction={() => {/* TODO: buka modal/navigate */}}
+        onAddTransaction={() => setShowAddModal(true)}
       />
+            {showAddModal && (
+        <TransactionModal
+          mode="add"
+          onSave={handleCreate}
+          onClose={() => setShowAddModal(false)}
+          isSaving={isCreating}
+        />
+      )}
 
       <SummaryCards
         balance={summary?.balance || 0}
