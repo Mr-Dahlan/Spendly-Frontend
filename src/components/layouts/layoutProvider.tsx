@@ -1,23 +1,21 @@
+// src/ui/LayoutProvider.tsx
 import Sidebar from "../ui/Sidebar";
-import { useLenis } from "../../hooks/useLenis"; // sesuaikan path
+import { useLenis } from "../../hooks/useLenis";
+import { LenisContext } from "../../context/LenisContext";
 
-interface LayoutProviderProps {
-  children: React.ReactNode;
-}
-
-export default function LayoutProvider({ children }: LayoutProviderProps) {
-  const contentRef = useLenis();
+export default function LayoutProvider({ children }: { children: React.ReactNode }) {
+  const { containerRef, lenisRef } = useLenis();
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-
-      <div className="flex flex-col flex-1 overflow-hidden relative">
-        {/* Konten utama */}
-        <main ref={contentRef} className="flex-1 overflow-y-scroll">
-          {children}
-        </main>
+    <LenisContext.Provider value={lenisRef}>
+      <div className="flex h-screen overflow-hidden">
+        <Sidebar />
+        <div className="flex flex-col flex-1 overflow-hidden relative">
+          <main ref={containerRef} className="flex-1 overflow-y-scroll">
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </LenisContext.Provider>
   );
 }

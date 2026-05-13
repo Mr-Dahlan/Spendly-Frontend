@@ -67,7 +67,7 @@ export default function Settings() {
 
       {/* User Info Bar */}
       {currentUser && (
-        <div className="flex items-center gap-4 bg-[var(--card)] border border-gray-100 rounded-2xl shadow-sm px-5 py-4 mb-6">
+        <div className="flex items-center gap-4 bg-[var(--card)] border border-gray-100 rounded-2xl shadow-[var(--boxShadow)] px-5 py-4 mb-6">
           <ProfileAvatar name={currentUser.name} />
           <div className="flex flex-col gap-0.5">
             <span className="text-[15px] font-bold text-[var(--text)]">{currentUser.name}</span>
@@ -90,7 +90,7 @@ export default function Settings() {
       {/* Layout */}
       <div className="flex gap-5 items-start">
         {/* Sidebar */}
-        <aside className="w-48 flex-shrink-0 bg-[var(--card)] rounded-2xl border border-gray-100 shadow-sm p-2 sticky top-8">
+        <aside className="w-48 flex-shrink-0 bg-[var(--card)] rounded-2xl border border-gray-100 shadow-[var(--boxShadow)] p-2 sticky top-8">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}

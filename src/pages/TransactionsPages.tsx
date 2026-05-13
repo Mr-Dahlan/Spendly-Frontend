@@ -139,7 +139,7 @@ return (
             placeholder="Search transactions..."
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-[var(--card)] border border-[var(--border)] rounded-2xl text-sm text-[var(--text)] placeholder:text-[var(--text-secondary)] outline-none focus:border-[var(--blue-primary)] focus:ring-2 focus:ring-[var(--blue-primary)]/20 transition-all"
+            className="w-full pl-11 pr-4 py-3 bg-[var(--card)] border border-[var(--border)] rounded-2xl text-sm text-[var(--text)] placeholder:text-[var(--text-secondary)] outline-none focus:border-[var(--blue-primary)] focus:ring-2 focus:ring-[var(--blue-primary)]/20 transition-all shadow-[var(--boxShadow)]"
           />
         </div>
       </div>

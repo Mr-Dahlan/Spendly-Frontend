@@ -19,7 +19,7 @@ interface PieChartCardProps {
 
 export default function PieChartCard({ data, totalExpense, formatIDR }: PieChartCardProps) {
   return (
-    <div className="bg-[var(--card)] p-6 rounded-2xl shadow-sm border border-[var(--border)]/30">
+    <div className="bg-[var(--card)] p-6 rounded-2xl shadow-[var(--boxShadow)] border border-[var(--border)]/30">
       <h2 className="text-lg font-semibold text-[var(--text)] mb-4">Spending by Category</h2>
 
       {data.length > 0 ? (

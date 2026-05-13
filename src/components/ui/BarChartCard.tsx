@@ -20,7 +20,7 @@ interface BarChartCardProps {
 
 export default function BarChartCard({ data, formatIDR }: BarChartCardProps) {
   return (
-    <div className="lg:col-span-2 bg-[var(--card)] p-6 rounded-2xl shadow-sm border border-[var(--border)]/30">
+    <div className="lg:col-span-2 bg-[var(--card)] p-6 rounded-2xl shadow-[var(--boxShadow)] border border-[var(--border)]/30 ">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-lg font-semibold text-[var(--text)]">Income vs Expenses</h2>
         <div className="flex gap-4 text-[13px] text-[var(--text-secondary)]">

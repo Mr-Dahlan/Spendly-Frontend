@@ -10,7 +10,7 @@ export default function DashboardHeader({ userName, onAddTransaction }: Dashboar
       {/* Topbar floating kanan atas */}
       <header className="fixed top-4 right-6 z-10 flex items-center gap-2 
     bg-background/80 backdrop-blur-lg
-    rounded-full px-3 py-1 shadow-sm w-fit">
+    rounded-full px-3 py-1 shadow-sm w-fit ">
         <ThemeToggle />
       </header>
 

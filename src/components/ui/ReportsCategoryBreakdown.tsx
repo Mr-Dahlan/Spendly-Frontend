@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import type { Transaction } from "../../types/transaction";
 import type { Category } from "../../types/category";
 import type { Budget } from "../../types/budget";
+import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 
 interface ReportsCategoryBreakdownProps {
   transactions: Transaction[];
@@ -88,10 +89,10 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
 }) => {
   const rows: BreakdownRow[] = useMemo(() => {
     const categoryMap = new Map<number, Category>(
-      categories.map((c) => [c.category_id, c])
+      categories.map((c) => [c.category_id, c]),
     );
     const budgetMap = new Map<number, Budget>(
-      budgets.map((b) => [b.category_id, b])
+      budgets.map((b) => [b.category_id, b]),
     );
 
     const totals: Record<number, number> = {};
@@ -116,7 +117,8 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
         const catId = Number(catIdStr);
         const category = categoryMap.get(catId);
         const budget = budgetMap.get(catId);
-        const percentage = grandTotal > 0 ? Math.round((amountSpent / grandTotal) * 100) : 0;
+        const percentage =
+          grandTotal > 0 ? Math.round((amountSpent / grandTotal) * 100) : 0;
 
         let budgetStatus: BreakdownRow["budgetStatus"] = "no_budget";
         let budgetLimit: number | null = null;
@@ -143,11 +145,15 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
       .sort((a, b) => b.amountSpent - a.amountSpent);
   }, [transactions, categories, budgets, selectedMonth, selectedYear]);
 
+    const scrollRef = useLenisPrevent<HTMLDivElement>();
+
   return (
-    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 overflow-hidden">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 overflow-hidden shadow-[var(--boxShadow)]">
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-5 pb-3">
-        <h3 className="text-lg font-semibold text-[var(--text)]">Category Breakdown</h3>
+        <h3 className="text-lg font-semibold text-[var(--text)]">
+          Category Breakdown
+        </h3>
         <button className="text-xs font-medium text-violet-600 hover:text-violet-700 transition-colors">
           View All Details
         </button>
@@ -157,83 +163,92 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100">
-              {["CATEGORY", "AMOUNT SPENT", "PERCENTAGE OF TOTAL", "%", "BUDGET STATUS"].map(
-                (h) => (
-                  <th
-                    key={h}
-                    className="text-left text-[10px] font-semibold tracking-widest text-[var(--text-secondary)] uppercase py-2 px-4"
-                  >
-                    {h === "%" ? "" : h}
-                  </th>
-                )
-              )}
+              {[
+                "CATEGORY",
+                "AMOUNT SPENT",
+                "PERCENTAGE OF TOTAL",
+                "%",
+                "BUDGET STATUS",
+              ].map((h) => (
+                <th
+                  key={h}
+                  className="text-left text-[10px] font-semibold tracking-widest text-[var(--text-secondary)] uppercase py-2 px-4"
+                >
+                  {h === "%" ? "" : h}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {isLoading
-              ? Array.from({ length: 4 }).map((_, i) => <SkeletonRow key={i} />)
-              : rows.length === 0
-              ? (
-                <tr>
-                  <td colSpan={5} className="py-10 text-center text-[var(--text-secondary)] text-sm">
-                    No expense data for this period
-                  </td>
-                </tr>
-              )
-              : rows.map((row) => {
-                  const cfg = STATUS_CONFIG[row.budgetStatus] ?? STATUS_CONFIG.no_budget;
-                  const barPct = row.budgetLimit
-                    ? Math.min((row.amountSpent / row.budgetLimit) * 100, 100)
-                    : row.percentage;
+            {isLoading ? (
+              Array.from({ length: 4 }).map((_, i) => <SkeletonRow key={i} />)
+            ) : rows.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="py-10 text-center text-[var(--text-secondary)] text-sm"
+                >
+                  No expense data for this period
+                </td>
+              </tr>
+            ) : (
+              rows.map((row) => {
+                const cfg =
+                  STATUS_CONFIG[row.budgetStatus] ?? STATUS_CONFIG.no_budget;
+                const barPct = row.budgetLimit
+                  ? Math.min((row.amountSpent / row.budgetLimit) * 100, 100)
+                  : row.percentage;
 
-                  return (
-                    <tr
-                      key={row.categoryId}
-                      className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
-                    >
-                      {/* Category */}
-                      <td className="py-3.5 px-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-xl bg-[var(--bg)] flex items-center justify-center text-base flex-shrink-0">
-                            {row.icon}
-                          </div>
-                          <span className="font-medium text-[var(--text-secondary)] whitespace-nowrap">
-                            {row.categoryName}
-                          </span>
+                return (
+                  <tr
+                    ref={scrollRef}
+                    key={row.categoryId}
+                    className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                  >
+                    {/* Category */}
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-xl bg-white/100 flex items-center justify-center text-base flex-shrink-0">
+                          {row.icon}
                         </div>
-                      </td>
-
-                      {/* Amount */}
-                      <td className="py-3.5 px-4 font-semibold text-[var(--text-secondary)] whitespace-nowrap">
-                        {formatIDR(row.amountSpent)}
-                      </td>
-
-                      {/* Progress bar */}
-                      <td className="py-3.5 px-4 min-w-[120px]">
-                        <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full transition-all duration-500 ${cfg.barColor}`}
-                            style={{ width: `${barPct}%` }}
-                          />
-                        </div>
-                      </td>
-
-                      {/* Percentage */}
-                      <td className="py-3.5 px-4 text-[var(--text-secondary)] font-medium">
-                        {row.percentage}%
-                      </td>
-
-                      {/* Status badge */}
-                      <td className="py-3.5 px-4">
-                        <span
-                          className={`text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-full whitespace-nowrap ${cfg.className}`}
-                        >
-                          {cfg.label}
+                        <span className="font-medium text-[var(--text-secondary)] whitespace-nowrap">
+                          {row.categoryName}
                         </span>
-                      </td>
-                    </tr>
-                  );
-                })}
+                      </div>
+                    </td>
+
+                    {/* Amount */}
+                    <td className="py-3.5 px-4 font-semibold text-[var(--text-secondary)] whitespace-nowrap">
+                      {formatIDR(row.amountSpent)}
+                    </td>
+
+                    {/* Progress bar */}
+                    <td className="py-3.5 px-4 min-w-[120px]">
+                      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${cfg.barColor}`}
+                          style={{ width: `${barPct}%` }}
+                        />
+                      </div>
+                    </td>
+
+                    {/* Percentage */}
+                    <td className="py-3.5 px-4 text-[var(--text-secondary)] font-medium">
+                      {row.percentage}%
+                    </td>
+
+                    {/* Status badge */}
+                    <td className="py-3.5 px-4">
+                      <span
+                        className={`text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-full whitespace-nowrap ${cfg.className}`}
+                      >
+                        {cfg.label}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>
@@ -242,3 +257,4 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
 };
 
 export default ReportsCategoryBreakdown;
+

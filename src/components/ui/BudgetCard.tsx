@@ -107,7 +107,7 @@ const handleDelete = async () => {
 
   return (
     <>
-      <div className="bg-[var(--card)] rounded-2xl p-4 shadow-sm border text-[var(--text)] border-gray-100 flex flex-col gap-3">
+      <div className="bg-[var(--card)] rounded-2xl p-4 shadow-[var(--boxShadow)] border text-[var(--text)] border-gray-100 flex flex-col gap-3">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
