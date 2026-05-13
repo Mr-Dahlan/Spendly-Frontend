@@ -20,12 +20,12 @@ const TYPE_BADGE = {
 const TYPE_ICON = {
   income: (
     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17l9.2-9.2M17 17V7H7" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 7L7.8 16.2M7 7v10h10" />
     </svg>
   ),
   expense: (
     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 7L7.8 16.2M7 7v10h10" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17l9.2-9.2M17 17V7H7" />
     </svg>
   ),
 };

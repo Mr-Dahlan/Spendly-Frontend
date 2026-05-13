@@ -124,8 +124,8 @@ export default function TransactionModal({
                 ${
                   type === t
                     ? t === "income"
-                      ? "bg-indigo-600 text-[var(--text)] shadow-md shadow-sm"
-                      : "bg-[var(--red-primary)] text-[var(--text)] shadow-sm "
+                      ? "bg-indigo-600 text-[var(--text-opposite)] shadow-md shadow-sm"
+                      : "bg-[var(--red-primary)] text-[var(--text-opposite)] shadow-sm "
                     : " hover:text-[var(--text-oposite)]"
                 }`}
             >
@@ -150,7 +150,7 @@ export default function TransactionModal({
               value={amount}
               onChange={(e) => setAmount(formatInputNumber(e.target.value))}
               placeholder="0.00"
-              className="flex-1 bg-transparent text-2xl font-bold outline-none placeholder-gray-100"
+              className="flex-1 bg-transparent text-2xl font-bold outline-none placeholder-gray-300"
             />
           </div>
         </div>
@@ -168,11 +168,11 @@ export default function TransactionModal({
                 onChange={(e) =>
                   setCategoryId(e.target.value ? Number(e.target.value) : "")
                 }
-                className="w-full bg-[var(--bg-secondary)] text-gray-300 border border-gray-200 rounded-2xl px-3 py-3 text-sm  outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 appearance-none transition-all cursor-pointer"
+                className="w-full bg-[var(--bg-secondary)] text-[var(--text)] border border-gray-200 rounded-2xl px-3 py-3 text-sm  outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 appearance-none transition-all cursor-pointer"
               >
-                <option value="">Select...</option>
+                <option value="" className="text-[var(--text)]" >Select...</option>
                 {categories.map((cat) => (
-                  <option key={cat.category_id} value={cat.category_id}>
+                  <option key={cat.category_id} value={cat.category_id} className="text-[var(--text)]">
                     {cat.icon ? `${cat.icon} ` : ""}
                     {cat.nama}
                   </option>
@@ -217,7 +217,7 @@ export default function TransactionModal({
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span className={date ? "text-[var(--text)]" : "text-gray-300"}>
+              <span className={date ? "text-[var(--text)]" : "text-[var(--text)]"}>
                 {date ? formatDisplayDate(date) : "mm/dd/yyyy"}
               </span>
             </button>
@@ -232,7 +232,7 @@ export default function TransactionModal({
           <div className="bg-[var(--bg-secondary)] border border-gray-200 rounded-2xl px-4 py-3 focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
             <div className="flex gap-2">
               <svg
-                className="w-4 h-4 text-gray-300 mt-0.5 flex-shrink-0"
+                className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
