@@ -108,11 +108,11 @@ const ReportsWeeklyFlow: React.FC<ReportsWeeklyFlowProps> = ({
   if (isLoading) return <SkeletonChart />;
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100">
+    <div className="bg-[var(--card)] rounded-2xl p-5 border border-gray-100">
       <div className="flex items-center justify-between mb-1">
         <div>
-          <h3 className="text-sm font-semibold text-gray-800">Weekly Flow</h3>
-          <p className="text-xs text-gray-400">Income vs Expenses over the month</p>
+          <h3 className="text-lg font-semibold text-[var(--text)]">Weekly Flow</h3>
+          <p className="text-xs text-[var(--text-secondary)]">Income vs Expenses over the month</p>
         </div>
         <div className="flex items-center gap-4 text-xs text-gray-400">
           <span className="flex items-center gap-1">

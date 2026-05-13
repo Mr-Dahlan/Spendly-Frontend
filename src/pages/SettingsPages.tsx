@@ -58,19 +58,19 @@ export default function Settings() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-8 font-sans">
+    <div className="min-h-screen bg-[var(--bg)] px-6 py-8 font-sans">
       {/* Page Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Account &amp; Preferences</h1>
-        <p className="text-sm text-gray-400 mt-1">Manage your account profile, security, and notifications.</p>
+        <h1 className="text-2xl font-bold text-[var(--text)]">Account &amp; Preferences</h1>
+        <p className="text-sm text-[var(--text-secondary)] mt-1">Manage your account profile, security, and notifications.</p>
       </div>
 
       {/* User Info Bar */}
       {currentUser && (
-        <div className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl shadow-sm px-5 py-4 mb-6">
+        <div className="flex items-center gap-4 bg-[var(--card)] border border-gray-100 rounded-2xl shadow-sm px-5 py-4 mb-6">
           <ProfileAvatar name={currentUser.name} />
           <div className="flex flex-col gap-0.5">
-            <span className="text-[15px] font-bold text-gray-800">{currentUser.name}</span>
+            <span className="text-[15px] font-bold text-[var(--text)]">{currentUser.name}</span>
             <div className="flex items-center gap-2 text-sm text-gray-400">
               <span>{currentUser.email}</span>
               <span
@@ -90,15 +90,15 @@ export default function Settings() {
       {/* Layout */}
       <div className="flex gap-5 items-start">
         {/* Sidebar */}
-        <aside className="w-48 flex-shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm p-2 sticky top-8">
+        <aside className="w-48 flex-shrink-0 bg-[var(--card)] rounded-2xl border border-gray-100 shadow-sm p-2 sticky top-8">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
               className={`flex items-center gap-2.5 w-full px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all mb-0.5 last:mb-0 ${
                 activeTab === item.id
-                  ? "bg-violet-50 text-violet-600 font-semibold"
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+                  ? "bg-blue-50 text-blue-600 border-l-4 border-blue-600"
+                  : "text-[var(--secondary)] hover:bg-gray-50 hover:text-gray-500"
               }`}
             >
               {item.icon}

@@ -115,14 +115,14 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl p-5 border border-gray-100 flex flex-col">
+    <div className="bg-[var(--card)] rounded-2xl p-5 border border-gray-100 flex flex-col">
       <div className="mb-3">
-        <h3 className="text-sm font-semibold text-gray-800">Expense Split</h3>
-        <p className="text-xs text-gray-400">Proportional spending by category</p>
+        <h3 className="text-sm font-semibold text-[var(--text)]">Expense Split</h3>
+        <p className="text-xs text-[var(--text-secondary)]">Proportional spending by category</p>
       </div>
 
       {slices.length === 0 ? (
-        <div className="flex-1 flex items-center justify-center text-gray-300 text-sm py-8">
+        <div className="flex-1 flex items-center justify-center text-[var(--text)] text-sm py-8">
           No expense data
         </div>
       ) : (
@@ -150,8 +150,8 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
             </ResponsiveContainer>
             {/* Center label */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-lg font-bold text-gray-800">100%</span>
-              <span className="text-[10px] text-gray-400 uppercase tracking-widest">
+              <span className="text-lg font-bold text-[var(--text)]">100%</span>
+              <span className="text-[10px] text-[var(--text-secondary)] uppercase tracking-widest">
                 Analyzed
               </span>
             </div>
@@ -166,9 +166,9 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
                     className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: s.color }}
                   />
-                  <span className="text-gray-600 truncate max-w-[100px]">{s.name}</span>
+                  <span className="text-[var(--text-secondary)] truncate max-w-[100px]">{s.name}</span>
                 </div>
-                <span className="font-semibold text-gray-700">{s.percentage}%</span>
+                <span className="font-semibold text-[var(--text-secondary)]">{s.percentage}%</span>
               </div>
             ))}
             {slices.length > 5 && (

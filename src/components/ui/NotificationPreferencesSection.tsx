@@ -26,7 +26,7 @@ function NotificationItem({ notif }: { notif: Notification }) {
     <div
       className={`flex gap-3 p-4 rounded-xl border transition-all ${
         !notif.is_read
-          ? "bg-violet-50 border-violet-100"
+          ? "bg-blue-50 text-blue-600"
           : "bg-gray-50 border-transparent"
       }`}
     >
@@ -34,7 +34,7 @@ function NotificationItem({ notif }: { notif: Notification }) {
       <div className="mt-1.5 flex-shrink-0">
         <div
           className={`w-2 h-2 rounded-full ${
-            !notif.is_read ? "bg-violet-500" : "bg-gray-300"
+            !notif.is_read ? "bg-blue-500" : "bg-gray-300"
           }`}
         />
       </div>
@@ -100,7 +100,7 @@ export default function NotificationPreferencesSection() {
   const { markAllAsRead, isLoading: markingAll } = useMarkAllAsRead();
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
       {/* Header */}
       <div className="flex items-center gap-2.5 mb-5">
         <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center text-violet-600 flex-shrink-0">
@@ -109,7 +109,7 @@ export default function NotificationPreferencesSection() {
             <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
         </div>
-        <h2 className="text-base font-bold text-gray-800">Notification Preferences</h2>
+        <h2 className="text-base font-bold text-[var(--text)]">Notification Preferences</h2>
       </div>
 
       {/* Email Toggle Row */}
@@ -122,7 +122,7 @@ export default function NotificationPreferencesSection() {
             </svg>
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-800">Email Notifications</p>
+            <p className="text-sm font-semibold text-[var(--text)]">Email Notifications</p>
             <p className="text-[12px] text-gray-400 mt-0.5">Receive weekly summary and security alerts</p>
           </div>
         </div>

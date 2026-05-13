@@ -55,7 +55,7 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
       icon: TrendingUp,
       iconBg: "bg-emerald-50",
       iconColor: "text-emerald-500",
-      valueColor: "text-gray-800",
+      valueColor: "text-[var(--text)]",
       badge: (
         <span className="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
         </span>
@@ -67,7 +67,7 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
       icon: TrendingDown,
       iconBg: "bg-red-50",
       iconColor: "text-red-500",
-      valueColor: "text-gray-800",
+      valueColor: "text-[var(--text)]",
       badge: (
         <span className="text-xs text-red-500 font-medium flex items-center gap-1 mt-1">
         </span>
@@ -79,7 +79,7 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
       icon: Wallet,
       iconBg: "bg-violet-50",
       iconColor: "text-violet-500",
-      valueColor: balance >= 0 ? "text-gray-800" : "text-red-500",
+      valueColor: balance >= 0 ? "text-[var(--text)]" : "text-red-500",
       badge: (
         <span className="text-xs text-gray-400 font-medium mt-1 block">
           {balance >= 0 ? "✓ On track for goal" : "⚠ Below target"}
@@ -93,10 +93,10 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
       {cards.map(({ label, value, icon: Icon, iconBg, iconColor, valueColor, badge }) => (
         <div
           key={label}
-          className="bg-white rounded-2xl p-5 border border-gray-100 hover:shadow-md transition-shadow duration-200"
+          className="bg-[var(--card)] rounded-2xl p-5 border border-gray-100 hover:shadow-md transition-shadow duration-200"
         >
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
+            <span className="text-xs font-semibold tracking-widest text-[var(--text-secondary)] uppercase">
               {label}
             </span>
             <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${iconBg}`}>

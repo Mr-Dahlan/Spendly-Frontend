@@ -144,10 +144,10 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
   }, [transactions, categories, budgets, selectedMonth, selectedYear]);
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-5 pb-3">
-        <h3 className="text-sm font-semibold text-gray-800">Category Breakdown</h3>
+        <h3 className="text-lg font-semibold text-[var(--text)]">Category Breakdown</h3>
         <button className="text-xs font-medium text-violet-600 hover:text-violet-700 transition-colors">
           View All Details
         </button>
@@ -161,7 +161,7 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
                 (h) => (
                   <th
                     key={h}
-                    className="text-left text-[10px] font-semibold tracking-widest text-gray-400 uppercase py-2 px-4"
+                    className="text-left text-[10px] font-semibold tracking-widest text-[var(--text-secondary)] uppercase py-2 px-4"
                   >
                     {h === "%" ? "" : h}
                   </th>
@@ -175,7 +175,7 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
               : rows.length === 0
               ? (
                 <tr>
-                  <td colSpan={5} className="py-10 text-center text-gray-300 text-sm">
+                  <td colSpan={5} className="py-10 text-center text-[var(--text-secondary)] text-sm">
                     No expense data for this period
                   </td>
                 </tr>
@@ -194,17 +194,17 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
                       {/* Category */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-base flex-shrink-0">
+                          <div className="w-8 h-8 rounded-xl bg-[var(--bg)] flex items-center justify-center text-base flex-shrink-0">
                             {row.icon}
                           </div>
-                          <span className="font-medium text-gray-700 whitespace-nowrap">
+                          <span className="font-medium text-[var(--text-secondary)] whitespace-nowrap">
                             {row.categoryName}
                           </span>
                         </div>
                       </td>
 
                       {/* Amount */}
-                      <td className="py-3.5 px-4 font-semibold text-gray-800 whitespace-nowrap">
+                      <td className="py-3.5 px-4 font-semibold text-[var(--text-secondary)] whitespace-nowrap">
                         {formatIDR(row.amountSpent)}
                       </td>
 
@@ -219,7 +219,7 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
                       </td>
 
                       {/* Percentage */}
-                      <td className="py-3.5 px-4 text-gray-500 font-medium">
+                      <td className="py-3.5 px-4 text-[var(--text-secondary)] font-medium">
                         {row.percentage}%
                       </td>
 

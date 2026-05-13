@@ -78,23 +78,23 @@ const ReportsPage: React.FC = () => {
       {/* ── Page Header ──────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">Financial Performance</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text)]">Financial Performance</h1>
           <p className="text-sm text-gray-400 mt-0.5">
             Insights and visual analytics for your wealth
           </p>
         </div>
 
         {/* Month Selector */}
-        <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2 shadow-sm w-fit">
-          <Calendar size={15} className="text-violet-500" />
+        <div className="flex items-center gap-2 bg-[var(--card)] border border-gray-200 rounded-xl px-3 py-2 shadow-sm w-fit">
+          <Calendar size={15} className="text-[var(--text)]" />
           <button
             onClick={handlePrevMonth}
             className="p-0.5 hover:bg-gray-100 rounded-lg transition-colors"
             aria-label="Previous month"
           >
-            <ChevronLeft size={15} className="text-gray-500" />
+            <ChevronLeft size={15} className="text-[var(--text)] hover:text-[var(--text-opposite)]" />
           </button>
-          <span className="text-sm font-semibold text-gray-700 min-w-[110px] text-center">
+          <span className="text-sm font-semibold text-[var(--text)] min-w-[110px] text-center">
             {MONTHS[selectedMonth]} {selectedYear}
           </span>
           <button
@@ -107,7 +107,7 @@ const ReportsPage: React.FC = () => {
             }`}
             aria-label="Next month"
           >
-            <ChevronRight size={15} className="text-gray-500" />
+            <ChevronRight size={15} className="text-[var(--text)] hover:text-[var(--text-opposite)]" />
           </button>
         </div>
       </div>

@@ -28,14 +28,14 @@ interface PasswordFieldProps {
 function PasswordField({ label, value, onChange, show, onToggle }: PasswordFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-[11px] font-bold text-gray-400 tracking-widest uppercase">{label}</label>
+      <label className="text-[11px] font-bold text-[var(--text-secondary)] tracking-widest uppercase">{label}</label>
       <div className="relative">
         <input
           type={show ? "text" : "password"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="••••••••"
-          className="w-full px-3.5 py-2.5 pr-10 bg-gray-50 border border-transparent rounded-lg text-sm text-gray-800 outline-none focus:border-violet-500 focus:bg-violet-50 transition-all placeholder:text-gray-400"
+          className="w-full px-3.5 py-2.5 pr-10 bg-[var(--bg-secondary)] border-2 border-transparent rounded-lg text-sm text-[var(--text)] outline-none focus:border-blue-500 transition-all placeholder:text-gray-400"
         />
         <button
           type="button"
@@ -91,7 +91,7 @@ export default function ChangePasswordSection() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
       {/* Header */}
       <div className="flex items-center gap-2.5 mb-5">
         <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center text-violet-600 flex-shrink-0">
@@ -100,7 +100,7 @@ export default function ChangePasswordSection() {
             <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
         </div>
-        <h2 className="text-base font-bold text-gray-800">Change Password</h2>
+        <h2 className="text-base font-bold text-[var(--text)]">Change Password</h2>
       </div>
 
       {/* Current Password */}

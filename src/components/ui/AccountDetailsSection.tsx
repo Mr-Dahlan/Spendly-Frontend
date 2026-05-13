@@ -31,7 +31,7 @@ export default function AccountDetailsSection() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
       {/* Header */}
       <div className="flex items-center gap-2.5 mb-5">
         <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center text-violet-600 flex-shrink-0">
@@ -40,19 +40,19 @@ export default function AccountDetailsSection() {
             <circle cx="12" cy="7" r="4"/>
           </svg>
         </div>
-        <h2 className="text-base font-bold text-gray-800">Account Details</h2>
+        <h2 className="text-base font-bold text-[var(--text)]">Account Details</h2>
       </div>
 
       {/* Form Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
-          <label className="text-[11px] font-bold text-gray-400 tracking-widest uppercase">Full Name</label>
+          <label className="text-[11px] font-bold text-[var(--text-secondary)] tracking-widest uppercase">Full Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Masukkan nama lengkap"
-            className="px-3.5 py-2.5 bg-gray-50 border border-transparent rounded-lg text-sm text-gray-800 outline-none focus:border-violet-500 focus:bg-violet-50 transition-all placeholder:text-gray-400"
+            placeholder="Input Your Full Name"
+            className="px-3.5 py-2.5 bg-[var(--bg-secondary)] text-[var(--text)] border-2 border-transparent rounded-lg text-sm outline-none focus:border-blue-500 transition-all placeholder:text-[var(--text-secondary)]"
           />
         </div>
 
@@ -70,12 +70,12 @@ export default function AccountDetailsSection() {
 
       {/* Currency */}
       <div className="flex flex-col gap-1.5 mt-4">
-        <label className="text-[11px] font-bold text-gray-400 tracking-widest uppercase">Currency Preference</label>
+        <label className="text-[11px] font-bold text-[var(--text-secondary)] tracking-widest uppercase">Currency Preference</label>
         <div className="relative">
           <select
             disabled
             defaultValue="IDR"
-            className="w-full px-3.5 py-2.5 bg-gray-50 border border-transparent rounded-lg text-sm text-gray-500 outline-none appearance-none cursor-not-allowed pr-8"
+            className="w-full px-3.5 py-2.5 bg-[var(--bg-secondary)] border border-transparent rounded-lg text-sm text-[var(--text)] outline-none appearance-none cursor-not-allowed pr-8"
           >
             <option value="IDR">IDR – Indonesia Rupiah</option>
           </select>
