@@ -1,4 +1,6 @@
+"use client";
 import { useMemo, useState } from "react";
+import Lenis from "lenis";
 import { useAuth } from "../hooks/useAuth";
 import { useTransactions, useCreateTransaction } from "../hooks/useTransaction";
 import { useCategories } from "../hooks/useCategory";

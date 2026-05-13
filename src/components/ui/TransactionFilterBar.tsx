@@ -24,7 +24,7 @@ export default function TransactionFilterBar({ filters, onChange }: TransactionF
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text[var(--text)] mb-6">
       {/* Date Range */}
-      <div className="bg-[var(--card)] border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
+      <div className="bg-[var(--card)] border border-gray-200 rounded-2xl px-4 py-3 shadow-lg">
         <label className="block text-[10px] font-semibold uppercase tracking-wider mb-1">Date Range</label>
         <div className="relative">
           <svg className="w-3.5 h-3.5 text-indigo-500 absolute left-0 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
