@@ -79,7 +79,7 @@ export default function TransactionTable({
   }
 
   return (
-    <div className="bg-[var(--card)] rounded-2xl border border-gray-300 shadow-sm overflow-hidden">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-300 shadow-[var(--boxShadow)] overflow-hidden">
       {/* Table Header */}
       <div className="grid grid-cols-[120px_1fr_1fr_190px_180px_80px] px-6 py-3 border-b border-gray-100 bg-[var(--card)]">
         {["DATE", "CATEGORY", "DESCRIPTION", "TYPE", "AMOUNT", "ACTIONS"].map((h) => (

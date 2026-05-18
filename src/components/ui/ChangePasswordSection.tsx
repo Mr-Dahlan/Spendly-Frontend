@@ -27,7 +27,7 @@ interface PasswordFieldProps {
 
 function PasswordField({ label, value, onChange, show, onToggle }: PasswordFieldProps) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5 ">
       <label className="text-[11px] font-bold text-[var(--text-secondary)] tracking-widest uppercase">{label}</label>
       <div className="relative">
         <input
@@ -91,7 +91,7 @@ export default function ChangePasswordSection() {
   };
 
   return (
-    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 shadow-sm p-6 mb-4">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-100 shadow-[var(--boxShadow)] p-6 mb-4">
       {/* Header */}
       <div className="flex items-center gap-2.5 mb-5">
         <div className="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center text-violet-600 flex-shrink-0">

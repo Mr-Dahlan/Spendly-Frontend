@@ -9,7 +9,7 @@ import type {
 export const adminLogService = {
   /** GET /api/admin/logs — semua log (semua admin) */
   getAll: async (filters: AdminLogFilters = {}): Promise<GetAllAdminLogsResponse> => {
-    const { data } = await axiosInstance.get<GetAllAdminLogsResponse>("/api/admin/logs", {
+    const { data } = await axiosInstance.get<GetAllAdminLogsResponse>("/admin/logs", {
       params: filters,
     });
     return data;
@@ -17,7 +17,7 @@ export const adminLogService = {
 
   /** GET /api/admin/logs/mine — log milik admin yang sedang login */
   getMine: async (filters: AdminLogFilters = {}): Promise<GetAllAdminLogsResponse> => {
-    const { data } = await axiosInstance.get<GetAllAdminLogsResponse>("/api/admin/logs/mine", {
+    const { data } = await axiosInstance.get<GetAllAdminLogsResponse>("/admin/logs/mine", {
       params: filters,
     });
     return data;
@@ -25,7 +25,7 @@ export const adminLogService = {
 
   /** POST /api/admin/logs — buat log secara manual */
   create: async (payload: CreateAdminLogPayload): Promise<AdminLogMutationResponse> => {
-    const { data } = await axiosInstance.post<AdminLogMutationResponse>("/api/admin/logs", payload);
+    const { data } = await axiosInstance.post<AdminLogMutationResponse>("/admin/logs", payload);
     return data;
   },
 };

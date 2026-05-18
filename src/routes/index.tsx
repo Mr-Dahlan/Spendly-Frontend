@@ -13,6 +13,7 @@ import Settings from "../pages/SettingsPages";
 
 // Admin Pages
 import AdminPanel from "../pages/AdminPanelPages";
+import AdminLogs from "../pages/AdminLogsPages";
 
 // Guards & Layout
 import ProtectedRoute from "../components/features/ProtectedRoute";
@@ -24,7 +25,6 @@ export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* ── GUEST ONLY ─────────────────────────────────────── */}
         <Route
           path="/login"
@@ -59,14 +59,25 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <AdminProvider>
-              <LayoutProvider>
-                <AdminPanel />
-              </LayoutProvider>
+                <LayoutProvider>
+                  <AdminPanel />
+                </LayoutProvider>
               </AdminProvider>
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/admin-logs"
+          element={
+            <ProtectedRoute>
+              <AdminProvider>
+                <LayoutProvider>
+                  <AdminLogs />
+                </LayoutProvider>
+              </AdminProvider>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/transactions"
           element={
@@ -77,7 +88,6 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/reports"
           element={
@@ -88,7 +98,6 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/budgets"
           element={
@@ -99,7 +108,6 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/settings"
           element={
@@ -110,7 +118,6 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
-
       </Routes>
     </BrowserRouter>
   );

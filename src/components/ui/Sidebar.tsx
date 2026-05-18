@@ -12,6 +12,7 @@ import {
   X,
   PenLine,
   ShieldCheck,
+  Logs,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
@@ -35,6 +36,7 @@ const userNavigation: NavItem[] = [
 const adminNavigation: NavItem[] = [
   { id: 'admin-panel', label: 'Admin Panel', icon: ShieldCheck, path: '/admin-panel' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
+  { id: 'admin-logs', label: 'Admin Logs', icon: Logs, path: '/admin-logs' },
 ];
 
 export default function Sidebar() {
@@ -75,8 +77,7 @@ export default function Sidebar() {
       <aside
         className={`${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col rounded-r-xl`}
-        style={{ boxShadow: '4px 0 24px 0 rgba(0,0,0,0.08)' }}
+        } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col rounded-r-xl shadow-[var(--boxShadow)]`}
       >
         {/* Logo */}
         <div className="pt-6">

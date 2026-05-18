@@ -1,106 +1,121 @@
-import { Users, ArrowUpRight, CreditCard, Server } from "lucide-react";
+import {
+  Users,
+  UserCheck,
+  UserX,
+  Activity,
+} from "lucide-react";
 
 interface AdminStatsCardProps {
   totalUsers: number;
-  userGrowth?: number;
-  totalTransactions: string;
-  transactionGrowth?: number;
-  serverStatus: "online" | "offline" | "maintenance";
-  serverUptime?: string;
+  activeUsers: number;
+  suspendedUsers: number;
+  totalActivities: number;
+}
+
+interface StatCardProps {
+  title: string;
+  value: number;
+  subtitle: string;
+  icon: React.ReactNode;
+}
+
+function StatCard({
+  title,
+  value,
+  subtitle,
+  icon,
+}: StatCardProps) {
+  return (
+    <div
+      className="rounded-2xl p-5 flex flex-col gap-3"
+      style={{
+        background: "var(--card)",
+        boxShadow: "var(--boxShadow)",
+      }}
+    >
+      {/* Header */}
+      <div
+        className="flex items-center gap-2 text-sm"
+        style={{ color: "var(--text-secondary)" }}
+      >
+        {icon}
+        <span>{title}</span>
+      </div>
+
+      {/* Value */}
+      <div className="flex flex-col">
+        <p
+          className="text-3xl font-bold tracking-tight"
+          style={{ color: "var(--text)" }}
+        >
+          {value.toLocaleString()}
+        </p>
+
+        <span
+          className="text-sm mt-1"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          {subtitle}
+        </span>
+      </div>
+    </div>
+  );
 }
 
 export default function AdminStatsCard({
   totalUsers,
-  userGrowth = 12,
-  totalTransactions,
-  transactionGrowth = 8.4,
-  serverStatus = "online",
-  serverUptime = "99.9%",
+  activeUsers,
+  suspendedUsers,
+  totalActivities,
 }: AdminStatsCardProps) {
-  const statusColor = {
-    online: "text-[var(--green-primary)]",
-    offline: "text-[var(--red-primary)]",
-    maintenance: "text-yellow-500",
-  }[serverStatus];
-
-  const statusDot = {
-    online: "bg-[var(--green-primary)]",
-    offline: "bg-[var(--red-primary)]",
-    maintenance: "bg-yellow-500",
-  }[serverStatus];
-
-  const statusLabel = {
-    online: "Online",
-    offline: "Offline",
-    maintenance: "Maintenance",
-  }[serverStatus];
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       {/* Total Users */}
-      <div
-        className="rounded-2xl p-5 flex flex-col gap-3"
-        style={{
-          background: "var(--card)",
-          boxShadow: "var(--boxShadow)",
-        }}
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-            <Users size={16} />
-            <span>Total Registered Users</span>
-          </div>
-          <span className="text-xs font-semibold text-[var(--green-primary)] flex items-center gap-0.5">
-          </span>
-        </div>
-        <p className="text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
-          {totalUsers.toLocaleString()}
-        </p>
-      </div>
+      <StatCard
+        title="Total Users"
+        value={totalUsers}
+        subtitle="Registered accounts"
+        icon={<Users size={16} />}
+      />
 
-      {/* Total Transactions */}
-      <div
-        className="rounded-2xl p-5 flex flex-col gap-3"
-        style={{
-          background: "var(--card)",
-          boxShadow: "var(--boxShadow)",
-        }}
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-            <CreditCard size={16} />
-            <span>Total Transactions</span>
-          </div>
-          <span className="text-xs font-semibold text-[var(--green-primary)] flex items-center gap-0.5">
-          </span>
-        </div>
-        <p className="text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
-          {totalTransactions}
-        </p>
-      </div>
+      {/* Active Users */}
+      <StatCard
+        title="Active Users"
+        value={activeUsers}
+        subtitle="Currently active accounts"
+        icon={
+          <UserCheck
+            size={16}
+            className="text-[var(--green-primary)]"
+          />
+        }
+      />
 
-      {/* Server Status */}
-      <div
-        className="rounded-2xl p-5 flex flex-col gap-3"
-        style={{
-          background: "var(--card)",
-          boxShadow: "var(--boxShadow)",
-        }}
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-            <Server size={16} />
-            <span>Server Status</span>
-          </div>
-          <span className={`text-xs font-semibold flex items-center gap-1 ${statusColor}`}>
-            <span className={`inline-block w-2 h-2 rounded-full ${statusDot} animate-pulse`} />
-            {statusLabel}
-          </span>
-        </div>
-        <p className="text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
-          {serverUptime} <span className="text-lg font-medium" style={{ color: "var(--text-secondary)" }}>Uptime</span>
-        </p>
-      </div>
+      {/* Suspended Users */}
+      <StatCard
+        title="Suspended Users"
+        value={suspendedUsers}
+        subtitle="Blocked or restricted users"
+        icon={
+          <UserX
+            size={16}
+            className="text-[var(--red-primary)]"
+          />
+        }
+      />
+
+      {/* Activities */}
+      <StatCard
+        title="System Activities"
+        value={totalActivities}
+        subtitle="Recent admin activities"
+        icon={
+          <Activity
+            size={16}
+            className="text-[var(--blue-primary)]"
+          />
+        }
+      />
     </div>
   );
 }

@@ -22,10 +22,22 @@ const UserService = {
   },
 
   adminUpdateUser: async (id: number, payload: AdminUpdateUserPayload): Promise<User> => {
-    const res = await axios.put<UserResponse>(`/users/${id}`, payload);
+    const res = await axios.patch<UserResponse>(`/users/${id}`, payload);
     if (!res.data.data) throw new Error("Update failed");
     return res.data.data;
   },
+  
+  updateUserStatus: async (id: number, status: boolean): Promise<User> => {
+  const res = await axios.patch<UserResponse>(`/admin/users/${id}/status`, { status });
+  if (!res.data.data) throw new Error("Update failed");
+  return res.data.data;
+},
+
+updateUserRole: async (id: number, role: User["role"]): Promise<User> => {
+  const res = await axios.patch<UserResponse>(`/admin/users/${id}/role`, { role });
+  if (!res.data.data) throw new Error("Update failed");
+  return res.data.data;
+},
 
   deleteUser: async (id: number): Promise<void> => {
     await axios.delete(`/users/${id}`);

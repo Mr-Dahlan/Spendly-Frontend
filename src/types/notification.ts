@@ -17,3 +17,15 @@ export interface GetAllNotificationsResponse {
 export interface NotificationFilters {
   is_read?: boolean;
 }
+
+export interface CreateAnnouncementPayload {
+  title: string;
+  message: string;
+  user_id?: number | null;
+}
+
+export interface CreateAnnouncementResponse {
+  success: boolean;
+  message: string;
+  data?: Notification | Notification[];
+}

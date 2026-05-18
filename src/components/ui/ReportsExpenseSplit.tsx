@@ -71,7 +71,7 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
 }) => {
   const slices: SliceData[] = useMemo(() => {
     const categoryMap = new Map<number, string>(
-      categories.map((c) => [c.category_id, c.nama])
+      categories.map((c) => [c.category_id, c.nama]),
     );
 
     const totals: Record<number, number> = {};
@@ -108,17 +108,23 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
   if (isLoading) {
     return (
       <div className="bg-white rounded-2xl p-5 border border-gray-100">
-        <h3 className="text-sm font-semibold text-gray-800 mb-4">Expense Split</h3>
+        <h3 className="text-sm font-semibold text-gray-800 mb-4">
+          Expense Split
+        </h3>
         <SkeletonDonut />
       </div>
     );
   }
 
   return (
-    <div className="bg-[var(--card)] rounded-2xl p-5 border border-gray-100 flex flex-col">
+    <div className="bg-[var(--card)] rounded-2xl p-5 border border-gray-100 flex flex-col shadow-[var(--boxShadow)]">
       <div className="mb-3">
-        <h3 className="text-sm font-semibold text-[var(--text)]">Expense Split</h3>
-        <p className="text-xs text-[var(--text-secondary)]">Proportional spending by category</p>
+        <h3 className="text-sm font-semibold text-[var(--text)]">
+          Expense Split
+        </h3>
+        <p className="text-xs text-[var(--text-secondary)]">
+          Proportional spending by category
+        </p>
       </div>
 
       {slices.length === 0 ? (
@@ -145,13 +151,18 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
                     <Cell key={idx} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip
+                  content={<CustomTooltip />}
+                  wrapperStyle={{ zIndex: 9999 }}
+                />
               </PieChart>
             </ResponsiveContainer>
             {/* Center label */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-lg font-bold text-[var(--text)]">100%</span>
-              <span className="text-[10px] text-[var(--text-secondary)] uppercase tracking-widest">
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none ">
+              <span className="text-lg font-bold text-[var(--text)] z-1">
+                100%
+              </span>
+              <span className="text-[10px] text-[var(--text-secondary)] z-1 uppercase tracking-widest">
                 Analyzed
               </span>
             </div>
@@ -160,15 +171,22 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
           {/* Legend */}
           <div className="mt-2 space-y-2">
             {slices.slice(0, 5).map((s) => (
-              <div key={s.name} className="flex items-center justify-between text-xs">
+              <div
+                key={s.name}
+                className="flex items-center justify-between text-xs"
+              >
                 <div className="flex items-center gap-2">
                   <span
                     className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: s.color }}
                   />
-                  <span className="text-[var(--text-secondary)] truncate max-w-[100px]">{s.name}</span>
+                  <span className="text-[var(--text-secondary)] truncate max-w-[100px]">
+                    {s.name}
+                  </span>
                 </div>
-                <span className="font-semibold text-[var(--text-secondary)]">{s.percentage}%</span>
+                <span className="font-semibold text-[var(--text-secondary)]">
+                  {s.percentage}%
+                </span>
               </div>
             ))}
             {slices.length > 5 && (
@@ -190,3 +208,4 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
 };
 
 export default ReportsExpenseSplit;
+

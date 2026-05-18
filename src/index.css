@@ -47,7 +47,7 @@
   --card-secondery: #252b2b;
   --userinfo: #201d1d;
   --border: #e5e7eb;
-  --boxShadow: 8px 8px 16px rgba(143, 141, 141, 0.2); 
+  /* --boxShadow: 8px 8px 16px rgba(143, 141, 141, 0.2); */
 }
 
 body {
