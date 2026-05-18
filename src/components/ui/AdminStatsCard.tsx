@@ -51,7 +51,6 @@ export default function AdminStatsCard({
             <span>Total Registered Users</span>
           </div>
           <span className="text-xs font-semibold text-[var(--green-primary)] flex items-center gap-0.5">
-            +{userGrowth}% <ArrowUpRight size={12} />
           </span>
         </div>
         <p className="text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
@@ -73,7 +72,6 @@ export default function AdminStatsCard({
             <span>Total Transactions</span>
           </div>
           <span className="text-xs font-semibold text-[var(--green-primary)] flex items-center gap-0.5">
-            +{transactionGrowth}% <ArrowUpRight size={12} />
           </span>
         </div>
         <p className="text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
