@@ -12,6 +12,7 @@ import {
   X,
   PenLine,
   ShieldCheck,
+  Logs,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
@@ -35,6 +36,7 @@ const userNavigation: NavItem[] = [
 const adminNavigation: NavItem[] = [
   { id: 'admin-panel', label: 'Admin Panel', icon: ShieldCheck, path: '/admin-panel' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
+  { id: 'admin-logs', label: 'Admin Logs', icon: Logs, path: '/admin-logs' },
 ];
 
 export default function Sidebar() {

@@ -3,6 +3,8 @@ import type {
   Notification,
   NotificationFilters,
   GetAllNotificationsResponse,
+  CreateAnnouncementPayload,
+  CreateAnnouncementResponse
 } from "../types/notification";
 
 export const notificationService = {
@@ -29,6 +31,23 @@ export const notificationService = {
   /** PATCH /notifications/read-all — mark all as read */
   markAllAsRead: async (): Promise<void> => {
     await axiosInstance.patch("/notifications/read-all");
+  },
+  send: async (payload: CreateAnnouncementPayload): Promise<CreateAnnouncementResponse> => {
+    const body: Record<string, unknown> = {
+      title: payload.title,
+      message: payload.message,
+    };
+
+    if (payload.user_id != null) {
+      body.user_id = payload.user_id;
+    }
+
+    const { data } = await axiosInstance.post<CreateAnnouncementResponse>(
+      "/admin/notifications/send",
+      body
+    );
+
+    return data;
   },
 
   /** DELETE /notifications/:id */

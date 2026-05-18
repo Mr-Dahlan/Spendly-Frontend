@@ -1,92 +1,138 @@
 // src/pages/AdminPage.tsx
-import { useEffect, useState } from "react";
+
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useUser } from "../hooks/useUser";
 import { useAdminLogs } from "../hooks/useAdminLog";
 import { useSendAnnouncement } from "../hooks/useAnnouncement";
-import type { CreateAnnouncementPayload } from "../hooks/useAnnouncement";
+
+import type { CreateAnnouncementPayload } from "../types/notification";
+
 import AdminStatsCard from "../components/ui/AdminStatsCard";
 import SystemActivityLog from "../components/ui/SystemActivityLog";
 import AnnouncementPanel from "../components/ui/AnnouncementPanel";
 import UserManagementTable from "../components/ui/UserManagementTable";
 
 export default function AdminPage() {
-  // ── Hooks ──────────────────────────────────────────────────────────────────
+  const navigate = useNavigate();
+
+  // ── Hooks ─────────────────────────────────────────────
   const {
     users,
     isLoading: usersLoading,
     fetchAllUsers,
-    adminUpdateUser,
+    updateUserStatus,
+    updateUserRole,
     deleteUser,
   } = useUser();
 
-  const { logs, isLoading: logsLoading } = useAdminLogs();
-  const { sendAnnouncement, isLoading: announcementLoading } = useSendAnnouncement();
+  const {
+    logs,
+    isLoading: logsLoading,
+    refetch: refetchLogs,
+  } = useAdminLogs();
 
+  const {
+    sendAnnouncement,
+    isLoading: announcementLoading,
+  } = useSendAnnouncement();
+
+  // ── States ────────────────────────────────────────────
   const [isBanning, setIsBanning] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // ── Fetch Users ───────────────────────────────────────
   useEffect(() => {
     fetchAllUsers();
   }, [fetchAllUsers]);
 
-  // ── Handlers ───────────────────────────────────────────────────────────────
+  // ── Dashboard Stats ───────────────────────────────────
+  const stats = useMemo(() => {
+    const activeUsers = users.filter((user) => user.status === true).length;
+    const suspendedUsers = users.filter((user) => user.status === false).length;
 
-  /** Ban: set status false + kirim notifikasi ke user ybs */
+    return {
+      totalUsers: users.length,
+      activeUsers,
+      suspendedUsers,
+      totalActivities: logs.length,
+    };
+  }, [users, logs]);
+
+  // ── Handlers ──────────────────────────────────────────
+
+  // Suspend user
   const handleBanUser = async (userId: number, reason: string) => {
     setIsBanning(true);
     try {
-      await adminUpdateUser(userId, { status: false });
+      await updateUserStatus(userId, false);
       await sendAnnouncement({
         title: "Akun Anda Ditangguhkan",
         message: reason,
-        user_id: userId, // kirim hanya ke user yang di-ban
+        user_id: userId,
       });
+      await refetchLogs();
     } finally {
       setIsBanning(false);
     }
   };
 
-  /** Delete user */
+  // Activate user
+  const handleActivateUser = async (userId: number) => {
+    await updateUserStatus(userId, true);
+    await refetchLogs();
+  };
+
+  // Promote user to admin
+  const handleMakeAdmin = async (userId: number) => {
+    await updateUserRole(userId, "admin");
+    await refetchLogs();
+  };
+
+  // Delete user
   const handleDeleteUser = async (userId: number) => {
     setIsDeleting(true);
     try {
       await deleteUser(userId);
+      await refetchLogs();
     } finally {
       setIsDeleting(false);
     }
   };
 
-  /** Kirim announcement — broadcast atau spesifik (user_id dari modal) */
+  // Send announcement
   const handleSendAnnouncement = async (payload: CreateAnnouncementPayload) => {
     await sendAnnouncement(payload);
   };
 
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // ── Render ────────────────────────────────────────────
   return (
     <main
       className="flex-1 overflow-y-auto p-6 flex flex-col gap-6"
       style={{ background: "var(--bg)" }}
     >
-      {/* Stats */}
+      {/* Dashboard Stats */}
       <AdminStatsCard
-        totalUsers={users.length}
-        userGrowth={12}
-        totalTransactions="IDR 1.2M"
-        transactionGrowth={8.4}
-        serverStatus="online"
-        serverUptime="99.9%"
+        totalUsers={stats.totalUsers}
+        activeUsers={stats.activeUsers}
+        suspendedUsers={stats.suspendedUsers}
+        totalActivities={stats.totalActivities}
       />
 
-      {/* Activity Log + Announcement */}
+      {/* Logs + Announcement */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <SystemActivityLog
           logs={logs}
           isLoading={logsLoading}
-          onViewAll={() => console.log("Navigate to full log page")}
+          onViewAll={() => navigate("/admin-logs")}
         />
+
         <AnnouncementPanel
           onSendAnnouncement={handleSendAnnouncement}
           isLoading={announcementLoading}
+          users={users}
+          onFetchUsers={fetchAllUsers}
         />
       </div>
 
@@ -95,11 +141,11 @@ export default function AdminPage() {
         users={users}
         isLoading={usersLoading}
         onBanUser={handleBanUser}
+        onActivateUser={handleActivateUser}
+        onMakeAdmin={handleMakeAdmin}
         onDeleteUser={handleDeleteUser}
         isBanning={isBanning}
         isDeleting={isDeleting}
-        onViewUser={(user) => console.log("View user:", user)}
-        onAddAdmin={() => console.log("Open add admin modal")}
       />
     </main>
   );

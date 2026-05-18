@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
-import { logout } from "../../services/auth";
+import { useAuth } from "../../hooks/useAuth";
 
 type ModalType = "delete" | "logout";
 
@@ -97,6 +97,7 @@ export default function DangerZoneSection() {
   const navigate = useNavigate();
   const [modal, setModal] = useState<ModalType | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
+  const { logout } = useAuth();
 
   const handleDelete = async () => {
     if (!currentUser) return;
@@ -113,9 +114,10 @@ export default function DangerZoneSection() {
 
   const handleLogout = async () => {
     setActionLoading(true);
+  
     try {
-      await logout();
-      navigate("/login");
+      await logout(); // tunggu logout selesai
+      navigate("/login", { replace: true });
     } finally {
       setActionLoading(false);
       setModal(null);
