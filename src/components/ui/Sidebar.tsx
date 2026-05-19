@@ -3,7 +3,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   BarChart3,
-  // Send,
   LayoutDashboard,
   Wallet,
   Settings,
@@ -16,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { alert } from '../../utils/Alert';
 import Logo from '../../assets/icons/icon.png';
 
 interface NavItem {
@@ -48,8 +48,16 @@ export default function Sidebar() {
   const isAdmin = user?.role === 'admin';
   const navigation = isAdmin ? adminNavigation : userNavigation;
 
-  const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
+  const handleLogout = async () => {
+    const confirmed = await alert.confirm({
+      title: 'Logout?',
+      text: 'Kamu akan keluar dari sesi ini.',
+      confirmText: 'Ya, Logout',
+      cancelText: 'Batal',
+      danger: true,
+    });
+
+    if (confirmed) {
       logout();
       navigate('/login');
     }
@@ -61,7 +69,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed top-4 left-4 z-50 lg:hidden p-2 hover:bg-bg-secondary rounded-lg transition"
@@ -73,20 +80,17 @@ export default function Sidebar() {
         )}
       </button>
 
-      {/* Sidebar */}
       <aside
         className={`${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col rounded-r-xl shadow-[var(--boxShadow)]`}
       >
-        {/* Logo */}
         <div className="pt-6">
           <div className="flex items-center pt-2">
             <img src={Logo} alt="Logo" className="w-full/2 h-full" />
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
           {navigation.map((item) => {
             const Icon = item.icon;
@@ -105,11 +109,8 @@ export default function Sidebar() {
                     : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary border-l-4 border-transparent'
                 }`}
               >
-                <Icon
-                  size={20}
-                  className={active ? 'text-blue-600 dark:text-blue-700' : 'text-current'}
-                />
-                <span className={`text-sm font-medium ${active ? 'text-blue-600 dark:text-blue-700' : ''} ` }>
+                <Icon size={20} className={active ? 'text-blue-600 dark:text-blue-700' : 'text-current'} />
+                <span className={`text-sm font-medium ${active ? 'text-blue-600 dark:text-blue-700' : ''}`}>
                   {item.label}
                 </span>
               </button>
@@ -117,7 +118,6 @@ export default function Sidebar() {
           })}
         </nav>
 
-        {/* Logout Button */}
         <div className="px-4 py-2">
           <button
             onClick={handleLogout}
@@ -129,7 +129,6 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* Mobile Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-30 lg:hidden"

@@ -12,10 +12,10 @@ export default function UserInfoProfile() {
 
   const statusColor = user.status
     ? 'bg-emerald-100 text-emerald-600'
-    : 'bg-gray-100 text-gray-500';
+    : 'bg-red-100 text-red-600';
 
-  const statusDot = user.status ? 'bg-emerald-400' : 'bg-gray-400';
-  const statusLabel = user.status ? 'Active' : 'Inactive';
+  const statusDot = user.status ? 'bg-emerald-400' : 'bg-red-400 ';
+  const statusLabel = user.status ? 'Active' : 'Banned';
 
   return (
     <div className="group relative flex justify-center cursor-pointer">

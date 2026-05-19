@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCreateCategory } from "../../hooks/useCategory";
-import { useUser } from "../../hooks/useUser";
+import { useAuth } from "../../hooks/useAuth";
 
 interface Props {
   type: "expense" | "income";
@@ -29,7 +29,7 @@ export default function CreateCategoryModal({
   onCreated,
 }: Props) {
   const { createCategory, isLoading } = useCreateCategory();
-  const { currentUser } = useUser();
+  const { user } = useAuth();
 
   const [name, setName] = useState("");
   const [icon, setIcon] = useState("🛒");
@@ -46,24 +46,30 @@ export default function CreateCategoryModal({
   };
 
   const handleSubmit = async () => {
-    if (!name.trim() || !currentUser) return;
+  if (!name.trim()) return;
 
-    try {
-      const newCategory = await createCategory({
-        user_id: currentUser.user_id,
-        nama: name,
-        type,
-        icon,
-      });
+  if (!user) {
+    console.log("No user");
+    return;
+  }
 
-      onCreated?.(newCategory.category_id);
+  try {
+    const createdCategory = await createCategory({
+      user_id: user.id, // ← pakai id
+      nama: name,
+      type,
+      icon,
+    });
 
-      onClose();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+    // console.log(createdCategory);
 
+    onCreated?.(createdCategory.category_id);
+
+    onClose();
+  } catch (err) {
+    console.error(err);
+  }
+};
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm"

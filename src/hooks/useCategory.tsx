@@ -2,7 +2,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { categoryService } from "../services/categories";
 import type {
-  Category,
   CategoryFilters,
   CategoryType,
   CreateCategoryPayload,
