@@ -1,3 +1,5 @@
+import { formatCurrency } from "../../utils/formatCurrency";
+
 const ICON_BG = [
   "bg-indigo-50", "bg-pink-50", "bg-yellow-50", "bg-red-50",
   "bg-emerald-50", "bg-blue-50", "bg-orange-50", "bg-cyan-50",
@@ -26,7 +28,6 @@ interface RecentTransactionsProps {
 
 export default function RecentTransactions({
   transactions,
-  formatIDR,
   formatDate,
   onViewAll,
 }: RecentTransactionsProps) {
@@ -73,7 +74,7 @@ export default function RecentTransactions({
                     t.type === "income" ? "text-[var(--green-primary)]" : "text-[var(--text-secondary)]"
                   }`}
                 >
-                  {t.type === "income" ? "+" : "-"}IDR {formatIDR(t.parsedAmount)}
+                  {t.type === "income" ? "+" : "-"}{formatCurrency(t.parsedAmount)}
                 </span>
               </div>
             </div>

@@ -9,13 +9,15 @@ export default function UserInfoProfile() {
   if (!user) return null;
 
   const isAdmin = user.role === 'admin';
+  const isActive = user.status === true;
 
   const statusColor = user.status
     ? 'bg-emerald-100 text-emerald-600'
     : 'bg-red-100 text-red-600';
 
-  const statusDot = user.status ? 'bg-emerald-400' : 'bg-red-400 ';
-  const statusLabel = user.status ? 'Active' : 'Banned';
+  const statusDot = isActive ? 'bg-emerald-400' : 'bg-red-400 ';
+  const statusLabel = isActive ? 'Active' : 'Banned';
+  // console.log(statusLabel,isActive);
 
   return (
     <div className="group relative flex justify-center cursor-pointer">

@@ -4,6 +4,7 @@ import { useCategories } from "../../hooks/useCategory";
 import { useCreateBudget } from "../../hooks/useBudget";
 import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 import TransactionDatePicker from "./TransactionDatePicker";
+import { getUserCurrency } from "../../utils/currency";
 
 interface AddBudgetModalProps {
   onClose: () => void;
@@ -17,6 +18,7 @@ export default function AddBudgetModal({
   const { categories } = useCategories({ type: "expense" });
   const { createBudget, isLoading, error } = useCreateBudget();
   const scrollRef = useLenisPrevent<HTMLDivElement>();
+  const currency = getUserCurrency();
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
 
@@ -79,7 +81,7 @@ export default function AddBudgetModal({
           </label>
 
           <div className="flex items-center border border-gray-200 rounded-2xl px-4 py-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-100 transition">
-            <span className="text-gray-400 mr-3 font-semibold text-lg">Rp</span>
+            <span className="text-gray-400 mr-3 font-semibold text-lg">{currency.symbol}</span>
 
             <input
               type="text"
@@ -89,7 +91,7 @@ export default function AddBudgetModal({
                 setAmountLimit(formatInputNumber(e.target.value))
               }
               placeholder="0"
-              className="flex-1 outline-none text-2xl font-bold text-gray-800 bg-transparent placeholder:text-gray-300"
+              className="flex-1 outline-none text-2xl font-bold text-[var(--text)] bg-transparent placeholder:text-gray-300"
             />
           </div>
         </div>

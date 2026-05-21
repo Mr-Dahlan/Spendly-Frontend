@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useCategories } from "../../hooks/useCategory";
 import { CalendarDays } from "lucide-react";
+import { getUserCurrency } from "../../utils/currency";
 
 import type {
   Transaction,
@@ -66,6 +67,7 @@ export default function TransactionModal({
   const { categories } = useCategories({
     type,
   });
+  const currency = getUserCurrency();
 
   // ─── Reset category when type changes ─────────────────
   useEffect(() => {
@@ -233,7 +235,7 @@ export default function TransactionModal({
                 py-3
               "
             >
-              <span className="mr-2 font-semibold">IDR</span>
+              <span className="mr-2 font-semibold text-2xl">{currency.symbol}</span>
 
               <input
                 type="text"

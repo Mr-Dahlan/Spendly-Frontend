@@ -1,6 +1,6 @@
 // src/components/Sidebar.tsx
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   BarChart3,
   LayoutDashboard,
@@ -11,12 +11,13 @@ import {
   X,
   PenLine,
   ShieldCheck,
+  Ban,
   Logs,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-import { alert } from '../../utils/Alert';
-import Logo from '../../assets/icons/icon.png';
+} from "lucide-react";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { alert, setAlertTheme } from "../../utils/Alert";
+import Logo from "../../assets/icons/icon.png";
 
 interface NavItem {
   id: string;
@@ -26,17 +27,42 @@ interface NavItem {
 }
 
 const userNavigation: NavItem[] = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-  { id: 'transactions', label: 'Transactions', icon: PenLine, path: '/transactions' },
-  { id: 'reports', label: 'Reports', icon: BarChart3, path: '/reports' },
-  { id: 'budgets', label: 'Budgets', icon: Wallet, path: '/budgets' },
-  { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    path: "/dashboard",
+  },
+  {
+    id: "transactions",
+    label: "Transactions",
+    icon: PenLine,
+    path: "/transactions",
+  },
+  { id: "reports", label: "Reports", icon: BarChart3, path: "/reports" },
+  { id: "budgets", label: "Budgets", icon: Wallet, path: "/budgets" },
+  { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
 ];
 
 const adminNavigation: NavItem[] = [
-  { id: 'admin-panel', label: 'Admin Panel', icon: ShieldCheck, path: '/admin-panel' },
-  { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
-  { id: 'admin-logs', label: 'Admin Logs', icon: Logs, path: '/admin-logs' },
+  {
+    id: "admin-panel",
+    label: "Admin Panel",
+    icon: ShieldCheck,
+    path: "/admin-panel",
+  },
+  { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
+  { id: "admin-logs", label: "Admin Logs", icon: Logs, path: "/admin-logs" },
+];
+
+const bannedAccount = [
+  {
+    id: "banned-information",
+    label: "Banned Information",
+    icon: Ban,
+    path: "/banned-information",
+  },
+  { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
 ];
 
 export default function Sidebar() {
@@ -45,26 +71,38 @@ export default function Sidebar() {
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(true);
 
-  const isAdmin = user?.role === 'admin';
-  const navigation = isAdmin ? adminNavigation : userNavigation;
+  useEffect(() => {
+    setAlertTheme(user?.mode === "dark" ? "dark" : "light");
+  }, [user]);
+
+  const isAdmin = user?.role === "admin";
+  const isBanned = user?.status === false;
+
+  const navigation = isAdmin
+    ? adminNavigation
+    : isBanned
+      ? bannedAccount
+      : userNavigation;
 
   const handleLogout = async () => {
     const confirmed = await alert.confirm({
-      title: 'Logout?',
-      text: 'Kamu akan keluar dari sesi ini.',
-      confirmText: 'Ya, Logout',
-      cancelText: 'Batal',
+      title: "Logout?",
+      text: "Kamu akan keluar dari sesi ini.",
+      confirmText: "Ya, Logout",
+      cancelText: "Batal",
       danger: true,
     });
 
     if (confirmed) {
       logout();
-      navigate('/login');
+      navigate("/login");
     }
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path || location.pathname.startsWith(path + '/');
+    return (
+      location.pathname === path || location.pathname.startsWith(path + "/")
+    );
   };
 
   return (
@@ -82,7 +120,7 @@ export default function Sidebar() {
 
       <aside
         className={`${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          isOpen ? "translate-x-0" : "-translate-x-full"
         } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col rounded-r-xl shadow-[var(--boxShadow)]`}
       >
         <div className="pt-6">
@@ -105,12 +143,19 @@ export default function Sidebar() {
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                   active
-                    ? 'bg-blue-50 text-blue-600 border-l-4 border-blue-600'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary border-l-4 border-transparent'
+                    ? "bg-blue-50 text-blue-600 border-l-4 border-blue-600"
+                    : "text-text-secondary hover:text-text-primary hover:bg-bg-secondary border-l-4 border-transparent"
                 }`}
               >
-                <Icon size={20} className={active ? 'text-blue-600 dark:text-blue-700' : 'text-current'} />
-                <span className={`text-sm font-medium ${active ? 'text-blue-600 dark:text-blue-700' : ''}`}>
+                <Icon
+                  size={20}
+                  className={
+                    active ? "text-blue-600 dark:text-blue-700" : "text-current"
+                  }
+                />
+                <span
+                  className={`text-sm font-medium ${active ? "text-blue-600 dark:text-blue-700" : ""}`}
+                >
                   {item.label}
                 </span>
               </button>
@@ -138,3 +183,4 @@ export default function Sidebar() {
     </>
   );
 }
+

@@ -8,6 +8,7 @@ type AuthContextType = {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<User>;
+  loginWithGoogle: (accessToken: string) => Promise<User>;
   register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -16,6 +17,7 @@ export const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
   login: async () => ({} as User),
+  loginWithGoogle: async () => ({} as User),
   register: async () => {},
   logout: async () => {},
 });
@@ -54,17 +56,30 @@ export const AuthProvider = ({ children }: any) => {
   }, [initialized]);
 
   const login = async (email: string, password: string) => {
-    const { token, user } = await authService.login(email, password);
-    localStorage.setItem("token", token);
-    setUser(user);
-    syncFromUser(user.mode); // <-- sync mode dari DB saat login
-    return user;
-  };
+  const { token } = await authService.login(email, password);
+  localStorage.setItem("token", token);
+
+  const freshUser = await authService.getMe();
+  setUser(freshUser);
+  syncFromUser(freshUser.mode);
+  return freshUser;
+};
+
+  const loginWithGoogle = async (accessToken: string) => {
+  const { token } = await authService.loginWithGoogle(accessToken);
+  localStorage.setItem("token", token);
+
+  // Ambil data user yang fresh dari /me, bukan dari response login
+  const freshUser = await authService.getMe();
+  setUser(freshUser);
+  syncFromUser(freshUser.mode);
+  return freshUser;
+};
 
   const register = async (name: string, email: string, password: string, passwordConfirmation: string) => {
     await authService.register(name, email, password, passwordConfirmation);
     await login(email, password);
-    console.log("User registered and logged in");
+    // console.log("User registered and logged in");
   };
 
   const logout = async () => {
@@ -73,7 +88,7 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login,loginWithGoogle, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

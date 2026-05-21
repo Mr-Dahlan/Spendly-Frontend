@@ -1,17 +1,24 @@
-import Swal from 'sweetalert2';
-import type { SweetAlertOptions } from 'sweetalert2';
+import Swal from "sweetalert2";
+import type { SweetAlertOptions } from "sweetalert2";
+
+const themeState = { current: "light" as "light" | "dark" };
+
+export function setAlertTheme(theme: "light" | "dark") {
+  themeState.current = theme;
+}
 
 // ─────────────────────────────────────────────
 // BASE CONFIG — semua alert pakai ini sebagai dasar
 // ─────────────────────────────────────────────
+
 const baseConfig: SweetAlertOptions = {
-  confirmButtonColor: '#2563eb',
-  cancelButtonColor: '#6b7280',
+  confirmButtonColor: "#2563eb",
+  cancelButtonColor: "#6b7280",
   reverseButtons: true,
   customClass: {
-    popup: 'rounded-xl shadow-xl text-sm',
-    confirmButton: 'rounded-lg px-5 py-2 text-sm font-medium',
-    cancelButton: 'rounded-lg px-5 py-2 text-sm font-medium',
+    popup: "rounded-xl shadow-xl text-sm",
+    confirmButton: "rounded-lg px-5 py-2 text-sm font-medium",
+    cancelButton: "rounded-lg px-5 py-2 text-sm font-medium",
   },
 };
 
@@ -20,16 +27,16 @@ const baseConfig: SweetAlertOptions = {
 // ─────────────────────────────────────────────
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: "top-end",
+  theme: themeState.current,
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
   didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer);
-    toast.addEventListener('mouseleave', Swal.resumeTimer);
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
-
 
 // ═════════════════════════════════════════════
 // 1. CONFIRM — dialog konfirmasi dua pilihan
@@ -39,7 +46,7 @@ interface ConfirmOptions {
   text?: string;
   confirmText?: string;
   cancelText?: string;
-  icon?: SweetAlertOptions['icon'];
+  icon?: SweetAlertOptions["icon"];
   danger?: boolean; // true = confirm button merah
 }
 
@@ -52,11 +59,11 @@ export const alert = {
    */
   confirm: async (options: ConfirmOptions = {}): Promise<boolean> => {
     const {
-      title = 'Yakin?',
+      title = "Yakin?",
       text,
-      confirmText = 'Ya, lanjutkan',
-      cancelText = 'Batal',
-      icon = 'warning',
+      confirmText = "Ya, lanjutkan",
+      cancelText = "Batal",
+      icon = "warning",
       danger = false,
     } = options;
 
@@ -65,10 +72,11 @@ export const alert = {
       title,
       text,
       icon,
+      theme: themeState.current,
       showCancelButton: true,
       confirmButtonText: confirmText,
       cancelButtonText: cancelText,
-      confirmButtonColor: danger ? '#ef4444' : '#2563eb',
+      confirmButtonColor: danger ? "#ef4444" : "#2563eb",
     });
 
     return result.isConfirmed;
@@ -87,8 +95,9 @@ export const alert = {
       ...baseConfig,
       title,
       text,
-      icon: 'success',
-      confirmButtonText: 'OK',
+      theme: themeState.current,
+      icon: "success",
+      confirmButtonText: "OK",
     });
   },
 
@@ -105,8 +114,9 @@ export const alert = {
       ...baseConfig,
       title,
       text,
-      icon: 'error',
-      confirmButtonText: 'Tutup',
+      theme: themeState.current,
+      icon: "error",
+      confirmButtonText: "Tutup",
     });
   },
 
@@ -122,8 +132,9 @@ export const alert = {
       ...baseConfig,
       title,
       text,
-      icon: 'warning',
-      confirmButtonText: 'Mengerti',
+      theme: themeState.current,
+      icon: "warning",
+      confirmButtonText: "Mengerti",
     });
   },
 
@@ -139,8 +150,9 @@ export const alert = {
       ...baseConfig,
       title,
       text,
-      icon: 'info',
-      confirmButtonText: 'OK',
+      theme: themeState.current,
+      icon: "info",
+      confirmButtonText: "OK",
     });
   },
 
@@ -152,25 +164,25 @@ export const alert = {
      * @example
      * alert.toast.success('Data tersimpan!');
      */
-    success: (title: string) => Toast.fire({ icon: 'success', title }),
+    success: (title: string) => Toast.fire({ icon: "success", title }),
 
     /**
      * @example
      * alert.toast.error('Gagal menghubungi server.');
      */
-    error: (title: string) => Toast.fire({ icon: 'error', title }),
+    error: (title: string) => Toast.fire({ icon: "error", title }),
 
     /**
      * @example
      * alert.toast.warning('Koneksi tidak stabil.');
      */
-    warning: (title: string) => Toast.fire({ icon: 'warning', title }),
+    warning: (title: string) => Toast.fire({ icon: "warning", title }),
 
     /**
      * @example
      * alert.toast.info('Ada pembaruan tersedia.');
      */
-    info: (title: string) => Toast.fire({ icon: 'info', title }),
+    info: (title: string) => Toast.fire({ icon: "info", title }),
   },
 
   // ═════════════════════════════════════════════
@@ -184,10 +196,11 @@ export const alert = {
    * alert.close();
    * alert.toast.success('Tersimpan!');
    */
-  loading: (title: string = 'Memuat...', text?: string) => {
+  loading: (title: string = "Memuat...", text?: string) => {
     Swal.fire({
       title,
       text,
+      theme: themeState.current,
       allowOutsideClick: false,
       allowEscapeKey: false,
       showConfirmButton: false,
@@ -204,3 +217,4 @@ export const alert = {
    */
   close: () => Swal.close(),
 };
+
