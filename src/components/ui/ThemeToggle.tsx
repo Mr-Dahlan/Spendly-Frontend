@@ -23,7 +23,7 @@ export default function ThemeToggle() {
       {/* Theme toggle — 2 icon buttons */}
       <div
         className="flex items-center gap-1 p-1 rounded-full
-                   bg-gray-100 dark:bg-gray-800
+                    bg-[var(--bg-secondary)] 
                     "
       >
         {/* Sun button */}

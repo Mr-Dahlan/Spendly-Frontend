@@ -4,6 +4,7 @@ import type { Transaction } from "../../types/transaction";
 import type { Category } from "../../types/category";
 import type { Budget } from "../../types/budget";
 import { useLenisPrevent } from "../../hooks/useLenisPrevent";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 interface ReportsCategoryBreakdownProps {
   transactions: Transaction[];
@@ -22,15 +23,6 @@ interface BreakdownRow {
   percentage: number;
   budgetStatus: "exceeded" | "warning" | "safe" | "no_budget";
   budgetLimit: number | null;
-}
-
-function formatIDR(amount: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
 }
 
 const STATUS_CONFIG = {
@@ -219,7 +211,7 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
 
                     {/* Amount */}
                     <td className="py-3.5 px-4 font-semibold text-[var(--text-secondary)] whitespace-nowrap">
-                      {formatIDR(row.amountSpent)}
+                      {formatCurrency(row.amountSpent)}
                     </td>
 
                     {/* Progress bar */}

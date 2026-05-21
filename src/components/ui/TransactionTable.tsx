@@ -1,4 +1,5 @@
 import type { Transaction } from "../../types/transaction";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -41,13 +42,12 @@ export default function TransactionTable({
   onEdit,
   onDelete,
 }: TransactionTableProps) {
-  const formatIDR = (val: string) =>
-    new Intl.NumberFormat("id-ID", { minimumFractionDigits: 2 }).format(parseFloat(val));
 
   const formatDate = (d: string) => {
     const date = new Date(d);
     return date.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
   };
+
 
   const totalPages = Math.ceil(totalEntries / perPage);
   const startEntry = (currentPage - 1) * perPage + 1;
@@ -129,7 +129,7 @@ export default function TransactionTable({
 
               {/* Amount */}
               <span className={`text-sm font-bold ${isIncome ? "text-[var(--green-primary)]" : "text-[var(--text)]"}`}>
-                {isIncome ? "+" : "-"}IDR {formatIDR(t.amount)}
+                {isIncome ? "+" : "-"}{formatCurrency(Number(t.amount))}
               </span>
 
               {/* Actions */}

@@ -1,6 +1,6 @@
 /* src/index.css */
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -13,38 +13,38 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Light mode variables */
-  --bg: #E8EAF0;
+  --bg: #e8eaf0;
   --bg-secondary: #ffffff;
-  --blue-primary: #4F46E5;
-  --blue-button: #6366F1;
-  --red-primary: #DC2626;
-  --purple-primary: #7C3AED;
+  --blue-primary: #4f46e5;
+  --blue-button: #6366f1;
+  --red-primary: #dc2626;
+  --purple-primary: #7c3aed;
   --green-primary: #22c55e;
-  --green-secondary: #D1FAE5;
-  --text: #2E3040;
-  --text-secondary: #585A68;
+  --green-secondary: #d1fae5;
+  --text: #2e3040;
+  --text-secondary: #585a68;
   --text-opposite: #f5f5f5;
   --card: #f5f5f5;
   --card-secondery: #ffffff;
   --userinfo: #ffffff;
   --border: #e0e0e0;
-  --boxShadow: 8px 8px 16px rgba(0,0,0,0.20); 
+  --boxShadow: 8px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .dark {
   --bg: #242424;
-  --bg-secondary: #666770;
-  --blue-primary: #4F46E5;
-  --blue-button: #6366F1;
-  --red-primary: #DC2626;
+  --bg-secondary: #1A1A1A;
+  --blue-primary: #4f46e5;
+  --blue-button: #6366f1;
+  --red-primary: #dc2626;
   --purple-primary: #8a8a8a;
   --green-primary: #22c55e;
-  --green-secondary: #D1FAE5;
+  --green-secondary: #d1fae5;
   --text: #f5f5f5;
   --text-secondary: #d1cece;
-  --text-opposite: #2E3040;
-  --card: #2E3040;
-  --card-secondery: #252b2b;
+  --text-opposite: #2e3040;
+  --card: #2e3040;
+  --card-secondery: #121212;
   --userinfo: #201d1d;
   --border: #e5e7eb;
   /* --boxShadow: 8px 8px 16px rgba(143, 141, 141, 0.2); */
@@ -56,9 +56,11 @@ body {
   width: 100%;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--bg);   /* ikuti variable */
-  color: var(--text);            /* ikuti variable */
-  transition: background-color 0.3s, color 0.3s;
+  background-color: var(--bg); /* ikuti variable */
+  color: var(--text); /* ikuti variable */
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 body::-webkit-scrollbar {
   display: none;

@@ -2,21 +2,11 @@
 import React from "react";
 import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
 import type { TransactionSummary } from "../../types/transaction";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 interface ReportsSummaryCardsProps {
   summary: TransactionSummary | null;
   isLoading: boolean;
-}
-
-function formatIDR(amount: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })
-    .format(amount)
-    .replace("IDR", "IDR");
 }
 
 const SkeletonCard = () => (
@@ -51,7 +41,7 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
   const cards = [
     {
       label: "TOTAL INCOME",
-      value: formatIDR(totalIncome),
+      value: formatCurrency(totalIncome),
       icon: TrendingUp,
       iconBg: "bg-emerald-50",
       iconColor: "text-emerald-500",
@@ -63,7 +53,7 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
     },
     {
       label: "TOTAL EXPENSE",
-      value: formatIDR(totalExpense),
+      value: formatCurrency(totalExpense),
       icon: TrendingDown,
       iconBg: "bg-red-50",
       iconColor: "text-red-500",
@@ -75,7 +65,7 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
     },
     {
       label: "NET SAVINGS",
-      value: formatIDR(balance),
+      value: formatCurrency(balance),
       icon: Wallet,
       iconBg: "bg-violet-50",
       iconColor: "text-violet-500",

@@ -2,7 +2,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { transactionService } from "../services/transactions";
 import type {
-  Transaction,
   CreateTransactionPayload,
   UpdateTransactionPayload,
   TransactionFilters,

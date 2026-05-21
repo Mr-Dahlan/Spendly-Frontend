@@ -92,7 +92,6 @@ function SkeletonItem() {
 }
 
 export default function NotificationPreferencesSection() {
-  const [emailNotif, setEmailNotif] = useState(true);
   const [activeTab, setActiveTab] = useState<"all" | "unread">("all");
   const scrollRef = useLenisPrevent<HTMLDivElement>();
 
@@ -124,51 +123,6 @@ export default function NotificationPreferencesSection() {
         <h2 className="text-base font-bold text-[var(--text)]">
           Notification Preferences
         </h2>
-      </div>
-
-      {/* Email Toggle Row */}
-      <div className="flex items-center justify-between py-3">
-        <div className="flex items-start gap-3">
-          <div className="mt-0.5 text-violet-500">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,13 2,6" />
-            </svg>
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-[var(--text)]">
-              Email Notifications
-            </p>
-            <p className="text-[12px] text-gray-400 mt-0.5">
-              Receive weekly summary and security alerts
-            </p>
-          </div>
-        </div>
-
-        {/* Toggle Switch */}
-        <button
-          type="button"
-          onClick={() => setEmailNotif(!emailNotif)}
-          aria-label="Toggle email notifications"
-          className={`relative w-11 h-6 rounded-full transition-colors flex-shrink-0 ${
-            emailNotif ? "bg-violet-600" : "bg-gray-200"
-          }`}
-        >
-          <span
-            className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${
-              emailNotif ? "translate-x-5" : "translate-x-0"
-            }`}
-          />
-        </button>
       </div>
 
       {/* Divider */}

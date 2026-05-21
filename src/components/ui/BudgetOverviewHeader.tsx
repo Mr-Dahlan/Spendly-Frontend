@@ -1,15 +1,9 @@
+import { formatCurrency } from "../../utils/formatCurrency";
+
 interface BudgetOverviewHeaderProps {
   totalBudgeted: number;
   totalSpent: number;
   onAddNew: () => void;
-}
-
-function formatIDR(amount: number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(amount);
 }
 
 export default function BudgetOverviewHeader({
@@ -37,11 +31,11 @@ export default function BudgetOverviewHeader({
             <div className="flex gap-6">
               <div>
                 <p className="text-xs  mb-0.5">Total Budgeted</p>
-                <p className="text-lg font-bold ">{formatIDR(totalBudgeted)}</p>
+                <p className="text-lg font-bold ">{formatCurrency(totalBudgeted)}</p>
               </div>
               <div>
                 <p className="text-xs  mb-0.5">Total Spent</p>
-                <p className="text-lg font-bold">{formatIDR(totalSpent)}</p>
+                <p className="text-lg font-bold">{formatCurrency(totalSpent)}</p>
               </div>
             </div>
           </div>
@@ -104,7 +98,7 @@ export default function BudgetOverviewHeader({
         </svg>
         <p className="text-xs text-gray-400 mt-1">Utilized</p>
         <p className="text-sm font-semibold text-indigo-600 mt-0.5">
-          {formatIDR(remaining)} left
+          {formatCurrency(remaining)} left
         </p>
       </div>
     </div>
