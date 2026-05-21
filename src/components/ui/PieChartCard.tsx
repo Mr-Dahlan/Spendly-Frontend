@@ -1,4 +1,5 @@
-import { PieChart, Pie, Cell,LabelList, ResponsiveContainer } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 const PIE_COLORS = [
   "#7C3AED", "#EC4899", "#F59E0B", "#EF4444",
@@ -14,12 +15,11 @@ export interface CategoryDataItem {
 interface PieChartCardProps {
   data: CategoryDataItem[];
   totalExpense: number;
-  formatIDR: (value: number) => string;
 }
 
-export default function PieChartCard({ data, totalExpense, formatIDR }: PieChartCardProps) {
+export default function PieChartCard({ data, totalExpense }: PieChartCardProps) {
   return (
-    <div className="bg-[var(--card)] p-6 rounded-2xl shadow-sm border border-[var(--border)]/30">
+    <div className="bg-[var(--card)] p-6 rounded-2xl shadow-[var(--boxShadow)] border border-[var(--border)]/30">
       <h2 className="text-lg font-semibold text-[var(--text)] mb-4">Spending by Category</h2>
 
       {data.length > 0 ? (
@@ -48,7 +48,7 @@ export default function PieChartCard({ data, totalExpense, formatIDR }: PieChart
             <div className="absolute text-center pointer-events-none flex flex-col items-center justify-center">
               <span className="text-xs text-[var(--text-secondary)] block">Total</span>
               <strong className="font-bold text-sm text-[var(--text)] block px-4 leading-tight">
-                IDR {formatIDR(totalExpense)}
+                {formatCurrency(totalExpense)}
               </strong>
             </div>
           </div>

@@ -30,6 +30,25 @@ export const login = async (email: string, password: string): Promise<AuthRespon
   }
 };
 
+export const loginWithGoogle = async (accessToken: string): Promise<AuthResponse> => {
+  const res = await axios.post("/auth/google", {
+    access_token: accessToken,
+  });
+  const data = res.data;
+
+  // Simpan token (pilih salah satu key yang konsisten)
+  const token = data.access_token ?? data.token;
+  if (token) {
+    localStorage.setItem("token", token);
+  }
+
+  return {
+    token: token,
+    user: data.user ?? data.data, // fallback jika strukturnya beda
+  };
+};
+
+
 export const logout = async () => {
   await axios.post("/logout");
   localStorage.removeItem("token");

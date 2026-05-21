@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 
 // Auth Pages
 import Login from "../pages/AuthPages/LoginPages";
@@ -11,20 +11,24 @@ import Raport from "../pages/RaportsPages";
 import Budgets from "../pages/BudgetsPages";
 import Settings from "../pages/SettingsPages";
 
+// Banned Information
+import BannedInformation from "../pages/BannedInformation";
+
 // Admin Pages
 import AdminPanel from "../pages/AdminPanelPages";
+import AdminLogs from "../pages/AdminLogsPages";
 
 // Guards & Layout
 import ProtectedRoute from "../components/features/ProtectedRoute";
 import GuestRoute from "../components/features/GuestRoute";
 import LayoutProvider from "../components/layouts/layoutProvider";
 import AdminProvider from "../components/features/AdminProvider";
+import BannedProvider from "../components/features/BannedProvider";
 
 export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* ── GUEST ONLY ─────────────────────────────────────── */}
         <Route
           path="/login"
@@ -48,9 +52,11 @@ export default function AppRoutes() {
           path="/dashboard"
           element={
             <ProtectedRoute>
+              <BannedProvider> 
               <LayoutProvider>
                 <Dashboard />
               </LayoutProvider>
+              </BannedProvider>
             </ProtectedRoute>
           }
         />
@@ -59,47 +65,65 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute>
               <AdminProvider>
-              <LayoutProvider>
-                <AdminPanel />
-              </LayoutProvider>
+                <BannedProvider> 
+                <LayoutProvider>
+                  <AdminPanel />
+                </LayoutProvider>
+                </BannedProvider>
               </AdminProvider>
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/admin-logs"
+          element={
+            <ProtectedRoute>
+              <AdminProvider>
+                <BannedProvider> 
+                <LayoutProvider>
+                  <AdminLogs />
+                </LayoutProvider>
+                </BannedProvider>
+              </AdminProvider>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/transactions"
           element={
             <ProtectedRoute>
+              <BannedProvider> 
               <LayoutProvider>
                 <Transactions />
               </LayoutProvider>
+              </BannedProvider>
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/reports"
           element={
             <ProtectedRoute>
+              <BannedProvider>
               <LayoutProvider>
                 <Raport />
               </LayoutProvider>
+              </BannedProvider>
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/budgets"
           element={
             <ProtectedRoute>
+              <BannedProvider>
               <LayoutProvider>
                 <Budgets />
               </LayoutProvider>
+              </BannedProvider>
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/settings"
           element={
@@ -110,7 +134,18 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
-
+      <Route
+      path="banned-information"
+      element={
+        <ProtectedRoute>
+          <LayoutProvider>
+            <BannedInformation />
+          </LayoutProvider>
+        </ProtectedRoute>
+      }
+      />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,3 +1,4 @@
+"use client";
 import { useMemo, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useTransactions, useCreateTransaction } from "../hooks/useTransaction";

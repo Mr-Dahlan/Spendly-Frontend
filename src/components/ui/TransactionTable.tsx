@@ -1,4 +1,5 @@
 import type { Transaction } from "../../types/transaction";
+import { formatCurrency } from "../../utils/formatCurrency";
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -20,12 +21,12 @@ const TYPE_BADGE = {
 const TYPE_ICON = {
   income: (
     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17l9.2-9.2M17 17V7H7" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 7L7.8 16.2M7 7v10h10" />
     </svg>
   ),
   expense: (
     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 7L7.8 16.2M7 7v10h10" />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 17l9.2-9.2M17 17V7H7" />
     </svg>
   ),
 };
@@ -41,13 +42,12 @@ export default function TransactionTable({
   onEdit,
   onDelete,
 }: TransactionTableProps) {
-  const formatIDR = (val: string) =>
-    new Intl.NumberFormat("id-ID", { minimumFractionDigits: 2 }).format(parseFloat(val));
 
   const formatDate = (d: string) => {
     const date = new Date(d);
     return date.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
   };
+
 
   const totalPages = Math.ceil(totalEntries / perPage);
   const startEntry = (currentPage - 1) * perPage + 1;
@@ -79,7 +79,7 @@ export default function TransactionTable({
   }
 
   return (
-    <div className="bg-[var(--card)] rounded-2xl border border-gray-300 shadow-sm overflow-hidden">
+    <div className="bg-[var(--card)] rounded-2xl border border-gray-300 shadow-[var(--boxShadow)] overflow-hidden">
       {/* Table Header */}
       <div className="grid grid-cols-[120px_1fr_1fr_190px_180px_80px] px-6 py-3 border-b border-gray-100 bg-[var(--card)]">
         {["DATE", "CATEGORY", "DESCRIPTION", "TYPE", "AMOUNT", "ACTIONS"].map((h) => (
@@ -129,7 +129,7 @@ export default function TransactionTable({
 
               {/* Amount */}
               <span className={`text-sm font-bold ${isIncome ? "text-[var(--green-primary)]" : "text-[var(--text)]"}`}>
-                {isIncome ? "+" : "-"}IDR {formatIDR(t.amount)}
+                {isIncome ? "+" : "-"}{formatCurrency(Number(t.amount))}
               </span>
 
               {/* Actions */}

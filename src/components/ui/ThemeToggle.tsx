@@ -1,27 +1,29 @@
 // src/components/ThemeToggle.tsx
 
-import useThemeStore from '../../store/themeStore';
-import { useUser } from '../../hooks/useUser';
-import UserInfoCard from './UserInfoProfile';
+import useThemeStore from "../../store/themeStore";
+import { useUser } from "../../hooks/useUser";
+import UserInfoCard from "./UserInfoProfile";
+import NotificationPanel from "./NotificationPanel";
 
 export default function ThemeToggle() {
   const { updateMe } = useUser();
   const { mode, toggleMode } = useThemeStore();
-  const isDark = mode === 'dark';
+  const isDark = mode === "dark";
 
   const handleToggle = async () => {
     await toggleMode((mode) => updateMe({ mode }));
   };
 
   return (
-    <div className="flex flex-row items-center gap-2 border-none">
+    <div className="flex flex-row items-center gap-2 border-none ">
       {/* User info avatar with hover popover */}
       <UserInfoCard />
-      
+      <NotificationPanel />
+
       {/* Theme toggle — 2 icon buttons */}
       <div
         className="flex items-center gap-1 p-1 rounded-full
-                   bg-gray-100 dark:bg-gray-800
+                    bg-[var(--bg-secondary)] 
                     "
       >
         {/* Sun button */}
@@ -30,9 +32,10 @@ export default function ThemeToggle() {
           aria-label="Light mode"
           className={`
             p-1.5 rounded-full transition-all duration-200
-            ${!isDark
-              ? 'bg-white shadow text-yellow-500 scale-110'
-              : 'text-gray-400 hover:text-yellow-400 hover:bg-white/10'
+            ${
+              !isDark
+                ? "bg-white shadow text-yellow-500 scale-110"
+                : "text-gray-400 hover:text-yellow-400 hover:bg-white/10"
             }
           `}
         >
@@ -57,9 +60,10 @@ export default function ThemeToggle() {
           aria-label="Dark mode"
           className={`
             p-1.5 rounded-full transition-all duration-200
-            ${isDark
-              ? 'bg-gray-700 shadow text-blue-400 scale-110'
-              : 'text-gray-400 hover:text-blue-400 hover:bg-black/5'
+            ${
+              isDark
+                ? "bg-gray-700 shadow text-blue-400 scale-110"
+                : "text-gray-400 hover:text-blue-400 hover:bg-black/5"
             }
           `}
         >
@@ -78,8 +82,7 @@ export default function ThemeToggle() {
           </svg>
         </button>
       </div>
-
-      
     </div>
   );
 }
+

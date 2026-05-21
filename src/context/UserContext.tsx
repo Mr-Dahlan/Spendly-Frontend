@@ -7,7 +7,7 @@ import {
 import type { ReactNode } from "react";
 import type { User, UpdateUserPayload, AdminUpdateUserPayload } from "../types/users";
 import UserService from "../services/users";
-import { getMe } from "../services/auth"; // getMe tetap dari authService
+import { getMe } from "../services/auth";
 
 // ─── Shape Context ────────────────────────────────────────────────────────────
 interface UserContextType {
@@ -25,6 +25,8 @@ interface UserContextType {
   fetchAllUsers: () => Promise<void>;
   fetchUserById: (id: number) => Promise<User>;
   adminUpdateUser: (id: number, payload: AdminUpdateUserPayload) => Promise<void>;
+  updateUserStatus: (id: number, status: boolean) => Promise<void>;
+  updateUserRole: (id: number, role: User["role"]) => Promise<void>;
   deleteUser: (id: number) => Promise<void>;
 
   clearError: () => void;
@@ -38,7 +40,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null)
 
   const withLoading = async (fn: () => Promise<void>) => {
     setIsLoading(true);
@@ -48,17 +50,24 @@ export function UserProvider({ children }: { children: ReactNode }) {
     } catch (err: any) {
       const message = err?.response?.data?.message ?? err?.message ?? "Terjadi kesalahan.";
       setError(message);
-      throw err; // re-throw agar komponen bisa handle juga
+      throw err;
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Helper untuk update user di list
+  const updateUserInList = (updated: User) => {
+    setUsers((prev) =>
+      prev.map((u) => (u.user_id === updated.user_id ? updated : u))
+    );
+  };
+
   // ── Fetch profil sendiri ──────────────────────────────────────────────────
   const fetchMe = useCallback(async () => {
     await withLoading(async () => {
-      const res = await getMe(); // return res.data (raw)
-      setCurrentUser(res.data);  // sesuaikan kalau struktur API-nya beda
+      const res = await getMe();
+      setCurrentUser(res.data);
     });
   }, []);
 
@@ -80,23 +89,35 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   // ── Fetch user by ID (admin) ──────────────────────────────────────────────
   const fetchUserById = useCallback(async (id: number): Promise<User> => {
-    const res = await UserService.getUserById(id);
-    return res;
+    return await UserService.getUserById(id);
   }, []);
 
-  // ── Admin update user ─────────────────────────────────────────────────────
+  // ── Admin update user (general) ───────────────────────────────────────────
   const adminUpdateUser = useCallback(
     async (id: number, payload: AdminUpdateUserPayload) => {
       await withLoading(async () => {
         const updated = await UserService.adminUpdateUser(id, payload);
-        // Update list kalau ada
-        setUsers((prev) =>
-          prev.map((u) => (u.user_id === updated.user_id ? updated : u))
-        );
+        updateUserInList(updated);
       });
     },
     []
   );
+
+  // ── Update status user (admin) ────────────────────────────────────────────
+  const updateUserStatus = useCallback(async (id: number, status: boolean) => {
+    await withLoading(async () => {
+      const updated = await UserService.updateUserStatus(id, status);
+      updateUserInList(updated);
+    });
+  }, []);
+
+  // ── Update role user (admin) ──────────────────────────────────────────────
+  const updateUserRole = useCallback(async (id: number, role: User["role"]) => {
+    await withLoading(async () => {
+      const updated = await UserService.updateUserRole(id, role);
+      updateUserInList(updated);
+    });
+  }, []);
 
   // ── Hapus user (admin) ────────────────────────────────────────────────────
   const deleteUser = useCallback(async (id: number) => {
@@ -120,6 +141,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
         fetchAllUsers,
         fetchUserById,
         adminUpdateUser,
+        updateUserStatus,
+        updateUserRole,
         deleteUser,
         clearError,
       }}

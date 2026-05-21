@@ -2,6 +2,8 @@ import { useState } from "react";
 import type { Budget } from "../../types/budget";
 import { useDeleteBudget} from "../../hooks/useBudget";
 
+import { formatCurrency } from "../../utils/formatCurrency";
+
 interface BudgetCardProps {
   budget: Budget;
   onEdit: (budget: Budget) => void;
@@ -107,7 +109,7 @@ const handleDelete = async () => {
 
   return (
     <>
-      <div className="bg-[var(--card)] rounded-2xl p-4 shadow-sm border text-[var(--text)] border-gray-100 flex flex-col gap-3">
+      <div className="bg-[var(--card)] rounded-2xl p-4 shadow-[var(--boxShadow)] border text-[var(--text)] border-gray-100 flex flex-col gap-3">
         {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
@@ -143,10 +145,10 @@ const handleDelete = async () => {
         {/* Spent vs Budget */}
         <div className="flex justify-between text-xs ">
           <span>
-            Spent: <span className="font-medium text-[var(--text-secondary)]">{formatIDR(budget.usage.spent)}</span>
+            Spent: <span className="font-medium text-[var(--text-secondary)]">{formatCurrency(budget.usage.spent)}</span>
           </span>
           <span>
-            Budget: <span className="font-medium text-[var(--text-secondary)]">{formatIDR(budgetAmount)}</span>
+            Budget: <span className="font-medium text-[var(--text-secondary)]">{formatCurrency(budgetAmount)}</span>
           </span>
         </div>
 
