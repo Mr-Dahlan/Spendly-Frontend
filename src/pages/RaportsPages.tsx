@@ -76,7 +76,7 @@ const ReportsPage: React.FC = () => {
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       {/* ── Page Header ──────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text)]">Financial Performance</h1>
           <p className="text-sm text-gray-400 mt-0.5">

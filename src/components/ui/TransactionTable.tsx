@@ -128,12 +128,12 @@ export default function TransactionTable({
               </div>
 
               {/* Amount */}
-              <span className={`text-sm font-bold ${isIncome ? "text-[var(--green-primary)]" : "text-[var(--text)]"}`}>
+              <span className={`text-sm font-bold ${isIncome ? "text-[var(--green-primary)]" : "text-[var(--red-primary)]"}`}>
                 {isIncome ? "+" : "-"}{formatCurrency(Number(t.amount))}
               </span>
 
               {/* Actions */}
-              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="flex items-center gap-1 opacity-100 transition-opacity">
                 <button
                   onClick={() => onEdit(t)}
                   className="w-8 h-8 rounded-xl bg-gray-100 hover:bg-indigo-100 text-gray-500 hover:text-indigo-600 flex items-center justify-center transition-colors"
