@@ -71,7 +71,7 @@ export default function RecentTransactions({
               <div className="text-right flex-shrink-0">
                 <span
                   className={`text-sm font-bold ${
-                    t.type === "income" ? "text-[var(--green-primary)]" : "text-[var(--text-secondary)]"
+                    t.type === "income" ? "text-[var(--green-primary)]" : "text-[var(--red-primary)]"
                   }`}
                 >
                   {t.type === "income" ? "+" : "-"}{formatCurrency(t.parsedAmount)}

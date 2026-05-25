@@ -236,12 +236,13 @@ export default function Login() {
                   Remember me
                 </label>
               </div>
-              <a
+              <Link
+                to="/forgot-password"
                 className="text-xs cursor-pointer"
                 style={{ color: "var(--text-secondary)" }}
               >
                 Forgot password?
-              </a>
+              </Link>
             </div>
 
             {/* Submit */}
@@ -309,4 +310,3 @@ export default function Login() {
     </div>
   );
 }
-

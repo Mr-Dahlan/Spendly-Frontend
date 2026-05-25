@@ -19,7 +19,7 @@ export default function BudgetOverviewHeader({
   const strokeDashoffset = circumference - (percent / 100) * circumference;
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 mb-6">
+    <div className="flex flex-col md:flex-row gap-4 mb-6 mt-4">
       {/* Summary card */}
       <div className="flex-1 bg-[var(--card)] rounded-2xl p-5 shadow-[var(--boxShadow)] border border-gray-100 text-[var(--text)]">
         <div className="flex items-start justify-between">
