@@ -22,17 +22,28 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
+  // ── Password strength rules ──
+  const passwordRules = {
+    hasLower:  /[a-z]/.test(password),
+    hasUpper:  /[A-Z]/.test(password),
+    hasNumber: /[0-9]/.test(password),
+    hasLength: password.length >= 8,
+  };
+  const isPasswordStrong = Object.values(passwordRules).every(Boolean);
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    if (password !== passwordConfirmation) {
-      setError("Password and password confirmation must match.");
+    if (!isPasswordStrong) {
+      setError(
+        "Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and be at least 8 characters long."
+      );
       return;
     }
 
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
+    if (password !== passwordConfirmation) {
+      setError("Password and password confirmation must match.");
       return;
     }
 
@@ -70,6 +81,7 @@ export default function Register() {
     (e.target.style.borderColor = "var(--border)");
 
   const year = new Date().getFullYear();
+
   return (
     <div
       className="min-h-screen min-w-screen flex scrollbar-hide transition-colors duration-300"
@@ -127,7 +139,7 @@ export default function Register() {
             Create Account
           </h1>
 
-          <p className="text-xs pb-8">Fill in the ditails to get started</p>
+          <p className="text-xs pb-8">Fill in the details to get started</p>
 
           {/* Error Banner */}
           {error && (
@@ -268,6 +280,54 @@ export default function Register() {
                     )}
                   </div>
                 </div>
+
+                {/* ── Password strength indicator ── */}
+                {password.length > 0 && (
+                  <div className="mt-2 space-y-1">
+                    {[
+                      { key: "hasLower",  label: "Huruf kecil (a–z)" },
+                      { key: "hasUpper",  label: "Huruf besar (A–Z)" },
+                      { key: "hasNumber", label: "Angka (0–9)" },
+                      { key: "hasLength", label: "Min. 8 karakter" },
+                    ].map(({ key, label }) => {
+                      const passed = passwordRules[key as keyof typeof passwordRules];
+                      return (
+                        <p
+                          key={key}
+                          className="text-xs flex items-center gap-1"
+                          style={{
+                            color: passed
+                              ? "var(--green-primary, #22c55e)"
+                              : "var(--text-secondary)",
+                          }}
+                        >
+                          <svg
+                            className="w-3 h-3 shrink-0"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2.5}
+                          >
+                            {passed ? (
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M5 13l4 4L19 7"
+                              />
+                            ) : (
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 9v3m0 4h.01"
+                              />
+                            )}
+                          </svg>
+                          {label}
+                        </p>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* Konfirmasi Password */}
@@ -368,7 +428,7 @@ export default function Register() {
                         d="M5 13l4 4L19 7"
                       />
                     </svg>
-                    metching
+                    Matching
                   </p>
                 )}
                 {passwordMismatch && (
@@ -398,14 +458,15 @@ export default function Register() {
             {/* Submit */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !isPasswordStrong}
               className="w-full py-2.5 px-4 text-sm font-medium rounded-lg transition-colors duration-150 flex items-center justify-center gap-2 hover:bg-blue-900"
               style={{
-                backgroundColor: loading
-                  ? "var(--border)"
-                  : "var(--blue-button)",
+                backgroundColor:
+                  loading || !isPasswordStrong
+                    ? "var(--border)"
+                    : "var(--blue-button)",
                 color: "#ffffff",
-                cursor: loading ? "not-allowed" : "pointer",
+                cursor: loading || !isPasswordStrong ? "not-allowed" : "pointer",
               }}
             >
               {loading ? (
@@ -442,7 +503,7 @@ export default function Register() {
             <GoogleLoginButton onError={(msg) => setError(msg)} />
 
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              Alredy have an account?{" "}
+              Already have an account?{" "}
               <Link
                 to="/login"
                 className="font-medium underline underline-offset-2 text-blue-600 hover:text-blue-800"
@@ -456,4 +517,3 @@ export default function Register() {
     </div>
   );
 }
-
