@@ -1,3 +1,12 @@
+// src/components/SummaryCards.tsx
+
+import type { LucideIcon } from "lucide-react";
+import {
+  Wallet,
+  TrendingUp,
+  TrendingDown,
+  PiggyBank,
+} from "lucide-react";
 import { formatCurrency } from "../../utils/formatCurrency";
 
 interface SummaryCardsProps {
@@ -5,26 +14,50 @@ interface SummaryCardsProps {
   totalIncome: number;
   totalExpense: number;
   savingsRate: number;
-  formatIDR: (value: number) => string;
 }
 
 interface SummaryCardProps {
   label: string;
   value: string;
-  colorClass?: string;
+  sub?: string;
+  valueColor?: string;
+  Icon: LucideIcon;
+  iconColor: string;
   delay?: string;
 }
 
-function SummaryCard({ label, value, colorClass = "text-[var(--text)]", delay = "0.5s" }: SummaryCardProps) {
+function SummaryCard({
+  label,
+  value,
+  sub,
+  valueColor = "text-[var(--text)]",
+  Icon,
+  iconColor,
+  delay = "0s",
+}: SummaryCardProps) {
   return (
     <div
-      className="bg-[var(--card)] p-5 sm:p-6 rounded-2xl shadow-[var(--boxShadow)] border border-[var(--border)]/30"
-      style={{ animation: `pulse ${delay} ease-out` }}
+      className="relative bg-[var(--card)] rounded-2xl border border-[var(--border)]/30 shadow-[var(--boxShadow)] p-4 flex flex-col gap-1 overflow-hidden"
+      style={{ animationDelay: delay }}
     >
-      <span className="block text-[11px] font-semibold text-[var(--text-secondary)] tracking-wider uppercase mb-2">
+      {/* accent bar */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
+      />
+
+      <Icon size={18} className={`${iconColor} mt-1`} strokeWidth={1.75} />
+
+      <span className="text-[10px] font-semibold tracking-widest uppercase text-[var(--text-secondary)] mt-1">
         {label}
       </span>
-      <span className={`block text-lg font-bold truncate ${colorClass}`}>{value}</span>
+
+      <span className={`text-[15px] font-semibold truncate ${valueColor}`}>
+        {value}
+      </span>
+
+      {sub && (
+        <span className="text-[11px] text-[var(--text-secondary)]">{sub}</span>
+      )}
     </div>
   );
 }
@@ -36,28 +69,42 @@ export default function SummaryCards({
   savingsRate,
 }: SummaryCardsProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6 ">
+    <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 mb-6">
       <SummaryCard
-        label="TOTAL BALANCE"
-        value={`${formatCurrency(balance)}`}
-        delay="0.5s"
+        label="Total Balance"
+        value={formatCurrency(balance)}
+        sub="Per hari ini"
+        valueColor="text-[var(--text)]"
+        Icon={Wallet}
+        iconColor="text-blue-500"
+        delay="0.1s"
       />
       <SummaryCard
-        label="MONTHLY INCOME"
-        value={`${formatCurrency(totalIncome)}`}
-        colorClass="text-[var(--green-primary)]"
-        delay="0.6s"
+        label="Monthly Income"
+        value={formatCurrency(totalIncome)}
+        sub="Bulan ini"
+        valueColor="text-[var(--green-primary)]"
+        Icon={TrendingUp}
+        iconColor="text-green-600"
+        delay="0.2s"
       />
       <SummaryCard
-        label="MONTHLY EXPENSES"
-        value={`${formatCurrency(totalExpense)}`}
-        delay="0.7s"
+        label="Monthly Expenses"
+        value={formatCurrency(totalExpense)}
+        sub="Bulan ini"
+        valueColor="text-[var(--red-primary)]"
+        Icon={TrendingDown}
+        iconColor="text-red-500"
+        delay="0.3s"
       />
       <SummaryCard
-        label="SAVINGS RATE"
+        label="Savings Rate"
         value={`${savingsRate.toFixed(1)}%`}
-        colorClass="text-[var(--blue-primary)]"
-        delay="0.8s"
+        sub="Dari income"
+        valueColor="text-[var(--blue-primary)]"
+        Icon={PiggyBank}
+        iconColor="text-purple-500"
+        delay="0.4s"
       />
     </div>
   );

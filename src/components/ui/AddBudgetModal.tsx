@@ -1,3 +1,4 @@
+// src/components/ui/AddBudgetModal.tsx
 import { useState } from "react";
 import { formatInputNumber, parseInputNumber } from "../../utils/formatNumber";
 import { useCategories } from "../../hooks/useCategory";

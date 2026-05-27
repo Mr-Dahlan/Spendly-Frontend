@@ -235,7 +235,9 @@ export default function TransactionModal({
                 py-3
               "
             >
-              <span className="mr-2 font-semibold text-2xl">{currency.symbol}</span>
+              <span className="mr-2 font-semibold text-2xl">
+                {currency.symbol}
+              </span>
 
               <input
                 type="text"
@@ -285,28 +287,27 @@ export default function TransactionModal({
               <button
                 type="button"
                 onClick={() => setShowDatePicker(true)}
-                title={date ? formatDisplayDate(date) : "Select date"}
-                className="
-        flex
-        h-12
-        w-12
-        items-center
-        justify-center
-        rounded-full
-        border
-        border-gray-200
-        bg-[var(--bg-secondary)]
-        text-gray-600
-        transition-all
-        hover:scale-105
-        hover:border-gray-300
-        hover:bg-gray-300
-        hover:text-black
-        dark:text-gray-300
-        dark:hover:text-white
-      "
+                className={`
+      flex
+      items-center
+      justify-center
+      rounded-full
+      border
+      border-gray-200
+      bg-[var(--bg-secondary)]
+      text-[var(--text)]
+      transition-all
+      hover:scale-105
+      hover:border-gray-300
+      hover:bg-gray-500
+      hover:text-black
+      dark:text-gray-600
+      dark:hover:text-white
+      ${date ? "h-12 px-3 text-xs font-semibold gap-1.5" : "h-12 w-12"}
+    `}
               >
-                <CalendarDays size={20} />
+                <CalendarDays size={16} />
+                {date && <span >{formatDisplayDate(date)}</span>}
               </button>
             </div>
           </div>

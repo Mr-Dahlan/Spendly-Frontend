@@ -69,7 +69,7 @@ export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setAlertTheme(user?.mode === "dark" ? "dark" : "light");
@@ -121,7 +121,9 @@ export default function Sidebar() {
       <aside
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col rounded-r-xl shadow-[var(--boxShadow)]`}
+        } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] transition-transform duration-300 z-40
+        lg:relative lg:translate-x-0 lg:flex-shrink-0
+        flex flex-col rounded-r-xl shadow-[var(--boxShadow)]`}
       >
         <div className="pt-6">
           <div className="flex items-center pt-2">
@@ -183,4 +185,3 @@ export default function Sidebar() {
     </>
   );
 }
-

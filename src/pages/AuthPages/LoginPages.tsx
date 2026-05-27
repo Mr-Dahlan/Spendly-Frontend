@@ -137,7 +137,7 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@email.com"
+                placeholder="name@gmail.com"
                 required
                 autoComplete="email"
                 className="w-full px-3.5 py-2.5 text-sm rounded-lg outline-none transition-shadow"
@@ -260,11 +260,13 @@ export default function Login() {
             >
               {loading ? (
                 <>
+                  {" "}
                   <svg
                     className="animate-spin h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                   >
+                    {" "}
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -272,14 +274,14 @@ export default function Login() {
                       r="10"
                       stroke="currentColor"
                       strokeWidth="4"
-                    />
+                    />{" "}
                     <path
                       className="opacity-75"
                       fill="currentColor"
                       d="M4 12a8 8 0 018-8v8H4z"
-                    />
-                  </svg>
-                  Loading...
+                    />{" "}
+                  </svg>{" "}
+                  Loading...{" "}
                 </>
               ) : (
                 "Login"

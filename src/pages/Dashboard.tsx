@@ -150,12 +150,11 @@ export default function Dashboard() {
         totalIncome={summary?.total_income || 0}
         totalExpense={summary?.total_expense || 0}
         savingsRate={savingsRate}
-        formatIDR={formatIDR}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         <BarChartCard data={monthlyData} formatIDR={formatIDR} />
-        <PieChartCard data={categoryData} totalExpense={totalExpense} formatIDR={formatIDR} />
+        <PieChartCard data={categoryData} totalExpense={totalExpense}/>
       </div>
 
       <RecentTransactions
