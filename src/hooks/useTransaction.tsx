@@ -1,6 +1,7 @@
 // src/hooks/useTransaction.ts
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { transactionService } from "../services/transactions";
+import { budgetKeys } from "./useBudget"; 
 import type {
   CreateTransactionPayload,
   UpdateTransactionPayload,
@@ -56,6 +57,7 @@ export function useCreateTransaction() {
       transactionService.create(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.all });
+      queryClient.invalidateQueries({ queryKey: budgetKeys.all });
     },
   });
 
@@ -75,6 +77,7 @@ export function useUpdateTransaction() {
     onSuccess: (data, { id }) => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.all });
       queryClient.invalidateQueries({ queryKey: transactionKeys.detail(id) });
+      queryClient.invalidateQueries({ queryKey: budgetKeys.all });
     },
   });
 
@@ -92,6 +95,7 @@ export function useDeleteTransaction() {
     mutationFn: (id: number) => transactionService.remove(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.all });
+      queryClient.invalidateQueries({ queryKey: budgetKeys.all });
     },
   });
 
