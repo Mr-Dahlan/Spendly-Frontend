@@ -19,7 +19,6 @@ export default function ThemeToggle() {
       {/* User info avatar with hover popover */}
       <UserInfoCard />
 
-      {/* Theme toggle — 2 icon buttons */}
       <div
         className="flex items-center gap-1 p-1 rounded-full
                     bg-[var(--bg-secondary)] 

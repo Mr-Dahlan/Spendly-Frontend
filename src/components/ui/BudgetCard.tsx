@@ -11,16 +11,6 @@ interface BudgetCardProps {
 }
 
 function getStatusConfig(budget: Budget) {
-  // Debug logging
-  // console.log("Budget status debug:", {
-  //   is_exceeded: budget.usage.is_exceeded,
-  //   is_warning: budget.usage.is_warning,
-  //   percentage: budget.usage.percentage,
-  //   spent: budget.usage.spent,
-  //   limit: budget.usage.amount_limit,
-  // });
-
-  // Check exceeded first
   if (budget.usage.is_exceeded) {
     return {
       label: "OVER BUDGET",
@@ -30,7 +20,6 @@ function getStatusConfig(budget: Budget) {
     };
   }
 
-  // Check warning - is_warning sekarang boolean langsung
   if (budget.usage.is_warning === true) {
     return {
       label: "APPROACHING LIMIT",
@@ -40,7 +29,6 @@ function getStatusConfig(budget: Budget) {
     };
   }
 
-  // Check if not started
   const percent = budget.usage.percentage ?? 0;
   if (percent === 0) {
     return {
@@ -72,7 +60,6 @@ export default function BudgetCard({ budget, onEdit, onDeleted }: BudgetCardProp
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { deleteBudget, isLoading: isDeleting } = useDeleteBudget();
 
-  // Get category directly from budget object (sudah ada relasi dari API)
   const category = (budget as any).category || {};
   const categoryIcon = category.icon || "💰";
   const categoryName = category.nama || "Uncategorized";
@@ -85,7 +72,6 @@ export default function BudgetCard({ budget, onEdit, onDeleted }: BudgetCardProp
     ? budget.usage.spent - budgetAmount
     : budgetAmount - budget.usage.spent;
 
-  // Format due date - remove time portion and timezone
   const dueDate = budget.due_date 
     ? new Date(budget.due_date).toLocaleDateString('id-ID', {
         year: 'numeric',

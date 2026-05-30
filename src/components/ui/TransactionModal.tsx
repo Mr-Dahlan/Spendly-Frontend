@@ -40,7 +40,6 @@ export default function TransactionModal({
   onClose,
   isSaving,
 }: TransactionModalProps) {
-  // ─── State ─────────────────────────────────────────────
   const [type, setType] = useState<"expense" | "income">(
     (initialData?.type as "expense" | "income") ?? "expense",
   );
@@ -63,20 +62,17 @@ export default function TransactionModal({
 
   const [showCreateCategory, setShowCreateCategory] = useState(false);
 
-  // ─── Fetch Categories ─────────────────────────────────
   const { categories } = useCategories({
     type,
   });
   const currency = getUserCurrency();
 
-  // ─── Reset category when type changes ─────────────────
   useEffect(() => {
     if (!initialData) {
       setCategoryId("");
     }
   }, [type, initialData]);
 
-  // ─── Helpers ──────────────────────────────────────────
   const formatDisplayDate = (value: string) => {
     if (!value) return "";
 
@@ -102,7 +98,6 @@ export default function TransactionModal({
 
   const isFormValid = !!amount && !!categoryId && !!date;
 
-  // ─── Submit ───────────────────────────────────────────
   const handleSubmit = async () => {
     if (!isFormValid) return;
 

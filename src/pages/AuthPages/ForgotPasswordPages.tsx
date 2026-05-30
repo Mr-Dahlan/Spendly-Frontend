@@ -38,7 +38,6 @@ export default function ForgotPassword() {
       className="min-h-screen min-w-screen flex scrollbar-hide transition-colors duration-300"
       style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}
     >
-      {/* ── LEFT PANEL ── */}
       <div
         className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 transition-colors duration-300"
         style={{ backgroundColor: "var(--bg)" }}

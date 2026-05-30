@@ -10,7 +10,6 @@ function getInitials(name = "") {
   return (words[0][0] + words[1][0]).toUpperCase();
 }
 
-// Convert string ke warna (deterministic)
 function stringToColor(str = "") {
   let hash = 0;
 
