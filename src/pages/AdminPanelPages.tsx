@@ -17,7 +17,6 @@ import UserManagementTable from "../components/ui/UserManagementTable";
 export default function AdminPage() {
   const navigate = useNavigate();
 
-  // ── Hooks ─────────────────────────────────────────────
   const {
     users,
     isLoading: usersLoading,
@@ -38,16 +37,13 @@ export default function AdminPage() {
     isLoading: announcementLoading,
   } = useSendAnnouncement();
 
-  // ── States ────────────────────────────────────────────
   const [isBanning, setIsBanning] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // ── Fetch Users ───────────────────────────────────────
   useEffect(() => {
     fetchAllUsers();
   }, [fetchAllUsers]);
 
-  // ── Dashboard Stats ───────────────────────────────────
   const stats = useMemo(() => {
     const activeUsers = users.filter((user) => user.status === true).length;
     const suspendedUsers = users.filter((user) => user.status === false).length;
@@ -60,7 +56,6 @@ export default function AdminPage() {
     };
   }, [users, logs]);
 
-  // ── Handlers ──────────────────────────────────────────
 
   // Suspend user
   const handleBanUser = async (userId: number, reason: string) => {
@@ -106,7 +101,6 @@ export default function AdminPage() {
     await sendAnnouncement(payload);
   };
 
-  // ── Render ────────────────────────────────────────────
   return (
     <main
       className="flex-1 overflow-y-auto p-6 flex flex-col gap-6"

@@ -162,7 +162,6 @@ export default function Login() {
                 >
                   PASSWORD
                 </label>
-                {/* ✅ Tag <a> yang sudah diperbaiki */}
               </div>
               <div className="relative">
                 <input

@@ -40,7 +40,6 @@ export default function BudgetOverviewHeader({
             </div>
           </div>
 
-          {/* Button — ikon saja di mobile, teks muncul di sm ke atas */}
           <button
             onClick={onAddNew}
             className="flex-shrink-0 flex items-center justify-center gap-1.5

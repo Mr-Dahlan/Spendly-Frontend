@@ -172,7 +172,6 @@ export default function Register() {
 
           {/* Form */}
           <form onSubmit={handleRegister} className="space-y-5">
-            {/* Nama Lengkap */}
             <div>
               <label
                 className="block text-xs font-medium mb-1.5"
@@ -218,7 +217,6 @@ export default function Register() {
 
             {/* Password & Konfirmasi — satu baris */}
             <div className="flex gap-3">
-              {/* Password */}
               <div className="flex-1 min-w-0">
                 <label
                   className="block text-xs font-medium mb-1.5"

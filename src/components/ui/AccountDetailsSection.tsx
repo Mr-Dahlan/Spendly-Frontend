@@ -91,24 +91,12 @@ export default function AccountDetailsSection() {
       </div>
 
       {/* Currency */}
-      <div className="flex flex-col gap-1.5 mt-4 w-1/2">
+      <div className="flex flex-col gap-1.5 mt-4 md:w-1/2 sm:w-full">
         <label className="text-[11px] font-bold text-[var(--text-secondary)] tracking-widest uppercase">
           Currency Preference
         </label>
         <div className="relative">
           <div className="space-y-2">
-            <label
-              className="
-      block
-      text-[10px]
-      font-semibold
-      uppercase
-      tracking-wider
-      text-[var(--text-secondary)]
-    "
-            >
-              Currency
-            </label>
 
             <CustomDropdown
               value={currentCurrency.code}

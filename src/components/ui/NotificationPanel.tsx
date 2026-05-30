@@ -1,5 +1,6 @@
 // src/components/NotificationPanel.tsx
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   useNotifications,
   useMarkAsRead,
@@ -132,14 +133,15 @@ function EmptyState() {
 export default function NotificationPanel() {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
-    const scrollRef = useLenisPrevent<HTMLDivElement>();
+  const scrollRef = useLenisPrevent<HTMLDivElement>();
+  const navigate = useNavigate();
 
   const { notifications, unreadCount, isLoading } = useNotifications();
   const { markAsRead } = useMarkAsRead();
   const { markAllAsRead, isLoading: isMarkingAll } = useMarkAllAsRead();
   const { deleteNotification } = useDeleteNotification();
 
-  // Close on outside click
+  // ─── Close on outside click ───────────────────
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
@@ -150,7 +152,7 @@ export default function NotificationPanel() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [open]);
 
-  // Close on Escape
+  // ─── Close on Escape ──────────────────────────
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === 'Escape') setOpen(false);
@@ -169,7 +171,7 @@ export default function NotificationPanel() {
         className={`
           relative p-1.5 rounded-full transition-all duration-200
           text-gray-500 dark:text-gray-400
-          hover:bg-gray-100 dark:hover:bg-gray-800
+          hover:bg-[var(--blue-primary)]
           hover:text-gray-700 dark:hover:text-gray-200
           ${open ? 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200' : ''}
         `}
@@ -198,12 +200,16 @@ export default function NotificationPanel() {
         <div
           className="
             absolute top-full right-0 mt-2 z-50
-            w-80 rounded-2xl overflow-hidden
+            rounded-2xl overflow-hidden
             bg-[var(--card)]
             border border-gray-100 dark:border-gray-700/50
             animate-in
           "
-          style={{ boxShadow: '0 8px 32px 0 rgba(0,0,0,0.14)' }}
+          style={{
+            width: 'calc(85vw)',
+            maxWidth: '320px',
+            boxShadow: '0 8px 32px 0 rgba(0,0,0,0.14)',
+          }}
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700/50">
@@ -264,7 +270,13 @@ export default function NotificationPanel() {
           {/* Footer */}
           {notifications.length > 0 && (
             <div className="px-4 py-2.5 border-t border-gray-100 dark:border-gray-700/50 text-center">
-              <button className="text-xs font-medium text-text-tertiary hover:text-text-secondary transition-colors duration-150">
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  navigate('/settings');
+                }}
+                className="text-xs font-medium text-text-tertiary hover:text-text-secondary transition-colors duration-150"
+              >
                 View all notifications
               </button>
             </div>

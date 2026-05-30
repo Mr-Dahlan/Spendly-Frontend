@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useTransactions, useCreateTransaction } from "../hooks/useTransaction";
 import { useCategories } from "../hooks/useCategory";
@@ -12,6 +12,7 @@ import SummaryCards from "../components/ui/SummaryCards";
 import BarChartCard from "../components/ui/BarChartCard";
 import PieChartCard from "../components/ui/PieChartCard";
 import RecentTransactions, { type RecentTransaction } from "../components/ui/RecentTransactions";
+import { useNavigate } from "react-router-dom";
 
 // ── Helpers ──────────────────────────────────────────────
 const formatIDR = (value: number) =>
@@ -97,6 +98,12 @@ export default function Dashboard() {
     [categoryData]
   );
 
+  const navigate = useNavigate();
+
+  const onViewAll = () => {
+    navigate("/transactions");
+  }
+
   // ── Recent Transactions ──
   const recentTransactions = useMemo((): RecentTransaction[] => {
     return [...transactions]
@@ -161,7 +168,7 @@ export default function Dashboard() {
         transactions={recentTransactions}
         formatIDR={formatIDR}
         formatDate={formatDate}
-        onViewAll={() => {/* TODO: navigate ke /transactions */}}
+        onViewAll={onViewAll}
       />
 
     </div>

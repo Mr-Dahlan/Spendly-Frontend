@@ -83,7 +83,7 @@ const ReportsSummaryCards: React.FC<ReportsSummaryCardsProps> = ({
       {cards.map(({ label, value, icon: Icon, iconBg, iconColor, valueColor, badge }) => (
         <div
           key={label}
-          className="bg-[var(--card)] rounded-2xl p-5 border border-gray-100 hover:shadow-md transition-shadow duration-200 shadow-[var(--boxShadow)]"
+          className="bg-[var(--card)] rounded-2xl p-5 border border-gray-100 hover:shadow-md transition-shadow duration-200 shadow-[var(--boxShadow)] hover:scale-105 "
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-semibold tracking-widest text-[var(--text-secondary)] uppercase">

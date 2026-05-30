@@ -130,7 +130,6 @@ export default function NotificationPreferencesSection() {
 
       {/* Notifikasi Admin — Tabs + List */}
       <div className="flex items-center justify-between mb-4">
-        {/* Tabs */}
         <div className="flex gap-1 bg-gray-100 rounded-lg p-1">
           {(["all", "unread"] as const).map((tab) => (
             <button

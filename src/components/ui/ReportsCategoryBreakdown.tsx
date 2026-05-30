@@ -1,10 +1,11 @@
 // src/components/ui/ReportsCategoryBreakdown.tsx
-import React, { useMemo } from "react";
+import React, {  useMemo } from "react";
 import type { Transaction } from "../../types/transaction";
 import type { Category } from "../../types/category";
 import type { Budget } from "../../types/budget";
 import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { useNavigate } from "react-router-dom";
 
 interface ReportsCategoryBreakdownProps {
   transactions: Transaction[];
@@ -138,13 +139,18 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
   }, [transactions, categories, budgets, selectedMonth, selectedYear]);
 
   const scrollRef = useLenisPrevent<HTMLDivElement>();
+  const navigate = useNavigate();
+
+  const onViewAll = () => {
+    navigate("/transactions");
+  };
 
   return (
     <div className="bg-[var(--card)] rounded-2xl border border-gray-100 overflow-hidden shadow-[var(--boxShadow)]">
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-5 pb-3">
         <h3 className="text-lg font-semibold text-[var(--text)]">Category Breakdown</h3>
-        <button className="text-xs font-medium text-violet-600 hover:text-violet-700 transition-colors">
+        <button onClick={onViewAll} className="text-xs font-medium text-violet-600 hover:text-violet-700 transition-colors">
           View All Details
         </button>
       </div>

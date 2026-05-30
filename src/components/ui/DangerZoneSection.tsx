@@ -116,7 +116,7 @@ export default function DangerZoneSection() {
     setActionLoading(true);
   
     try {
-      await logout(); // tunggu logout selesai
+      await logout(); 
       navigate("/login", { replace: true });
     } finally {
       setActionLoading(false);

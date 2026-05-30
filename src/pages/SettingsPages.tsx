@@ -110,7 +110,6 @@ export default function Settings() {
 
       {/* Layout */}
       <div className="flex gap-5 items-start">
-        {/* Sidebar — desktop only */}
         <aside className="hidden md:block w-48 flex-shrink-0 bg-[var(--card)] rounded-2xl border border-gray-100 shadow-[var(--boxShadow)] p-2 sticky top-8">
           {NAV_ITEMS.map((item) => (
             <button

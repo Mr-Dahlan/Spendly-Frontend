@@ -21,7 +21,6 @@ const ReportsPage: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
   const [selectedYear, setSelectedYear] = useState<number>(today.getFullYear());
 
-  // ── Date range filter ────────────────────────────────
   const startDate = useMemo(
     () =>
       new Date(selectedYear, selectedMonth, 1).toISOString().split("T")[0],
@@ -33,7 +32,6 @@ const ReportsPage: React.FC = () => {
     [selectedMonth, selectedYear]
   );
 
-  // ── Data hooks ───────────────────────────────────────
   const { transactions, summary, isLoading: txLoading } = useTransactions({
     start_date: startDate,
     end_date: endDate,
@@ -43,7 +41,6 @@ const ReportsPage: React.FC = () => {
 
   const { budgets, isLoading: budgetLoading } = useBudgets();
 
-  // ── Month navigation ─────────────────────────────────
   const handlePrevMonth = () => {
     if (selectedMonth === 0) {
       setSelectedMonth(11);
@@ -75,7 +72,6 @@ const ReportsPage: React.FC = () => {
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
-      {/* ── Page Header ──────────────────────────────── */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-3">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text)] mt-4 sm:mt-0">Financial Performance</h1>
@@ -112,10 +108,8 @@ const ReportsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Summary Cards ────────────────────────────── */}
       <ReportsSummaryCards summary={summary} isLoading={txLoading} />
 
-      {/* ── Charts Row ───────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Weekly Flow takes 2/3 */}
         <div className="lg:col-span-2">
@@ -139,7 +133,6 @@ const ReportsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Category Breakdown Table ──────────────────── */}
       <ReportsCategoryBreakdown
         transactions={transactions}
         categories={categories}

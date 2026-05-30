@@ -17,7 +17,6 @@ import { useAdminLogs } from "../hooks/useAdminLog";
 import { useUser } from "../hooks/useUser";
 import type { AdminLog } from "../types/adminlog";
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 const actionIcon = (action: string) => {
   const a = action.toLowerCase();
@@ -57,7 +56,6 @@ const getInitials = (name?: string) => {
     .slice(0, 2);
 };
 
-// ── Detail Modal ──────────────────────────────────────────────────────────────
 
 function LogDetailModal({
   log,
@@ -138,7 +136,6 @@ function LogDetailModal({
 
         {/* Admin & Target User */}
         <div className="flex flex-col gap-3">
-          {/* Admin */}
           <div className="flex items-center gap-3">
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold shrink-0"
@@ -204,7 +201,6 @@ function LogDetailModal({
   );
 }
 
-// ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function AdminLogsPage() {
   const navigate = useNavigate();
@@ -212,7 +208,6 @@ export default function AdminLogsPage() {
   const { users, fetchAllUsers } = useUser();
   const [selectedLog, setSelectedLog] = useState<AdminLog | null>(null);
 
-  // Pastikan users ter-fetch saat halaman ini dibuka
   useEffect(() => {
     if (users.length === 0) {
       fetchAllUsers();

@@ -57,7 +57,6 @@ export default function UserManagementTable({
   isBanning,
   isDeleting,
 }: UserManagementTableProps) {
-  // ── States ────────────────────────────────────────────
   const [page, setPage] = useState(1);
 
   const [filterStatus, setFilterStatus] =
@@ -89,7 +88,6 @@ export default function UserManagementTable({
       user: null,
     });
 
-  // ── Filter Users ──────────────────────────────────────
   const filtered = users.filter((u) => {
     if (filterStatus === "active")
       return u.status === true;
@@ -100,7 +98,6 @@ export default function UserManagementTable({
     return true;
   });
 
-  // ── Pagination ────────────────────────────────────────
   const totalPages = Math.ceil(
     filtered.length / ITEMS_PER_PAGE
   );

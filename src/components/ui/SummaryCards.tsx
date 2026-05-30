@@ -37,7 +37,7 @@ function SummaryCard({
 }: SummaryCardProps) {
   return (
     <div
-      className="relative bg-[var(--card)] rounded-2xl border border-[var(--border)]/30 shadow-[var(--boxShadow)] p-4 flex flex-col gap-1 overflow-hidden"
+      className="relative bg-[var(--card)] hover:scale-105 rounded-2xl border border-[var(--border)]/30 shadow-[var(--boxShadow)] p-4 flex flex-col gap-1 overflow-hidden"
       style={{ animationDelay: delay }}
     >
       {/* accent bar */}
@@ -94,7 +94,7 @@ export default function SummaryCards({
         sub="Bulan ini"
         valueColor="text-[var(--red-primary)]"
         Icon={TrendingDown}
-        iconColor="text-red-500"
+        iconColor="text-[var(--red-primary)]"
         delay="0.3s"
       />
       <SummaryCard
