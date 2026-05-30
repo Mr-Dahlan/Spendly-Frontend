@@ -18,7 +18,6 @@ export default function ThemeToggle() {
     <div className="flex flex-row items-center gap-2 border-none ">
       {/* User info avatar with hover popover */}
       <UserInfoCard />
-      <NotificationPanel />
 
       {/* Theme toggle — 2 icon buttons */}
       <div
@@ -82,6 +81,7 @@ export default function ThemeToggle() {
           </svg>
         </button>
       </div>
+      <NotificationPanel />
     </div>
   );
 }
