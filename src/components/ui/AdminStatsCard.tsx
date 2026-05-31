@@ -11,7 +11,7 @@ interface AdminStatsCardProps {
   suspendedUsers: number;
   totalActivities: number;
 }
-
+  
 interface StatCardProps {
   title: string;
   value: number;
