@@ -69,7 +69,7 @@ export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     setAlertTheme(user?.mode === "dark" ? "dark" : "light");
@@ -99,6 +99,10 @@ export default function Sidebar() {
     }
   };
 
+  const logoHandleClick = () => {
+    navigate("/");
+  };
+
   const isActive = (path: string) => {
     return (
       location.pathname === path || location.pathname.startsWith(path + "/")
@@ -121,11 +125,13 @@ export default function Sidebar() {
       <aside
         className={`${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] sticky transition-transform duration-300 z-40 lg:static lg:translate-x-0 flex flex-col rounded-r-xl shadow-[var(--boxShadow)]`}
+        } fixed left-0 top-0 h-screen w-64 bg-[var(--card)] transition-transform duration-300 z-40
+        lg:relative lg:translate-x-0 lg:flex-shrink-0
+        flex flex-col rounded-r-xl shadow-[var(--boxShadow)]`}
       >
         <div className="pt-6">
           <div className="flex items-center pt-2">
-            <img src={Logo} alt="Logo" className="w-full/2 h-full" />
+            <img src={Logo} onClick={logoHandleClick} alt="Logo" className="w-full/2 h-full hover:scale-105 cursor-pointer" />
           </div>
         </div>
 
@@ -143,7 +149,7 @@ export default function Sidebar() {
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                   active
-                    ? "bg-blue-50 text-blue-600 border-l-4 border-blue-600"
+                    ? "bg-blue-50 text-blue-600 border-l-4 border-[var(--blue-primary)]"
                     : "text-text-secondary hover:text-text-primary hover:bg-bg-secondary border-l-4 border-transparent"
                 }`}
               >
@@ -183,4 +189,3 @@ export default function Sidebar() {
     </>
   );
 }
-

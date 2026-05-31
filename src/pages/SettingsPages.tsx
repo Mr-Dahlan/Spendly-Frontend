@@ -58,9 +58,9 @@ export default function Settings() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] px-6 py-8 font-sans">
+    <div className="min-h-screen bg-[var(--bg)] px-4 sm:px-6 py-8 font-sans">
       {/* Page Header */}
-      <div className="mb-6">
+      <div className="mb-6 mt-4 sm:mt-0">
         <h1 className="text-2xl font-bold text-[var(--text)]">Account &amp; Preferences</h1>
         <p className="text-sm text-[var(--text-secondary)] mt-1">Manage your account profile, security, and notifications.</p>
       </div>
@@ -69,17 +69,15 @@ export default function Settings() {
       {currentUser && (
         <div className="flex items-center gap-4 bg-[var(--card)] border border-gray-100 rounded-2xl shadow-[var(--boxShadow)] px-5 py-4 mb-6">
           <ProfileAvatar name={currentUser.name} />
-          <div className="flex flex-col gap-0.5">
-            <span className="text-[15px] font-bold text-[var(--text)]">{currentUser.name}</span>
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <span>{currentUser.email}</span>
-              <span
-                className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ${
-                  currentUser.role === "admin"
-                    ? "bg-amber-100 text-amber-700"
-                    : "bg-violet-100 text-violet-600"
-                }`}
-              >
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <span className="text-[15px] font-bold text-[var(--text)] truncate">{currentUser.name}</span>
+            <div className="flex items-center gap-2 text-sm text-gray-400 min-w-0">
+              <span className="truncate">{currentUser.email}</span>
+              <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide ${
+                currentUser.role === "admin"
+                  ? "bg-amber-100 text-amber-700"
+                  : "bg-violet-100 text-violet-600"
+              }`}>
                 {currentUser.role === "admin" ? "Admin" : "Member"}
               </span>
             </div>
@@ -87,10 +85,32 @@ export default function Settings() {
         </div>
       )}
 
+      {/* Tab bar — mobile only */}
+      <div className="flex md:hidden gap-1 bg-[var(--card)] border border-gray-100 rounded-2xl shadow-[var(--boxShadow)] p-1.5 mb-4">
+        {NAV_ITEMS.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setActiveTab(item.id)}
+            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              activeTab === item.id
+                ? "bg-blue-50 text-blue-600"
+                : "text-[var(--text-secondary)] hover:bg-gray-50"
+            }`}
+          >
+            {item.icon}
+            <span>{item.label}</span>
+            {item.id === "notifications" && unreadCount > 0 && (
+              <span className="bg-violet-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
+                {unreadCount}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
       {/* Layout */}
       <div className="flex gap-5 items-start">
-        {/* Sidebar */}
-        <aside className="w-48 flex-shrink-0 bg-[var(--card)] rounded-2xl border border-gray-100 shadow-[var(--boxShadow)] p-2 sticky top-8">
+        <aside className="hidden md:block w-48 flex-shrink-0 bg-[var(--card)] rounded-2xl border border-gray-100 shadow-[var(--boxShadow)] p-2 sticky top-8">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}

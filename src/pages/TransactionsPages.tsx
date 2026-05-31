@@ -13,7 +13,6 @@ import TransactionTable from "../components/ui/TransactionTable";
 import TransactionModal from "../components/ui/TransactionModal";
 import TransactionDeleteModal from "../components/ui/TransactionDeleteModal";
 
-// ── Types ──────────────────────────────────────────────────
 interface Filters {
   dateRange: "7" | "30" | "90" | "all";
   type: "" | "income" | "expense";
@@ -22,34 +21,29 @@ interface Filters {
 
 const PER_PAGE = 5;
 
-// ──────────────────────────────────────────────────────────
 
 export default function TransactionsPages() {
-  // ── Filter & pagination state ──
+
   const [filters, setFilters] = useState<Filters>({ dateRange: "30", type: "", categoryId: "" });
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // ── Modal state ──
   const [showAddModal, setShowAddModal] = useState(false);
   const [editTarget, setEditTarget] = useState<Transaction | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Transaction | null>(null);
 
-  // ── Hooks ──
   const { transactions, isLoading, refetch } = useTransactions();
   const { categories } = useCategories();
   const { createTransaction, isLoading: isCreating } = useCreateTransaction();
   const { updateTransaction, isLoading: isUpdating } = useUpdateTransaction();
   const { deleteTransaction, isLoading: isDeleting } = useDeleteTransaction();
 
-  // ── Category map untuk tabel ──
   const categoryMap = useMemo(() => {
     const map: Record<number, { nama: string; icon: string }> = {};
     categories.forEach((c) => { map[c.category_id] = { nama: c.nama, icon: c.icon ?? "" }; });
     return map;
   }, [categories]);
 
-  // ── Filter + search di client side ──
   const filtered = useMemo(() => {
     const now = Date.now();
     const dayMs = 86400000;
@@ -82,7 +76,6 @@ export default function TransactionsPages() {
     setCurrentPage(1);
   }, []);
 
-  // ── CRUD handlers ──
 const handleCreate = async (payload: CreateTransactionPayload | UpdateTransactionPayload) => {
   await createTransaction(payload as CreateTransactionPayload);
   setShowAddModal(false);
@@ -106,13 +99,12 @@ const handleUpdate = async (payload: CreateTransactionPayload | UpdateTransactio
   refetch();
 };
 
-  // ──────────────────────────────────────────────────────────
 
 return (
     <div className="p-4 sm:p-6 lg:p-8 min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
 
       {/* ── Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6 mt-8 sm:mt-0">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text)]">Transactions</h1>
           <p className="text-sm text-[var(--text-secondary)] mt-1">Manage and track your financial flow</p>

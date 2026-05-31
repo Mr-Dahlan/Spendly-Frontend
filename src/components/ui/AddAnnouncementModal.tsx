@@ -30,7 +30,6 @@ export default function AddAnnouncementModal({
   const [isFetchingUsers, setIsFetchingUsers] = useState(false);
   const scrollRef = useLenisPrevent<HTMLDivElement>();
 
-  // Fetch users sekali saat modal dibuka dan list masih kosong
   useEffect(() => {
     if (isOpen && users.length === 0) {
       setIsFetchingUsers(true);
@@ -75,10 +74,8 @@ export default function AddAnnouncementModal({
     if (!isValid || isLoading) return;
 
     if (selectedIds.size === 0) {
-      // Broadcast ke semua
       await onSubmit({ title: title.trim(), message: message.trim(), user_id: null });
     } else {
-      // Kirim satu-satu ke setiap user yang dipilih
       for (const id of Array.from(selectedIds)) {
         await onSubmit({ title: title.trim(), message: message.trim(), user_id: id });
       }
@@ -101,7 +98,6 @@ export default function AddAnnouncementModal({
       }}
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      {/* Modal container — full height, no overflow on root */}
       <div
         className="w-full max-w-7xl flex flex-col"
         style={{
@@ -135,7 +131,6 @@ export default function AddAnnouncementModal({
           </button>
         </div>
 
-        {/* ── BODY: flex row, overflow-hidden supaya child bisa scroll sendiri ── */}
         <div
           className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[1fr_520px] py-2"
           style={{ overflow: "hidden" }}
@@ -215,7 +210,6 @@ export default function AddAnnouncementModal({
             </div>
           </div>
 
-          {/* ── RIGHT: user list — overflow-hidden agar scroll hanya di list-nya ── */}
           <div
             className="flex flex-col rounded-2xl mr-6"
             style={{
@@ -264,7 +258,6 @@ export default function AddAnnouncementModal({
               </div>
             </div>
 
-            {/* ── Scrollable list — flex-1 min-h-0 adalah kunci utama ── */}
             <div
               ref={scrollRef}
               className="flex-1 min-h-0 overflow-y-auto px-4 pb-4"
@@ -382,6 +375,6 @@ export default function AddAnnouncementModal({
         </div>
       </div>
     </div>,
-    document.body   // ← render ke body, bebas dari overflow parent manapun
+    document.body   
   );
 }

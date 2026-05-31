@@ -26,7 +26,6 @@ export default function UserInfoProfile() {
         <Avatar name={user.name} size={44} />
       </div>
 
-      {/* Popover — appears below on hover */}
       <div
         className="
           absolute top-full left-1/2 -translate-x-1/2 mt-3 z-50

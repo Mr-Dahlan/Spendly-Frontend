@@ -1,3 +1,4 @@
+// src/components/ui/AddBudgetModal.tsx
 import { useState } from "react";
 import { formatInputNumber, parseInputNumber } from "../../utils/formatNumber";
 import { useCategories } from "../../hooks/useCategory";
@@ -144,13 +145,11 @@ export default function AddBudgetModal({
                   ? `
                     border-indigo-500
                     bg-indigo-50
-                    text-indigo-700
                     shadow-sm
-                    hover:text-[var(--text-opposite)]
+                    
                   `
                   : `
                     border-gray-200
-                    hover:text-[var(--text-opposite)]
                     hover:border-indigo-300
                     hover:bg-gray-100
                   `
@@ -167,7 +166,7 @@ export default function AddBudgetModal({
                 text-center
                 leading-tight
                 line-clamp-2
-                ${active ? "text-[var(--text-opposite)]" : "text-[var(--text)] hover:text-[var(--text-opposite)]"}
+                ${active ? "text-[var(--text)]" : "text-[var(--text)]"}
               `}
                     >
                       {catNama}

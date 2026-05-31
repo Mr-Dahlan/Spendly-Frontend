@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface TransactionDatePickerProps {
-  value: string; // format: YYYY-MM-DD
+  value: string; 
   onChange: (date: string) => void;
   onClose: () => void;
 }

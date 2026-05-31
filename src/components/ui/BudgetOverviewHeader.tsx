@@ -1,3 +1,4 @@
+// src/components/BudgetOverviewHeader.tsx
 import { formatCurrency } from "../../utils/formatCurrency";
 
 interface BudgetOverviewHeaderProps {
@@ -14,37 +15,41 @@ export default function BudgetOverviewHeader({
   const remaining = totalBudgeted - totalSpent;
   const percent =
     totalBudgeted > 0 ? Math.min((totalSpent / totalBudgeted) * 100, 100) : 0;
-
-  const circumference = 2 * Math.PI * 40; // r=40
+  const circumference = 2 * Math.PI * 40;
   const strokeDashoffset = circumference - (percent / 100) * circumference;
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 mb-6">
+    <div className="flex flex-col md:flex-row gap-4 mb-6 mt-8 sm:mt-0">
       {/* Summary card */}
       <div className="flex-1 bg-[var(--card)] rounded-2xl p-5 shadow-[var(--boxShadow)] border border-gray-100 text-[var(--text)]">
-        <div className="flex items-start justify-between">
-          <div>
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
             <p className="text-xs uppercase tracking-wide mb-1">
               Monthly Overview
             </p>
             <h2 className="text-2xl font-bold mb-4">Budget Summary</h2>
             <div className="flex gap-6">
               <div>
-                <p className="text-xs  mb-0.5">Total Budgeted</p>
-                <p className="text-lg font-bold ">{formatCurrency(totalBudgeted)}</p>
+                <p className="text-xs mb-0.5">Total Budgeted</p>
+                <p className="text-lg font-bold">{formatCurrency(totalBudgeted)}</p>
               </div>
               <div>
-                <p className="text-xs  mb-0.5">Total Spent</p>
+                <p className="text-xs mb-0.5">Total Spent</p>
                 <p className="text-lg font-bold">{formatCurrency(totalSpent)}</p>
               </div>
             </div>
           </div>
+
           <button
             onClick={onAddNew}
-            className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-2 rounded-xl transition"
+            className="flex-shrink-0 flex items-center justify-center gap-1.5
+              bg-indigo-600 hover:bg-indigo-700 text-white font-medium
+              rounded-xl transition
+              w-9 h-9 sm:w-auto sm:h-auto sm:px-4 sm:py-2 sm:text-sm"
+            aria-label="New Budget"
           >
             <svg
-              className="w-4 h-4"
+              className="w-4 h-4 flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -56,7 +61,7 @@ export default function BudgetOverviewHeader({
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            New Budget
+            <span className="hidden sm:inline">New Budget</span>
           </button>
         </div>
       </div>
@@ -104,4 +109,3 @@ export default function BudgetOverviewHeader({
     </div>
   );
 }
-

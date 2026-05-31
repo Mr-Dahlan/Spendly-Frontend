@@ -91,24 +91,12 @@ export default function AccountDetailsSection() {
       </div>
 
       {/* Currency */}
-      <div className="flex flex-col gap-1.5 mt-4">
+      <div className="flex flex-col gap-1.5 mt-4 md:w-1/2 sm:w-full">
         <label className="text-[11px] font-bold text-[var(--text-secondary)] tracking-widest uppercase">
           Currency Preference
         </label>
         <div className="relative">
           <div className="space-y-2">
-            <label
-              className="
-      block
-      text-[10px]
-      font-semibold
-      uppercase
-      tracking-wider
-      text-[var(--text-secondary)]
-    "
-            >
-              Currency
-            </label>
 
             <CustomDropdown
               value={currentCurrency.code}
@@ -142,7 +130,6 @@ export default function AccountDetailsSection() {
             stroke="currentColor"
             strokeWidth="2"
           >
-            <polyline points="6 9 12 15 18 9" />
           </svg>
         </div>
       </div>
