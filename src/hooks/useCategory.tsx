@@ -91,7 +91,7 @@ export function useUpdateCategory() {
   const { mutateAsync, isPending, error } = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: UpdateCategoryPayload }) =>
       categoryService.update(id, payload),
-    onSuccess: (data, { id }) => {
+    onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: categoryKeys.all });
       queryClient.invalidateQueries({ queryKey: categoryKeys.detail(id) });
     },

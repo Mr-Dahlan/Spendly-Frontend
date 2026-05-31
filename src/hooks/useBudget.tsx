@@ -2,7 +2,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { budgetService } from "../services/budgets";
 import type {
-  Budget,
   BudgetFilters,
   BudgetStatus,
   CreateBudgetPayload,
@@ -108,7 +107,7 @@ export function useUpdateBudget() {
   const { mutateAsync, isPending, error } = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: UpdateBudgetPayload }) =>
       budgetService.update(id, payload),
-    onSuccess: (data, { id }) => {
+    onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: budgetKeys.all });
       queryClient.invalidateQueries({ queryKey: budgetKeys.detail(id) });
     },

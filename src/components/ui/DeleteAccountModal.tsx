@@ -1,5 +1,5 @@
 // src/components/admin/DeleteAccountModal.tsx
-import { X, Trash2, TriangleAlert } from "lucide-react";
+import {  Trash2, TriangleAlert } from "lucide-react";
 import type { User } from "../../types/users";
 
 interface DeleteAccountModalProps {
