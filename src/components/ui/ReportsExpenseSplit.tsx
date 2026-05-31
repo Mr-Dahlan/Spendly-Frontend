@@ -103,7 +103,7 @@ const ReportsExpenseSplit: React.FC<ReportsExpenseSplitProps> = ({
       .sort((a, b) => b.value - a.value);
   }, [transactions, categories, selectedMonth, selectedYear]);
 
-  const totalExpense = slices.reduce((a, b) => a + b.value, 0);
+  // const totalExpense = slices.reduce((a, b) => a + b.value, 0);
 
   if (isLoading) {
     return (

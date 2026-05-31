@@ -74,7 +74,7 @@ export function useUpdateTransaction() {
   const { mutateAsync, isPending, error } = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: UpdateTransactionPayload }) =>
       transactionService.update(id, payload),
-    onSuccess: (data, { id }) => {
+    onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: transactionKeys.all });
       queryClient.invalidateQueries({ queryKey: transactionKeys.detail(id) });
       queryClient.invalidateQueries({ queryKey: budgetKeys.all });

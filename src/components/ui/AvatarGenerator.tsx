@@ -1,4 +1,3 @@
-import React from "react";
 
 // Ambil inisial dari nama
 function getInitials(name = "") {
