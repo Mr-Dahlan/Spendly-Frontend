@@ -45,7 +45,9 @@ export default function TransactionModal({
   );
 
   const [amount, setAmount] = useState(
-    initialData?.amount ? String(parseFloat(initialData.amount)) : "",
+    initialData?.amount
+      ? formatInputNumber(String(initialData.amount).replace(".", ","))
+      : "",
   );
 
   const [categoryId, setCategoryId] = useState<number | "">(
@@ -103,13 +105,9 @@ export default function TransactionModal({
 
     await onSave({
       type,
-
-      amount: parseInputNumber(amount).toString(),
-
+      amount: parseInputNumber(amount).toFixed(2), // kirim "1500.50" bukan "1500.5"
       category_id: categoryId as number,
-
       transaction_date: date,
-
       description: description || "",
     });
   };

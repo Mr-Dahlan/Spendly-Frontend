@@ -237,8 +237,7 @@ export default function Login() {
               </div>
               <Link
                 to="/forgot-password"
-                className="text-xs cursor-pointer"
-                style={{ color: "var(--text-secondary)" }}
+                className="text-xs cursor-pointer hover:text-blue-700 text-[var(--text-secondary)]"
               >
                 Forgot password?
               </Link>

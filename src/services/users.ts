@@ -39,9 +39,11 @@ updateUserRole: async (id: number, role: User["role"]): Promise<User> => {
   return res.data.data;
 },
 
-  deleteUser: async (id: number): Promise<void> => {
-    await axios.delete(`/users/${id}`);
-  },
+  deleteUser: async (id: number, password: string): Promise<void> => {
+  await axios.delete(`/users/${id}`, {
+    data: { password }, // ← axios DELETE dengan body pakai `data`
+  });
+},
 
   // ── Users: Service ─────────────────────────────────────────────────────
     updateMe: async (payload: UpdateUserPayload): Promise<User> => {

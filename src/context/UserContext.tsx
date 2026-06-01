@@ -27,8 +27,7 @@ interface UserContextType {
   adminUpdateUser: (id: number, payload: AdminUpdateUserPayload) => Promise<void>;
   updateUserStatus: (id: number, status: boolean) => Promise<void>;
   updateUserRole: (id: number, role: User["role"]) => Promise<void>;
-  deleteUser: (id: number) => Promise<void>;
-
+  deleteUser: (id: number, password: string) => Promise<void>;
   clearError: () => void;
 }
 
@@ -120,12 +119,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // ── Hapus user (admin) ────────────────────────────────────────────────────
-  const deleteUser = useCallback(async (id: number) => {
-    await withLoading(async () => {
-      await UserService.deleteUser(id);
-      setUsers((prev) => prev.filter((u) => u.user_id !== id));
-    });
-  }, []);
+  const deleteUser = useCallback(async (id: number, password: string) => {
+  await withLoading(async () => {
+    await UserService.deleteUser(id, password);
+    setUsers((prev) => prev.filter((u) => u.user_id !== id));
+  });
+}, []);
 
   const clearError = useCallback(() => setError(null), []);
 

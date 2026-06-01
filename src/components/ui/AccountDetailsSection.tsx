@@ -152,7 +152,7 @@ export default function AccountDetailsSection() {
           disabled={isLoading}
           className="px-5 py-2.5 bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors"
         >
-          {isLoading ? "Menyimpan..." : "Simpan Perubahan"}
+          {isLoading ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </div>
