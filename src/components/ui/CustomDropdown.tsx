@@ -11,7 +11,6 @@ import {
   Plus,
 } from "lucide-react";
 
-import { useLenisPrevent } from '../../hooks/useLenisPrevent';
 
 interface DropdownOption {
   label: string;
@@ -45,7 +44,6 @@ export default function CustomDropdown({
   createLabel = "Add New",
 }: CustomDropdownProps) {
   const [open, setOpen] = useState(false);
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = options.find(
@@ -151,7 +149,7 @@ export default function CustomDropdown({
             animate-[dropdownIn_0.18s_ease]
           "
         >
-          <div ref={scrollRef} className="max-h-60 overflow-y-auto p-2">
+          <div  className="max-h-60 overflow-y-auto p-2">
             {/* Add New */}
             {onCreateNew && (
               <>

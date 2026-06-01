@@ -4,7 +4,6 @@ import { createPortal } from "react-dom";
 import { X, Send, Users, User, Search, Check, Loader2 } from "lucide-react";
 import type { CreateAnnouncementPayload } from "../../types/notification";
 import type { User as UserType } from "../../types/users";
-import { useLenisPrevent } from '../../hooks/useLenisPrevent';
 
 interface AddAnnouncementModalProps {
   isOpen: boolean;
@@ -28,7 +27,6 @@ export default function AddAnnouncementModal({
   const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [isFetchingUsers, setIsFetchingUsers] = useState(false);
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
 
   useEffect(() => {
     if (isOpen && users.length === 0) {
@@ -259,7 +257,6 @@ export default function AddAnnouncementModal({
             </div>
 
             <div
-              ref={scrollRef}
               className="flex-1 min-h-0 overflow-y-auto px-4 pb-4"
               style={{ scrollbarWidth: "thin" }}
             >

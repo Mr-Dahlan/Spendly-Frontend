@@ -23,7 +23,7 @@ export default function AdminPage() {
     fetchAllUsers,
     updateUserStatus,
     updateUserRole,
-    deleteUser,
+    deleteUserByAdmin,
   } = useUser();
 
   const {
@@ -89,7 +89,7 @@ export default function AdminPage() {
   const handleDeleteUser = async (userId: number) => {
     setIsDeleting(true);
     try {
-      await deleteUser(userId);
+      await deleteUserByAdmin(userId);
       await refetchLogs();
     } finally {
       setIsDeleting(false);

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { formatInputNumber, parseInputNumber } from "../../utils/formatNumber";
 import { useCategories } from "../../hooks/useCategory";
 import { useCreateBudget } from "../../hooks/useBudget";
-import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 import TransactionDatePicker from "./TransactionDatePicker";
 import { getUserCurrency } from "../../utils/currency";
 import CustomDropdown from "./CustomDropdown";
@@ -19,7 +18,6 @@ export default function AddBudgetModal({
 }: AddBudgetModalProps) {
   const { categories } = useCategories({ type: "expense" });
   const { createBudget, isLoading, error } = useCreateBudget();
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
   const currency = getUserCurrency();
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -172,13 +170,12 @@ export default function AddBudgetModal({
         </div>
 
         {/* Category */}
-        <div ref={scrollRef} className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <label className="text-xs font-semibold text-[var(--text)] uppercase tracking-wide">
             Category
           </label>
 
           <div
-            ref={scrollRef}
             className="
               max-h-45
               overflow-y-auto
@@ -213,6 +210,7 @@ export default function AddBudgetModal({
                       transition-all
                       duration-200
                       min-h-[82px]
+                      bg-[var(--bg)]
 
                       ${
                         active

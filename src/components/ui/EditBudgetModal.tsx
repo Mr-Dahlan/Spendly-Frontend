@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { useCategories } from "../../hooks/useCategory";
 import { useUpdateBudget } from "../../hooks/useBudget";
-import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 
 import type {
   Budget,
@@ -46,7 +45,6 @@ export default function EditBudgetModal({
   const [categoryId, setCategoryId] =
     useState<number>(budget.category_id || 0);
 
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
     
 
   const [amountLimit, setAmountLimit] =
@@ -282,7 +280,7 @@ export default function EditBudgetModal({
             Category
           </label>
 
-          <div ref={scrollRef} className="grid grid-cols-3 gap-2 max-h-45 overflow-y-auto pr-1 custom-scrollbar">
+          <div className="grid grid-cols-3 gap-2 max-h-45 overflow-y-auto pr-1 custom-scrollbar">
             {categories.map((cat) => {
               const catId =
                 (cat as any)

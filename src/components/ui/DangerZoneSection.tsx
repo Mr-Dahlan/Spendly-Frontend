@@ -97,7 +97,7 @@ function ConfirmModal({ type, onConfirm, onCancel, isLoading }: ConfirmModalProp
           </>
         ) : (
           <p className="text-sm text-gray-500 mb-6">
-            Anda akan keluar dari akun ini.
+            You are about to log out of your account.
           </p>
         )}
 
@@ -116,7 +116,7 @@ function ConfirmModal({ type, onConfirm, onCancel, isLoading }: ConfirmModalProp
             className="flex-1 px-5 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm font-semibold disabled:opacity-50 transition-colors flex items-center justify-center gap-1.5"
           >
             {isLoading ? (
-              <span>Memproses...</span>
+              <span>Proccessing...</span>
             ) : isDelete ? (
               <>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -159,11 +159,11 @@ export default function DangerZoneSection() {
   try {
     await deleteUser(userId, password);
     await logout();
-    alert.toast.success("Akun berhasil dihapus.");
+    alert.toast.success("Account Deleted Successfully.");
     navigate("/login");
   } catch (err: any) {
-    const msg = err?.response?.data?.message ?? "Password salah atau terjadi kesalahan.";
-    alert.error("Gagal Menghapus Akun", msg);
+    const msg = "Wrong password.";
+    alert.error("Fail to Delete Account", msg);
   } finally {
     setActionLoading(false);
     setModal(null);
@@ -174,10 +174,10 @@ export default function DangerZoneSection() {
   setActionLoading(true);
   try {
     await logout();
-    alert.toast.success("Berhasil logout.");
+    alert.toast.success("Successfully logged out.");
     navigate("/login", { replace: true });
   } catch (err: any) {
-    alert.error("Gagal Logout", "Terjadi kesalahan saat logout.");
+    alert.error("Failed Logout", "Something went wrong.");
   } finally {
     setActionLoading(false);
     setModal(null);

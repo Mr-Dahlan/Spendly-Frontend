@@ -7,7 +7,6 @@ import {
   useDeleteNotification,
 } from "../../hooks/useNotification";
 import type { Notification } from "../../types/notification";
-import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -93,7 +92,6 @@ function SkeletonItem() {
 
 export default function NotificationPreferencesSection() {
   const [activeTab, setActiveTab] = useState<"all" | "unread">("all");
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
 
   const { notifications, unreadCount, isLoading } = useNotifications(
     activeTab === "unread" ? { is_read: false } : {},
@@ -165,7 +163,6 @@ export default function NotificationPreferencesSection() {
 
       {/* List */}
       <div
-        ref={scrollRef}
         className="flex flex-col gap-2 max-h-96 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-200"
       >
         {isLoading && (

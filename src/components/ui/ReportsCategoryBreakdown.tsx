@@ -3,7 +3,6 @@ import React, {  useMemo } from "react";
 import type { Transaction } from "../../types/transaction";
 import type { Category } from "../../types/category";
 import type { Budget } from "../../types/budget";
-import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { useNavigate } from "react-router-dom";
 
@@ -138,7 +137,6 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
       .sort((a, b) => b.amountSpent - a.amountSpent);
   }, [transactions, categories, budgets, selectedMonth, selectedYear]);
 
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
   const navigate = useNavigate();
 
   const onViewAll = () => {
@@ -188,7 +186,6 @@ const ReportsCategoryBreakdown: React.FC<ReportsCategoryBreakdownProps> = ({
 
                 return (
                   <tr
-                    ref={scrollRef}
                     key={row.categoryId}
                     className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
                   >

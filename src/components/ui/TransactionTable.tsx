@@ -85,7 +85,7 @@ export default function TransactionTable({
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-[var(--text)] hover:bg-white hover:text-[var(--text-opposite)] disabled:opacity-30 transition-colors"
+            className="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-[var(--text)] hover:bg-white hover:text-[var(--text)] disabled:opacity-30 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -98,7 +98,7 @@ export default function TransactionTable({
               className={`w-8 h-8 rounded-xl text-sm font-semibold transition-all
                 ${p === currentPage
                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
-                  : "border border-gray-200 hover:bg-white hover:text-[var(--text-opposite)]"
+                  : "border border-gray-200 hover:bg-white hover:text-[var(--text)]"
                 }`}
             >
               {p}
