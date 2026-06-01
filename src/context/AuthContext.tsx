@@ -83,8 +83,14 @@ export const AuthProvider = ({ children }: any) => {
   };
 
   const logout = async () => {
-    await authService.logout();
-    setUser(null);
+    try {
+      await authService.logout();
+    } catch {
+      // Abaikan error 401 — token mungkin sudah tidak valid
+    } finally {
+      localStorage.removeItem("token");
+      setUser(null);
+    }
   };
 
   return (

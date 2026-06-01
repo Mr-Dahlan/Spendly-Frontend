@@ -151,7 +151,8 @@ export default function AddBudgetModal({
                   : `
                     border-gray-200
                     hover:border-indigo-300
-                    hover:bg-gray-100
+                    hover:bg-gray-200
+                    hover:text-[var(--text-opposite)]
                   `
               }
             `}
@@ -166,7 +167,7 @@ export default function AddBudgetModal({
                 text-center
                 leading-tight
                 line-clamp-2
-                ${active ? "text-[var(--text)]" : "text-[var(--text)]"}
+                ${active ? "text-[var(--text-opposite)]" : "hover:text-[var(--text-opposite)]"}
               `}
                     >
                       {catNama}

@@ -87,9 +87,9 @@ export default function Sidebar() {
   const handleLogout = async () => {
     const confirmed = await alert.confirm({
       title: "Logout?",
-      text: "Kamu akan keluar dari sesi ini.",
-      confirmText: "Ya, Logout",
-      cancelText: "Batal",
+      text: "You sure want to logout.",
+      confirmText: "Yas, Logout",
+      cancelText: "Cancel",
       danger: true,
     });
 
@@ -150,7 +150,7 @@ export default function Sidebar() {
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                   active
                     ? "bg-blue-50 text-blue-600 border-l-4 border-[var(--blue-primary)]"
-                    : "text-text-secondary hover:text-text-primary hover:bg-bg-secondary border-l-4 border-transparent"
+                    : "text-[var(text-secondary] hover:text-[var(--text-primary)] hover:bg-bg-secondary border-l-4 border-transparent"
                 }`}
               >
                 <Icon

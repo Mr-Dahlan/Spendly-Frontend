@@ -59,10 +59,10 @@ export const alert = {
    */
   confirm: async (options: ConfirmOptions = {}): Promise<boolean> => {
     const {
-      title = "Yakin?",
+      title = "You sure?",
       text,
-      confirmText = "Ya, lanjutkan",
-      cancelText = "Batal",
+      confirmText = "Ya, continue",
+      cancelText = "Cancel",
       icon = "warning",
       danger = false,
     } = options;

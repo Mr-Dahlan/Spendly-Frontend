@@ -25,6 +25,7 @@
   --text-opposite:  #f0f4ff;
   --card:           #dde3f0;
   --card-secondery: #ffffff;
+  --card-opposite:  #152040;
   --userinfo:       #ffffff;
   --border:         #cdd4e8;
   --boxShadow:      6px 6px 14px rgba(14, 30, 80, 0.12);
@@ -44,6 +45,7 @@
   --text-opposite:  #0d1526;
   --card:           #152040;
   --card-secondery: #080f1e;
+  --card-opposite:  #dde3f0;
   --userinfo:       #0f1a30;
   --border:         #1e2e4a;
   --boxShadow:      6px 6px 14px rgba(0, 0, 0, 0.4);

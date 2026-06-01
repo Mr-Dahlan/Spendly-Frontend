@@ -25,7 +25,6 @@ function ConfirmModal({ type, onConfirm, onCancel, isLoading }: ConfirmModalProp
         className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm mx-4 text-center"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Warning Icon */}
         <div className="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -38,14 +37,12 @@ function ConfirmModal({ type, onConfirm, onCancel, isLoading }: ConfirmModalProp
           {isDelete ? "Delete Account" : "Logout Account"}
         </h3>
 
-        {isDelete && (
+        {isDelete ? (
           <p className="text-sm text-gray-500 mb-6 leading-relaxed">
             Are you sure you want to delete this account?{" "}
             <span className="font-semibold text-gray-700">This action cannot be undone.</span>
           </p>
-        )}
-
-        {!isDelete && (
+        ) : (
           <p className="text-sm text-gray-500 mb-6">
             Anda akan keluar dari akun ini.
           </p>
@@ -93,19 +90,29 @@ function ConfirmModal({ type, onConfirm, onCancel, isLoading }: ConfirmModalProp
 }
 
 export default function DangerZoneSection() {
-  const { currentUser, deleteUser } = useUser();
+  const { deleteUser } = useUser();
   const navigate = useNavigate();
   const [modal, setModal] = useState<ModalType | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+
 
   const handleDelete = async () => {
-    if (!currentUser) return;
+    // Coba user_id dulu, fallback ke id
+    const userId = (user as any)?.user_id ?? (user as any)?.id;
+    
+    if (!userId) {
+      console.error("user ID tidak ditemukan:", user);
+      return;
+    }
+
     setActionLoading(true);
     try {
-      await deleteUser(currentUser.user_id);
+      await deleteUser(userId);
       await logout();
       navigate("/login");
+    } catch (err) {
+      console.error("Gagal menghapus akun:", err);
     } finally {
       setActionLoading(false);
       setModal(null);
@@ -114,10 +121,13 @@ export default function DangerZoneSection() {
 
   const handleLogout = async () => {
     setActionLoading(true);
-  
+    const userId = (user as any)?.user_id ?? (user as any)?.id;
+    console.log("userId:", userId);
     try {
-      await logout(); 
+      await logout();
       navigate("/login", { replace: true });
+    } catch (err) {
+      console.error("Gagal logout:", err);
     } finally {
       setActionLoading(false);
       setModal(null);
@@ -133,7 +143,6 @@ export default function DangerZoneSection() {
         </p>
 
         <div className="flex flex-wrap gap-3">
-          {/* Delete Account */}
           <button
             onClick={() => setModal("delete")}
             className="flex items-center gap-2 px-4 py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-semibold rounded-lg transition-colors"
@@ -146,7 +155,6 @@ export default function DangerZoneSection() {
             Delete Account
           </button>
 
-          {/* Logout */}
           <button
             onClick={() => setModal("logout")}
             className="flex items-center gap-2 px-4 py-2.5 bg-transparent border border-red-400 text-red-500 hover:bg-red-100 text-sm font-semibold rounded-lg transition-colors"

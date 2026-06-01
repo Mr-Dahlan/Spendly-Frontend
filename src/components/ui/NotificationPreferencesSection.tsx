@@ -62,7 +62,7 @@ function NotificationItem({ notif }: { notif: Notification }) {
               disabled={marking}
               className="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-violet-100 text-violet-600 hover:bg-violet-200 disabled:opacity-50 transition-colors"
             >
-              Tandai dibaca
+              Mark as read
             </button>
           )}
           <button
@@ -70,7 +70,7 @@ function NotificationItem({ notif }: { notif: Notification }) {
             disabled={deleting}
             className="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-red-50 text-red-500 hover:bg-red-100 disabled:opacity-50 transition-colors"
           >
-            Hapus
+            Delete
           </button>
         </div>
       </div>
@@ -141,7 +141,7 @@ export default function NotificationPreferencesSection() {
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              {tab === "all" ? "Semua" : "Belum Dibaca"}
+              {tab === "all" ? "All" : "Unread"}
               {tab === "unread" && unreadCount > 0 && (
                 <span className="bg-violet-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
                   {unreadCount}
@@ -158,7 +158,7 @@ export default function NotificationPreferencesSection() {
             disabled={markingAll}
             className="text-[12px] font-semibold text-violet-600 hover:underline disabled:opacity-50"
           >
-            {markingAll ? "Memproses..." : "Tandai semua dibaca"}
+            {markingAll ? "Proses..." : "Mark all as read"}
           </button>
         )}
       </div>
@@ -192,7 +192,7 @@ export default function NotificationPreferencesSection() {
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
-            <p className="text-sm">Tidak ada notifikasi</p>
+            <p className="text-sm">No notifications found</p>
           </div>
         )}
 
