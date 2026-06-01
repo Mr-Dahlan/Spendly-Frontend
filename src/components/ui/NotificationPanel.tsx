@@ -8,7 +8,6 @@ import {
   useDeleteNotification,
 } from '../../hooks/useNotification';
 import type { Notification } from '../../types/notification';
-import { useLenisPrevent } from '../../hooks/useLenisPrevent';
 
 // ─── Bell Icon ────────────────────────────────
 function BellIcon({ className }: { className?: string }) {
@@ -133,7 +132,6 @@ function EmptyState() {
 export default function NotificationPanel() {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
   const navigate = useNavigate();
 
   const { notifications, unreadCount, isLoading } = useNotifications();
@@ -238,7 +236,7 @@ export default function NotificationPanel() {
           </div>
 
           {/* List */}
-          <div ref={scrollRef} className="max-h-[360px] overflow-y-auto overscroll-contain divide-y divide-gray-100 dark:divide-gray-700/40">
+          <div className="max-h-[360px] overflow-y-auto overscroll-contain divide-y divide-gray-100 dark:divide-gray-700/40">
             {isLoading ? (
               // Skeleton loader
               <div className="px-4 py-3 space-y-3">

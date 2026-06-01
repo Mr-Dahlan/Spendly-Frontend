@@ -116,7 +116,7 @@ export const alert = {
       text,
       theme: themeState.current,
       icon: "error",
-      confirmButtonText: "Tutup",
+      confirmButtonText: "Close",
     });
   },
 

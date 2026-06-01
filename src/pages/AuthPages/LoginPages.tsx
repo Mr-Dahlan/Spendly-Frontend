@@ -24,10 +24,10 @@ export default function Login() {
     setLoading(true);
     try {
       const loggedInUser = await login(email, password);
-      // console.log("loggedInUser:", loggedInUser);
-      // console.log("role:", loggedInUser?.role);
+      console.log("loggedInUser:", loggedInUser);
+      console.log("role:", loggedInUser?.role);
       await navigate(
-        loggedInUser?.role === "admin" ? "/admin-panel" : "/dashboard",
+        loggedInUser.role === "admin" ? "/admin-panel" : "/dashboard",
       );
     } catch (err: any) {
       const message =

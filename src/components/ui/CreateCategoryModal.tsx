@@ -55,7 +55,7 @@ export default function CreateCategoryModal({
 
   try {
     const createdCategory = await createCategory({
-      user_id: user.id, // ← pakai id
+      user_id: user.user_id, // ← pakai id
       nama: name,
       type,
       icon,

@@ -45,6 +45,10 @@ updateUserRole: async (id: number, role: User["role"]): Promise<User> => {
   });
 },
 
+  deleteUserByAdmin: async (id: number): Promise<void> => {
+  await axios.delete(`/admin/users/${id}`);
+},
+
   // ── Users: Service ─────────────────────────────────────────────────────
     updateMe: async (payload: UpdateUserPayload): Promise<User> => {
     const res = await axios.patch<UserResponse>("/users/update-profile", payload);

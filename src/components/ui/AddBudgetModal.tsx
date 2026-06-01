@@ -3,9 +3,9 @@ import { useState } from "react";
 import { formatInputNumber, parseInputNumber } from "../../utils/formatNumber";
 import { useCategories } from "../../hooks/useCategory";
 import { useCreateBudget } from "../../hooks/useBudget";
-import { useLenisPrevent } from "../../hooks/useLenisPrevent";
 import TransactionDatePicker from "./TransactionDatePicker";
 import { getUserCurrency } from "../../utils/currency";
+import CustomDropdown from "./CustomDropdown";
 
 interface AddBudgetModalProps {
   onClose: () => void;
@@ -18,7 +18,6 @@ export default function AddBudgetModal({
 }: AddBudgetModalProps) {
   const { categories } = useCategories({ type: "expense" });
   const { createBudget, isLoading, error } = useCreateBudget();
-  const scrollRef = useLenisPrevent<HTMLDivElement>();
   const currency = getUserCurrency();
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
@@ -26,20 +25,22 @@ export default function AddBudgetModal({
   // simpan format tampilan
   const [amountLimit, setAmountLimit] = useState("");
 
-  const [dueDate, setDueDate] = useState("");
+  const [period, setPeriod] = useState<"weekly" | "monthly" | "yearly">(
+    "monthly",
+  );
+
+  const [startDate, setStartDate] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleSubmit = async () => {
-    if (!categoryId || !amountLimit || !dueDate) return;
+    if (!categoryId || !amountLimit || !startDate || !period) return;
 
     createBudget(
       {
         category_id: categoryId,
-
-        // kirim angka mentah ke backend
         amount_limit: parseInputNumber(amountLimit),
-
-        due_date: dueDate,
+        period,
+        start_date: startDate,
       } as any,
       {
         onSuccess: () => {
@@ -51,7 +52,11 @@ export default function AddBudgetModal({
   };
 
   const isValid =
-    categoryId && amountLimit && parseInputNumber(amountLimit) > 0 && dueDate;
+    categoryId &&
+    amountLimit &&
+    parseInputNumber(amountLimit) > 0 &&
+    startDate &&
+    period;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
@@ -59,9 +64,8 @@ export default function AddBudgetModal({
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-[var(--text)]">
-              Add Monthly Budget
-            </h2>
+            <h2 className="text-xl font-bold text-[var(--text)]">Add Budget</h2>
+
             <p className="text-sm text-[var(--text-secondary)] mt-1">
               Set spending limit for your category
             </p>
@@ -81,8 +85,10 @@ export default function AddBudgetModal({
             Amount Limit
           </label>
 
-          <div className="flex items-center border border-gray-200 rounded-2xl px-4 py-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-100 transition">
-            <span className="text-gray-400 mr-3 font-semibold text-lg">{currency.symbol}</span>
+          <div className="flex items-center bg-[var(--bg)] border border-gray-200 rounded-2xl px-4 py-4 focus-within:border-indigo-500 focus-within:ring-4 focus-within:ring-indigo-100 transition">
+            <span className="text-gray-400 mr-3 font-semibold text-lg">
+              {currency.symbol}
+            </span>
 
             <input
               type="text"
@@ -92,25 +98,90 @@ export default function AddBudgetModal({
                 setAmountLimit(formatInputNumber(e.target.value))
               }
               placeholder="0"
-              className="flex-1 outline-none text-2xl font-bold text-[var(--text)] bg-transparent placeholder:text-gray-300"
+              className="flex-1 outline-none text-2xl font-bold text-[var(--text)] bg-[var(--card-secondary)] placeholder:text-[var(--text-secondary)]"
+            />
+          </div>
+        </div>
+
+        {/* Start Date & Period */}
+        <div className="grid grid-cols-2 gap-3">
+          {/* Start Date */}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-[var(--text)] uppercase tracking-wide">
+              Start Date
+            </label>
+
+            <button
+              type="button"
+              onClick={() => setShowDatePicker(true)}
+              className="
+                w-full
+                border
+                border-gray-200
+                rounded-2xl
+                px-4
+                py-3
+                text-sm
+                text-left
+                bg-[var(--bg)]
+                text-[var(--text)]
+                hover:border-indigo-400
+                transition
+                h-[50px]
+              "
+            >
+              {startDate
+                ? new Date(startDate).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })
+                : "Select"}
+            </button>
+          </div>
+
+          {/* Period */}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-[var(--text)] uppercase tracking-wide">
+              Period
+            </label>
+
+            <CustomDropdown
+              value={period}
+              onChange={(value) =>
+                setPeriod(value as "weekly" | "monthly" | "yearly")
+              }
+              options={[
+                {
+                  label: "Weekly",
+                  value: "weekly",
+                },
+                {
+                  label: "Monthly",
+                  value: "monthly",
+                },
+                {
+                  label: "Yearly",
+                  value: "yearly",
+                },
+              ]}
+              className="h-[50px]"
             />
           </div>
         </div>
 
         {/* Category */}
-        <div ref={scrollRef} className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <label className="text-xs font-semibold text-[var(--text)] uppercase tracking-wide">
             Category
           </label>
 
           <div
-            ref={scrollRef}
             className="
-      max-h-45
-      overflow-y-auto
-      pr-1
-      custom-scrollbar
-    "
+              max-h-45
+              overflow-y-auto
+              pr-1
+              custom-scrollbar
+            "
           >
             <div className="grid grid-cols-3 gap-2">
               {categories.map((cat) => {
@@ -127,48 +198,52 @@ export default function AddBudgetModal({
                     key={catId}
                     onClick={() => setCategoryId(catId)}
                     className={`
-              flex
-              flex-col
-              items-center
-              justify-center
-              gap-1
-              px-2
-              py-2.5
-              rounded-xl
-              border
-              transition-all
-              duration-200
-              min-h-[82px]
+                      flex
+                      flex-col
+                      items-center
+                      justify-center
+                      gap-1
+                      px-2
+                      py-2.5
+                      rounded-xl
+                      border
+                      transition-all
+                      duration-200
+                      min-h-[82px]
+                      bg-[var(--bg)]
 
-              ${
-                active
-                  ? `
-                    border-indigo-500
-                    bg-indigo-50
-                    shadow-sm
-                    
-                  `
-                  : `
-                    border-gray-200
-                    hover:border-indigo-300
-                    hover:bg-gray-200
-                    hover:text-[var(--text-opposite)]
-                  `
-              }
-            `}
+                      ${
+                        active
+                          ? `
+                            border-indigo-500
+                            shadow-sm
+                            bg-[var(--blue-light)]
+                          `
+                          : `
+                            border-gray-200
+                            hover:border-indigo-300
+                            hover:bg-gray-400
+                            hover:text-[var(--text)]
+                          `
+                      }
+                    `}
                   >
                     <span className="text-xl">{catIcon}</span>
 
                     <span
                       className={`
-                text-[11px]
-                w-full
-                font-medium
-                text-center
-                leading-tight
-                line-clamp-2
-                ${active ? "text-[var(--text-opposite)]" : "hover:text-[var(--text-opposite)]"}
-              `}
+                        text-[12px]
+                        w-full
+                        font-medium
+                        text-center
+                        leading-tight
+                        line-clamp-2
+                        ${
+                          active
+                            ? "text-[var(--text)]"
+                            : " text-[var(--text)] "
+                        }
+                      `}
                     >
                       {catNama}
                     </span>
@@ -177,40 +252,6 @@ export default function AddBudgetModal({
               })}
             </div>
           </div>
-        </div>
-
-        {/* Due Date */}
-        <div className="flex flex-col gap-2">
-          <label className="text-xs font-semibold text-[var(--text)] uppercase tracking-wide">
-            Due Date
-          </label>
-
-          <button
-            type="button"
-            onClick={() => setShowDatePicker(true)}
-            className="
-      w-full
-      border
-      border-gray-200
-      rounded-2xl
-      px-4
-      py-3
-      text-sm
-      text-left
-      bg-[var(--card)]
-      text-[var(--text)]
-      hover:border-indigo-400
-      transition
-    "
-          >
-            {dueDate
-              ? new Date(dueDate).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })
-              : "Select due date"}
-          </button>
         </div>
 
         {/* Error */}
@@ -237,14 +278,15 @@ export default function AddBudgetModal({
             {isLoading ? "Saving..." : "Save Budget"}
           </button>
         </div>
-      {/* Date Picker */}
-      {showDatePicker && (
-        <TransactionDatePicker
-          value={dueDate}
-          onChange={(date) => setDueDate(date)}
-          onClose={() => setShowDatePicker(false)}
-        />
-      )}
+
+        {/* Date Picker */}
+        {showDatePicker && (
+          <TransactionDatePicker
+            value={startDate}
+            onChange={(date) => setStartDate(date)}
+            onClose={() => setShowDatePicker(false)}
+          />
+        )}
       </div>
     </div>
   );
