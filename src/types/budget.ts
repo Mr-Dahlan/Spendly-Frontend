@@ -1,28 +1,49 @@
-export type BudgetStatus = "exceeded" | "warning" | "safe" | string;
+export type BudgetPeriod = "weekly" | "monthly" | "yearly";
 
+export type BudgetStatus =
+  | "exceeded"
+  | "warning"
+  | "safe"
+  | string;
+
+// ── Usage / analytics ───────────────────────
 export interface BudgetUsage {
   amount_limit: number;
   spent: number;
   remaining: number;
   percentage: number;
+
   is_exceeded: boolean;
   is_warning: boolean;
+
   status: BudgetStatus;
+
+  period: BudgetPeriod;
+
+  start_date: string;
+  end_date: string;
 }
 
+// ── Main entity ─────────────────────────────
 export interface Budget {
   budget_id: number;
+
   user_id: number;
   category_id: number;
+
   amount_limit: string;
-  due_date: string; // ISO 8601
+
+  period: BudgetPeriod;
+
+  start_date: string;
+
   created_at: string;
   updated_at: string;
+
   usage: BudgetUsage;
 }
 
-// ── Response shapes ──────────────────────────
-
+// ── Response shapes ─────────────────────────
 export interface BudgetMutationResponse {
   success: boolean;
   message: string;
@@ -39,20 +60,22 @@ export interface GetBudgetByIdResponse {
   data: Budget;
 }
 
-// ── Payload shapes ───────────────────────────
-
+// ── Payload shapes ──────────────────────────
 export interface CreateBudgetPayload {
-  user_id: number;
   category_id: number;
-  amount_limit: string;
-  due_date: string;
+
+  amount_limit: number;
+
+  period: BudgetPeriod;
+
+  start_date: string;
 }
 
-export interface UpdateBudgetPayload extends Partial<CreateBudgetPayload> {}
+export interface UpdateBudgetPayload
+  extends Partial<CreateBudgetPayload> {}
 
+// ── Filtering ───────────────────────────────
 export interface BudgetFilters {
-  user_id?: number;
   category_id?: number;
   status?: BudgetStatus;
 }
-
