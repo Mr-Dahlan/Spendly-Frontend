@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
+    "ngrok-skip-browser-warning": "true",
   },
 });
 
@@ -30,7 +31,7 @@ axiosInstance.interceptors.response.use(
       localStorage.removeItem("token");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;
