@@ -54,11 +54,14 @@ export const logout = async () => {
   localStorage.removeItem("token");
 };
 
-export const getMe = async () => {
-  // const token = localStorage.getItem("token");
-  // console.log("TOKEN SAAT /ME:", token);
+export const getMe = async (token?: string) => {
+  const authToken = token || localStorage.getItem("token");
 
-  const res = await axios.get("/me");
+  const res = await axios.get("/me", {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
 
   return res.data;
 };
