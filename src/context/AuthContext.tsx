@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: any) => {
       }
 
       try {
-        const data = await authService.getMe();
+        const data = await authService.getMe(token);
         setUser(data);
         syncFromUser(data.mode); // <-- sync mode dari DB saat auto login
       } catch {
@@ -57,11 +57,14 @@ export const AuthProvider = ({ children }: any) => {
 
   const login = async (email: string, password: string) => {
   const { token } = await authService.login(email, password);
+
   localStorage.setItem("token", token);
 
-  const freshUser = await authService.getMe();
+  const freshUser = await authService.getMe(token);
+
   setUser(freshUser);
   syncFromUser(freshUser.mode);
+
   return freshUser;
 };
 
@@ -70,7 +73,7 @@ export const AuthProvider = ({ children }: any) => {
   localStorage.setItem("token", token);
 
   // Ambil data user yang fresh dari /me, bukan dari response login
-  const freshUser = await authService.getMe();
+  const freshUser = await authService.getMe(token);
   setUser(freshUser);
   syncFromUser(freshUser.mode);
   return freshUser;
