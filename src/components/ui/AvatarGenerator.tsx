@@ -28,6 +28,7 @@ function stringToColor(str = "") {
 
 export default function Avatar({
   name = "User",
+  src = "",
   size = 40,
   fontSize = 40 / 2.5,
   rounded = true,
@@ -36,13 +37,35 @@ export default function Avatar({
   const initials = getInitials(name);
   const bgColor = stringToColor(name);
 
+  if (src) {
+    return (
+      <img
+        src={src}
+        alt={name}
+        referrerPolicy="no-referrer"
+        className={className}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: rounded ? "50%" : 0,
+          objectFit: "cover",
+        }}
+        onError={(e) => {
+          // Fallback ke inisial kalau URL gagal load
+          (e.target as HTMLImageElement).style.display = "none";
+        }}
+      />
+    );
+  }
+
+
   return (
     <div
       className={className}
       style={{
         width: size,
         height: size,
-        borderRadius: rounded ? "50%" : "8px",
+        borderRadius: rounded ? "50%" : 0,
         backgroundColor: bgColor,
         color: "#fff",
         display: "flex",

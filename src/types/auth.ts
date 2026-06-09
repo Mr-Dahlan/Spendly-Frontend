@@ -5,6 +5,7 @@ export type User = {
   status:boolean;
   role:"user" | "admin";
   mode: "light" | "dark";
+  avatar?: string | null;  
 };
 
 // export type LoginResponseRaw = {

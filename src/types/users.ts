@@ -9,6 +9,7 @@ export interface User {
   last_login: string | null;
   created_at: string;
   updated_at: string;
+  avatar?: string | null; 
 }
 
 // ─── Untuk Update Profile (password opsional) ─────────────────────────────────
