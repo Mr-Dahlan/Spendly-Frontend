@@ -4,26 +4,12 @@ import { useUser } from "../hooks/useUser";
 import { useUnreadNotifications } from "../hooks/useNotification";
 
 import AccountDetailsSection from "../components/ui/AccountDetailsSection";
+import Avatar from "../components/ui/AvatarGenerator";
 import ChangePasswordSection from "../components/ui/ChangePasswordSection";
 import NotificationPreferencesSection from "../components/ui/NotificationPreferencesSection";
 import DangerZoneSection from "../components/ui/DangerZoneSection";
 
 type Tab = "general" | "notifications";
-
-function ProfileAvatar({ name }: { name: string }) {
-  const initials = name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-
-  return (
-    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-violet-400 flex items-center justify-center text-white text-base font-bold flex-shrink-0 select-none">
-      {initials}
-    </div>
-  );
-}
 
 const NAV_ITEMS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   {
@@ -68,7 +54,7 @@ export default function Settings() {
       {/* User Info Bar */}
       {currentUser && (
         <div className="flex items-center gap-4 bg-[var(--card)] border border-gray-100 rounded-2xl shadow-[var(--boxShadow)] px-5 py-4 mb-6">
-          <ProfileAvatar name={currentUser.name} />
+          <Avatar name={currentUser.name} src={currentUser.avatar ?? ""} size={44} />
           <div className="flex flex-col gap-0.5 min-w-0">
             <span className="text-[15px] font-bold text-[var(--text)] truncate">{currentUser.name}</span>
             <div className="flex items-center gap-2 text-sm text-gray-400 min-w-0">

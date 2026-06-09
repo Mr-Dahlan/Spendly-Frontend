@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 // Ambil inisial dari nama
 function getInitials(name = "") {
   const words = name.trim().split(" ").filter(Boolean);
@@ -34,30 +34,23 @@ export default function Avatar({
   rounded = true,
   className = "",
 }) {
+  const [imgError, setImgError] = useState(false);  // ← tambah state
   const initials = getInitials(name);
   const bgColor = stringToColor(name);
+  const borderRadius = rounded ? "50%" : 0;
 
-  if (src) {
+  if (src && !imgError) {  // ← cek imgError
     return (
       <img
         src={src}
         alt={name}
         referrerPolicy="no-referrer"
         className={className}
-        style={{
-          width: size,
-          height: size,
-          borderRadius: rounded ? "50%" : 0,
-          objectFit: "cover",
-        }}
-        onError={(e) => {
-          // Fallback ke inisial kalau URL gagal load
-          (e.target as HTMLImageElement).style.display = "none";
-        }}
+        style={{ width: size, height: size, borderRadius, objectFit: "cover" }}
+        onError={() => setImgError(true)}  // ← trigger fallback
       />
     );
   }
-
 
   return (
     <div
@@ -65,7 +58,7 @@ export default function Avatar({
       style={{
         width: size,
         height: size,
-        borderRadius: rounded ? "50%" : 0,
+        borderRadius,
         backgroundColor: bgColor,
         color: "#fff",
         display: "flex",
