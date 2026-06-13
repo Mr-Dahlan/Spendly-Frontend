@@ -106,6 +106,11 @@ export default function AdminPage() {
       className="flex-1 overflow-y-auto p-6 flex flex-col gap-6"
       style={{ background: "var(--bg)" }}
     >
+      <div className="mb-6 mt-4 sm:mt-2">
+        <h1 className="text-2xl font-bold text-[var(--text)]">Welcome Sir!</h1>
+        <p className="text-sm text-[var(--text-secondary)] mt-1">Manage user account profile, security, and notifications.</p>
+      </div>
+
       {/* Dashboard Stats */}
       <AdminStatsCard
         totalUsers={stats.totalUsers}
