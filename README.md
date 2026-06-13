@@ -1,4 +1,4 @@
-# 💰 SPENDLY v1.0
+# 💰 SPENDLY v1.0.1
 
 Modern financial management web application built to help users track income, expenses, budgeting, and financial activity with a clean and interactive user experience.
 
