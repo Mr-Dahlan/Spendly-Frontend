@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 // Ambil inisial dari nama
 function getInitials(name = "") {
   const words = name.trim().split(" ").filter(Boolean);
@@ -28,13 +28,29 @@ function stringToColor(str = "") {
 
 export default function Avatar({
   name = "User",
+  src = "",
   size = 40,
   fontSize = 40 / 2.5,
   rounded = true,
   className = "",
 }) {
+  const [imgError, setImgError] = useState(false);  // ← tambah state
   const initials = getInitials(name);
   const bgColor = stringToColor(name);
+  const borderRadius = rounded ? "50%" : 0;
+
+  if (src && !imgError) {  // ← cek imgError
+    return (
+      <img
+        src={src}
+        alt={name}
+        referrerPolicy="no-referrer"
+        className={className}
+        style={{ width: size, height: size, borderRadius, objectFit: "cover" }}
+        onError={() => setImgError(true)}  // ← trigger fallback
+      />
+    );
+  }
 
   return (
     <div
@@ -42,7 +58,7 @@ export default function Avatar({
       style={{
         width: size,
         height: size,
-        borderRadius: rounded ? "50%" : "8px",
+        borderRadius,
         backgroundColor: bgColor,
         color: "#fff",
         display: "flex",
